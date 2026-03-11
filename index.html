@@ -1,3 +1,6 @@
+Goede keuze, makkelijker! Hier is de volledige bijgewerkte code — kopieer alles en vervang de hele inhoud van je `index.html`:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,7 +68,6 @@
     .expense-right { display: flex; align-items: center; gap: 12px; }
     .expense-amount { font-size: 15px; font-weight: 700; color: #ef4444; }
     .expense-amount.income { color: #10b981; }
-    .shared-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; background: #ede9fe; color: #7c3aed; }
     .delete-btn { background: none; border: none; cursor: pointer; color: #cbd5e1; font-size: 16px; padding: 4px; transition: color 0.2s; border-radius: 6px; }
     .delete-btn:hover { color: #ef4444; background: #fef2f2; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
@@ -404,18 +406,26 @@ function PersonTab({ person, label, expenses, incomes, settings, onRefresh }) {
   const [view, setView] = useState('list');
   const [showExpForm, setShowExpForm] = useState(false);
   const [showIncForm, setShowIncForm] = useState(false);
+
   const myExpenses = expenses.filter(e=>e.person===person&&!e.is_shared);
+  const mySharedExpenses = expenses.filter(e=>e.is_shared);
   const myIncomes = incomes.filter(i=>i.person===person);
   const totalInc = myIncomes.reduce((s,i)=>s+Number(i.amount),0);
   const totalExp = myExpenses.reduce((s,e)=>s+Number(e.amount),0);
-  const sharedTotal = expenses.filter(e=>e.is_shared).reduce((s,e)=>s+Number(e.amount),0);
   const pct = person==='laslo'?settings.shared_pct:100-settings.shared_pct;
+  const sharedTotal = mySharedExpenses.reduce((s,e)=>s+Number(e.amount),0);
   const myShared = sharedTotal*(pct/100);
   const net = totalInc - totalExp - myShared;
+
   const deleteExpense = async (id) => { await supabase.from('expenses').delete().eq('id',id); onRefresh(); };
   const deleteIncome = async (id) => { await supabase.from('incomes').delete().eq('id',id); onRefresh(); };
+
+  const allExpenses = [...myExpenses, ...mySharedExpenses];
   const catMap = {};
-  myExpenses.forEach(e=>{ catMap[e.category]=(catMap[e.category]||0)+Number(e.amount); });
+  allExpenses.forEach(e=>{
+    const amt = e.is_shared ? Number(e.amount)*(pct/100) : Number(e.amount);
+    catMap[e.category]=(catMap[e.category]||0)+amt;
+  });
   const chartData = Object.entries(catMap).sort((a,b)=>b[1]-a[1]);
   const maxVal = chartData[0]?.[1]||1;
 
@@ -427,15 +437,17 @@ function PersonTab({ person, label, expenses, incomes, settings, onRefresh }) {
           <div className="stat-value green">{fmtEur(totalInc)}</div>
         </div>
         <div className="stat-card">
-          <div className="stat-label">Persoonlijke uitgaven</div>
-          <div className="stat-value red">{fmtEur(totalExp)}</div>
+          <div className="stat-label">Totale uitgaven</div>
+          <div className="stat-value red">{fmtEur(totalExp+myShared)}</div>
+          <div className="stat-sub">Persoonlijk {fmtEur(totalExp)} · Gedeeld {fmtEur(myShared)}</div>
         </div>
         <div className="stat-card">
           <div className="stat-label">Cashflow</div>
           <div className={`stat-value ${net>=0?'green':'red'}`}>{fmtEur(net)}</div>
-          <div className="stat-sub">Incl. {pct}% gedeeld ({fmtEur(myShared)})</div>
+          <div className="stat-sub">Na {pct}% van gedeelde kosten</div>
         </div>
       </div>
+
       <div className="card mb-16">
         <div className="section-header">
           <div className="section-title">💚 Inkomen</div>
@@ -461,6 +473,7 @@ function PersonTab({ person, label, expenses, incomes, settings, onRefresh }) {
           ))
         }
       </div>
+
       <div className="card">
         <div className="section-header">
           <div className="section-title">💸 Uitgaven</div>
@@ -474,23 +487,30 @@ function PersonTab({ person, label, expenses, incomes, settings, onRefresh }) {
         </div>
         {showExpForm && <ExpenseForm person={person} settings={settings} onSave={()=>{onRefresh();setShowExpForm(false);}} />}
         {view==='list'
-          ? myExpenses.length===0
+          ? allExpenses.length===0
             ? <div className="empty"><div className="empty-icon">✅</div>Geen uitgaven deze maand</div>
-            : myExpenses.map(e=>(
-              <div key={e.id} className="expense-item">
-                <div className="expense-left">
-                  <div className="expense-icon"><LogoOrIcon name={e.name} category={e.category} /></div>
-                  <div>
-                    <div className="expense-name">{e.name}</div>
-                    <div className="expense-meta">{getCategoryInfo(e.category).label} · {fmtDate(e.date)}{e.description?' · '+e.description:''}</div>
+            : allExpenses.map(e=>{
+                const isShared = e.is_shared;
+                const displayAmount = isShared ? Number(e.amount)*(pct/100) : Number(e.amount);
+                return (
+                  <div key={e.id} className="expense-item">
+                    <div className="expense-left">
+                      <div className="expense-icon"><LogoOrIcon name={e.name} category={e.category} /></div>
+                      <div>
+                        <div className="expense-name">{e.name}{isShared?' 🤝':''}</div>
+                        <div className="expense-meta">{getCategoryInfo(e.category).label} · {fmtDate(e.date)}{e.description?' · '+e.description:''}</div>
+                      </div>
+                    </div>
+                    <div className="expense-right">
+                      <div style={{textAlign:'right'}}>
+                        <div className="expense-amount">{fmtEur(displayAmount)}</div>
+                        {isShared && <div style={{fontSize:11,color:'#94a3b8'}}>van {fmtEur(e.amount)} totaal</div>}
+                      </div>
+                      <button className="delete-btn" onClick={()=>deleteExpense(e.id)}>🗑</button>
+                    </div>
                   </div>
-                </div>
-                <div className="expense-right">
-                  <span className="expense-amount">{fmtEur(e.amount)}</span>
-                  <button className="delete-btn" onClick={()=>deleteExpense(e.id)}>🗑</button>
-                </div>
-              </div>
-            ))
+                );
+              })
           : <div className="chart-wrap">
               {chartData.length===0
                 ? <div className="empty"><div className="empty-icon">📊</div>Nog geen data</div>
