@@ -55,7 +55,7 @@
     .days-badge.soon { background: #fef3c7; color: #d97706; }
     .days-badge.today { background: #fee2e2; color: #ef4444; }
     .days-badge.future { background: #f0fdf4; color: #16a34a; }
-    .expense-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #f1f5f9; }
+    .expense-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
     .expense-item:last-child { border-bottom: none; }
     .expense-left { display: flex; align-items: center; gap: 12px; }
     .expense-icon { font-size: 22px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 12px; overflow: hidden; }
@@ -69,7 +69,6 @@
     .delete-btn:hover { color: #ef4444; background: #fef2f2; }
     .edit-form { background: #f8faff; border-radius: 12px; padding: 16px; margin: 8px 0; border: 2px solid #667eea; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-    .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
     .form-group { display: flex; flex-direction: column; gap: 6px; }
     .form-label { font-size: 13px; font-weight: 500; color: #475569; }
     .form-input, .form-select { padding: 11px 14px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none; transition: border-color 0.2s; background: white; font-family: 'Inter', sans-serif; }
@@ -109,12 +108,27 @@
     .dot.laslo { background: #667eea; }
     .dot.her { background: #f472b6; }
     .dot.shared { background: #10b981; }
+
+    /* CATEGORY SECTIONS */
+    .cat-section { margin-bottom: 16px; border-radius: 14px; overflow: hidden; border: 1px solid #e2e8f0; }
+    .cat-section.dragging-over { border: 2px dashed #667eea; background: #f0f4ff; }
+    .cat-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #f8fafc; cursor: grab; user-select: none; }
+    .cat-header:active { cursor: grabbing; }
+    .cat-header-left { display: flex; align-items: center; gap: 10px; }
+    .cat-header-icon { font-size: 20px; }
+    .cat-header-name { font-size: 14px; font-weight: 600; color: #1e293b; }
+    .cat-header-count { font-size: 12px; color: #94a3b8; }
+    .cat-header-right { display: flex; align-items: center; gap: 12px; }
+    .cat-total { font-size: 15px; font-weight: 700; color: #ef4444; }
+    .drag-handle { color: #cbd5e1; font-size: 18px; cursor: grab; }
+    .cat-body { padding: 0 16px; }
+    .cat-section-dragging { opacity: 0.5; }
   </style>
 </head>
 <body>
 <div id="root"></div>
 <script type="text/babel">
-const { useState, useEffect, useCallback } = React;
+const { useState, useEffect, useCallback, useRef } = React;
 
 const SUPABASE_URL = 'https://yqiwehmpddqscilmrxhr.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlxaXdlaG1wZGRxc2NpbG1yeGhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNDQzNzEsImV4cCI6MjA4ODgyMDM3MX0.r1fjqd4mtsE3kb4ESBY0STjWSfi4w3dAH4ydspkVmEU';
@@ -172,15 +186,11 @@ function LogoOrIcon({ name, category }) {
       kpn:'kpn.com', ziggo:'ziggo.nl', odido:'odido.nl',
     };
     const lower = n.toLowerCase();
-    for (const [k, v] of Object.entries(map)) {
-      if (lower.includes(k)) return v;
-    }
+    for (const [k, v] of Object.entries(map)) { if (lower.includes(k)) return v; }
     return null;
   }
   const cat = getCategoryInfo(category);
-  if (logoUrl && !failed) {
-    return <img src={logoUrl} alt={name} onError={() => setFailed(true)} style={{width:28,height:28,objectFit:'contain'}} />;
-  }
+  if (logoUrl && !failed) return <img src={logoUrl} alt={name} onError={() => setFailed(true)} style={{width:28,height:28,objectFit:'contain'}} />;
   return <span style={{fontSize:22}}>{cat.icon}</span>;
 }
 
@@ -189,21 +199,179 @@ function daysUntil(dateStr) {
   const d = new Date(dateStr); d.setHours(0,0,0,0);
   return Math.round((d - today) / 86400000);
 }
-
 function fmtDate(dateStr) {
   if (!dateStr) return '';
   return new Date(dateStr).toLocaleDateString('nl-NL', { day:'numeric', month:'short' });
 }
-
 function fmtEur(n) {
   return '€' + Number(n).toLocaleString('nl-NL', { minimumFractionDigits:2, maximumFractionDigits:2 });
 }
-
 function currentMonthRange() {
   const now = new Date();
   const start = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
   const end = new Date(now.getFullYear(), now.getMonth()+1, 0).toISOString().split('T')[0];
   return { start, end };
+}
+
+// ─── DRAG AND DROP CATEGORY LIST ─────────────────────────────────────────────
+function CategoryExpenseList({ expenses, pct, isShared, settings, onRefresh, categoryOrder, onReorder }) {
+  const [dragOver, setDragOver] = useState(null);
+  const dragItem = useRef(null);
+  const [editingExpense, setEditingExpense] = useState(null);
+
+  // Build ordered list of categories that have expenses
+  const catTotals = {};
+  expenses.forEach(e => {
+    const amt = e.is_shared ? Number(e.amount)*(pct/100) : Number(e.amount);
+    catTotals[e.category] = (catTotals[e.category]||0) + amt;
+  });
+  const usedCats = Object.keys(catTotals);
+
+  // Apply saved order, append any new cats at end
+  const orderedCats = [
+    ...categoryOrder.filter(c => usedCats.includes(c)),
+    ...usedCats.filter(c => !categoryOrder.includes(c)),
+  ];
+
+  const handleDragStart = (e, catId) => {
+    dragItem.current = catId;
+    e.dataTransfer.effectAllowed = 'move';
+  };
+  const handleDragOver = (e, catId) => {
+    e.preventDefault();
+    setDragOver(catId);
+  };
+  const handleDrop = (e, catId) => {
+    e.preventDefault();
+    if (!dragItem.current || dragItem.current === catId) { setDragOver(null); return; }
+    const newOrder = [...orderedCats];
+    const fromIdx = newOrder.indexOf(dragItem.current);
+    const toIdx = newOrder.indexOf(catId);
+    newOrder.splice(fromIdx, 1);
+    newOrder.splice(toIdx, 0, dragItem.current);
+    onReorder(newOrder);
+    dragItem.current = null;
+    setDragOver(null);
+  };
+  const handleDragEnd = () => { dragItem.current = null; setDragOver(null); };
+
+  const deleteExpense = async (id) => { await supabase.from('expenses').delete().eq('id',id); onRefresh(); };
+
+  if (orderedCats.length === 0) return <div className="empty"><div className="empty-icon">✅</div>Geen uitgaven deze maand</div>;
+
+  return (
+    <div>
+      {orderedCats.map(catId => {
+        const info = getCategoryInfo(catId);
+        const catExpenses = expenses.filter(e => e.category === catId);
+        const catTotal = catTotals[catId] || 0;
+        return (
+          <div
+            key={catId}
+            className={`cat-section ${dragOver===catId?'dragging-over':''}`}
+            draggable
+            onDragStart={e=>handleDragStart(e,catId)}
+            onDragOver={e=>handleDragOver(e,catId)}
+            onDrop={e=>handleDrop(e,catId)}
+            onDragEnd={handleDragEnd}
+          >
+            <div className="cat-header">
+              <div className="cat-header-left">
+                <span className="drag-handle">⠿</span>
+                <span className="cat-header-icon">{info.icon}</span>
+                <span className="cat-header-name">{info.label}</span>
+                <span className="cat-header-count">({catExpenses.length})</span>
+              </div>
+              <div className="cat-header-right">
+                <span className="cat-total">{fmtEur(catTotal)}</span>
+              </div>
+            </div>
+            <div className="cat-body">
+              {catExpenses.map(e => {
+                const displayAmount = e.is_shared ? Number(e.amount)*(pct/100) : Number(e.amount);
+                return (
+                  <div key={e.id}>
+                    {editingExpense===e.id
+                      ? <EditExpenseForm expense={e} settings={settings} onSave={()=>{onRefresh();setEditingExpense(null);}} onCancel={()=>setEditingExpense(null)} />
+                      : <div className="expense-item">
+                          <div className="expense-left">
+                            <div className="expense-icon"><LogoOrIcon name={e.name} category={e.category} /></div>
+                            <div>
+                              <div className="expense-name">{e.name}{e.is_shared?' 🤝':''}</div>
+                              <div className="expense-meta">{fmtDate(e.date)}{e.description?' · '+e.description:''}</div>
+                            </div>
+                          </div>
+                          <div className="expense-right">
+                            <div style={{textAlign:'right'}}>
+                              <div className="expense-amount">{fmtEur(displayAmount)}</div>
+                              {e.is_shared && <div style={{fontSize:11,color:'#94a3b8'}}>van {fmtEur(e.amount)} totaal</div>}
+                            </div>
+                            <button className="delete-btn" onClick={()=>setEditingExpense(e.id)}>✏️</button>
+                            <button className="delete-btn" onClick={()=>deleteExpense(e.id)}>🗑</button>
+                          </div>
+                        </div>
+                    }
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function EditExpenseForm({ expense, settings, onSave, onCancel }) {
+  const [form, setForm] = useState({ name:expense.name, amount:expense.amount, category:expense.category, description:expense.description||'', date:expense.date, is_shared:expense.is_shared });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await supabase.from('expenses').update({ name:form.name, amount:parseFloat(form.amount), category:form.category, description:form.description, date:form.date, is_shared:form.is_shared, person:form.is_shared?'shared':expense.person }).eq('id',expense.id);
+    onSave();
+  };
+  return (
+    <form onSubmit={handleSubmit} className="edit-form">
+      <div className="form-row">
+        <div className="form-group"><label className="form-label">Naam</label><input className="form-input" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required /></div>
+        <div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" type="number" step="0.01" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required /></div>
+      </div>
+      <div className="form-row">
+        <div className="form-group"><label className="form-label">Categorie</label><select className="form-select" value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>{CATEGORIES.map(c=><option key={c.id} value={c.id}>{c.icon} {c.label}</option>)}</select></div>
+        <div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required /></div>
+      </div>
+      <div className="form-group" style={{marginBottom:12}}><label className="form-label">Omschrijving</label><input className="form-input" value={form.description} onChange={e=>setForm({...form,description:e.target.value})} /></div>
+      <div style={{marginBottom:12,display:'flex',alignItems:'center',gap:8}}>
+        <input type="checkbox" id={`se_${expense.id}`} checked={form.is_shared} onChange={e=>setForm({...form,is_shared:e.target.checked})} />
+        <label htmlFor={`se_${expense.id}`} style={{fontSize:14,color:'#475569',cursor:'pointer'}}>Gedeelde uitgave ({settings.shared_pct}%/{100-settings.shared_pct}%)</label>
+      </div>
+      <div style={{display:'flex',gap:8}}>
+        <button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>
+        <button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button>
+      </div>
+    </form>
+  );
+}
+
+function EditIncomeForm({ income, onSave, onCancel }) {
+  const [form, setForm] = useState({ label:income.label, amount:income.amount, date:income.date });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await supabase.from('incomes').update({ label:form.label, amount:parseFloat(form.amount), date:form.date }).eq('id',income.id);
+    onSave();
+  };
+  return (
+    <form onSubmit={handleSubmit} className="edit-form">
+      <div className="form-row">
+        <div className="form-group"><label className="form-label">Label</label><input className="form-input" value={form.label} onChange={e=>setForm({...form,label:e.target.value})} required /></div>
+        <div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" type="number" step="0.01" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required /></div>
+        <div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required /></div>
+      </div>
+      <div style={{display:'flex',gap:8}}>
+        <button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>
+        <button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button>
+      </div>
+    </form>
+  );
 }
 
 function App() {
@@ -252,7 +420,7 @@ function Main({ session }) {
   const [expenses, setExpenses] = useState([]);
   const [incomes, setIncomes] = useState([]);
   const [accounts, setAccounts] = useState([]);
-  const [settings, setSettings] = useState({ laslo_name:'Laslo', her_name:'Partner', shared_pct:60 });
+  const [settings, setSettings] = useState({ laslo_name:'Laslo', her_name:'Partner', shared_pct:60, category_order:'' });
 
   const fetchAll = useCallback(async () => {
     const { start, end } = currentMonthRange();
@@ -269,6 +437,14 @@ function Main({ session }) {
   }, []);
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
+
+  const saveCategoryOrder = async (newOrder) => {
+    const orderStr = newOrder.join(',');
+    setSettings(s => ({...s, category_order: orderStr}));
+    await supabase.from('settings').update({ category_order: orderStr }).eq('id',1);
+  };
+
+  const categoryOrder = settings.category_order ? settings.category_order.split(',') : [];
 
   const tabs = [
     { id:'overview', label:'📊 Overview' },
@@ -291,10 +467,10 @@ function Main({ session }) {
         ))}
       </div>
       <div className="main-content">
-        {tab==='overview' && <Overview expenses={expenses} incomes={incomes} accounts={accounts} settings={settings} onRefresh={fetchAll} />}
-        {tab==='laslo' && <PersonTab person="laslo" label={settings.laslo_name} expenses={expenses} incomes={incomes} settings={settings} onRefresh={fetchAll} />}
-        {tab==='her' && <PersonTab person="her" label={settings.her_name} expenses={expenses} incomes={incomes} settings={settings} onRefresh={fetchAll} />}
-        {tab==='shared' && <SharedTab expenses={expenses} settings={settings} onRefresh={fetchAll} />}
+        {tab==='overview' && <Overview expenses={expenses} incomes={incomes} accounts={accounts} settings={settings} />}
+        {tab==='laslo' && <PersonTab person="laslo" expenses={expenses} incomes={incomes} settings={settings} categoryOrder={categoryOrder} onReorder={saveCategoryOrder} onRefresh={fetchAll} />}
+        {tab==='her' && <PersonTab person="her" expenses={expenses} incomes={incomes} settings={settings} categoryOrder={categoryOrder} onReorder={saveCategoryOrder} onRefresh={fetchAll} />}
+        {tab==='shared' && <SharedTab expenses={expenses} settings={settings} categoryOrder={categoryOrder} onReorder={saveCategoryOrder} onRefresh={fetchAll} />}
         {tab==='accounts' && <AccountsTab accounts={accounts} settings={settings} onRefresh={fetchAll} />}
         {tab==='settings' && <SettingsTab settings={settings} onRefresh={fetchAll} />}
       </div>
@@ -311,21 +487,14 @@ function Overview({ expenses, incomes, accounts, settings }) {
   const herPersonal = expenses.filter(e=>e.person==='her'&&!e.is_shared).reduce((s,e)=>s+Number(e.amount),0);
   const sharedTotal = expenses.filter(e=>e.is_shared).reduce((s,e)=>s+Number(e.amount),0);
   const pct = settings.shared_pct;
-  const lasloShared = sharedTotal*(pct/100);
-  const herShared = sharedTotal*((100-pct)/100);
-  const lasloNet = lasloIncome - lasloPersonal - lasloShared;
-  const herNet = herIncome - herPersonal - herShared;
+  const lasloNet = lasloIncome - lasloPersonal - sharedTotal*(pct/100);
+  const herNet = herIncome - herPersonal - sharedTotal*((100-pct)/100);
   const totalNetWorth = accounts.reduce((s,a)=>s+Number(a.balance),0);
   const today = new Date(); today.setHours(0,0,0,0);
   const in7 = new Date(today); in7.setDate(in7.getDate()+7);
-  const upcoming = [
-    ...expenses.map(e=>({...e,type:'expense'})),
-    ...incomes.map(i=>({...i,type:'income'})),
-  ].filter(x => {
-    if (!x.date) return false;
-    const d = new Date(x.date); d.setHours(0,0,0,0);
-    return d >= today && d <= in7;
-  }).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const upcoming = [...expenses.map(e=>({...e,type:'expense'})),...incomes.map(i=>({...i,type:'income'}))]
+    .filter(x=>{ if(!x.date) return false; const d=new Date(x.date); d.setHours(0,0,0,0); return d>=today&&d<=in7; })
+    .sort((a,b)=>new Date(a.date)-new Date(b.date));
 
   return (
     <div>
@@ -344,15 +513,15 @@ function Overview({ expenses, incomes, accounts, settings }) {
         <div className="stat-card"><div className="stat-label">Gecombineerde cashflow</div><div className={`stat-value ${lasloNet+herNet>=0?'green':'red'}`}>{fmtEur(lasloNet+herNet)}</div></div>
       </div>
       <div className="grid-2 mb-24">
-        <div className="stat-card"><div className="stat-label"><span className="dot laslo"></span>{settings.laslo_name} cashflow</div><div className={`stat-value ${lasloNet>=0?'green':'red'}`}>{fmtEur(lasloNet)}</div><div className="stat-sub">Inkomen {fmtEur(lasloIncome)} · Uitgaven {fmtEur(lasloPersonal+lasloShared)}</div></div>
-        <div className="stat-card"><div className="stat-label"><span className="dot her"></span>{settings.her_name} cashflow</div><div className={`stat-value ${herNet>=0?'green':'red'}`}>{fmtEur(herNet)}</div><div className="stat-sub">Inkomen {fmtEur(herIncome)} · Uitgaven {fmtEur(herPersonal+herShared)}</div></div>
+        <div className="stat-card"><div className="stat-label"><span className="dot laslo"></span>{settings.laslo_name} cashflow</div><div className={`stat-value ${lasloNet>=0?'green':'red'}`}>{fmtEur(lasloNet)}</div><div className="stat-sub">Inkomen {fmtEur(lasloIncome)} · Uitgaven {fmtEur(lasloPersonal+sharedTotal*(pct/100))}</div></div>
+        <div className="stat-card"><div className="stat-label"><span className="dot her"></span>{settings.her_name} cashflow</div><div className={`stat-value ${herNet>=0?'green':'red'}`}>{fmtEur(herNet)}</div><div className="stat-sub">Inkomen {fmtEur(herIncome)} · Uitgaven {fmtEur(herPersonal+sharedTotal*((100-pct)/100))}</div></div>
       </div>
       <div className="card">
         <div className="card-title">⏰ Aankomend deze week</div>
         {upcoming.length===0
           ? <div className="empty"><div className="empty-icon">🎉</div>Niets aankomend de komende 7 dagen</div>
-          : upcoming.map(x => {
-            const days = daysUntil(x.date);
+          : upcoming.map(x=>{
+            const days=daysUntil(x.date);
             return (
               <div key={x.id} className="upcoming-item">
                 <div className="upcoming-left">
@@ -372,106 +541,14 @@ function Overview({ expenses, incomes, accounts, settings }) {
   );
 }
 
-function EditExpenseForm({ expense, settings, onSave, onCancel }) {
-  const [form, setForm] = useState({
-    name: expense.name,
-    amount: expense.amount,
-    category: expense.category,
-    description: expense.description||'',
-    date: expense.date,
-    is_shared: expense.is_shared,
-  });
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await supabase.from('expenses').update({
-      name: form.name, amount: parseFloat(form.amount), category: form.category,
-      description: form.description, date: form.date, is_shared: form.is_shared,
-      person: form.is_shared ? 'shared' : expense.person,
-    }).eq('id', expense.id);
-    onSave();
-  };
-  return (
-    <form onSubmit={handleSubmit} className="edit-form">
-      <div className="form-row">
-        <div className="form-group">
-          <label className="form-label">Naam</label>
-          <input className="form-input" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required />
-        </div>
-        <div className="form-group">
-          <label className="form-label">Bedrag (€)</label>
-          <input className="form-input" type="number" step="0.01" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required />
-        </div>
-      </div>
-      <div className="form-row">
-        <div className="form-group">
-          <label className="form-label">Categorie</label>
-          <select className="form-select" value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>
-            {CATEGORIES.map(c=><option key={c.id} value={c.id}>{c.icon} {c.label}</option>)}
-          </select>
-        </div>
-        <div className="form-group">
-          <label className="form-label">Datum</label>
-          <input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required />
-        </div>
-      </div>
-      <div className="form-group" style={{marginBottom:12}}>
-        <label className="form-label">Omschrijving (optioneel)</label>
-        <input className="form-input" value={form.description} onChange={e=>setForm({...form,description:e.target.value})} />
-      </div>
-      <div style={{marginBottom:12,display:'flex',alignItems:'center',gap:8}}>
-        <input type="checkbox" id={`shared_edit_${expense.id}`} checked={form.is_shared} onChange={e=>setForm({...form,is_shared:e.target.checked})} />
-        <label htmlFor={`shared_edit_${expense.id}`} style={{fontSize:14,color:'#475569',cursor:'pointer'}}>
-          Gedeelde uitgave ({settings.shared_pct}%/{100-settings.shared_pct}%)
-        </label>
-      </div>
-      <div style={{display:'flex',gap:8}}>
-        <button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>
-        <button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button>
-      </div>
-    </form>
-  );
-}
-
-function EditIncomeForm({ income, onSave, onCancel }) {
-  const [form, setForm] = useState({ label: income.label, amount: income.amount, date: income.date });
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await supabase.from('incomes').update({ label: form.label, amount: parseFloat(form.amount), date: form.date }).eq('id', income.id);
-    onSave();
-  };
-  return (
-    <form onSubmit={handleSubmit} className="edit-form">
-      <div className="form-row">
-        <div className="form-group">
-          <label className="form-label">Label</label>
-          <input className="form-input" value={form.label} onChange={e=>setForm({...form,label:e.target.value})} required />
-        </div>
-        <div className="form-group">
-          <label className="form-label">Bedrag (€)</label>
-          <input className="form-input" type="number" step="0.01" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required />
-        </div>
-        <div className="form-group">
-          <label className="form-label">Datum</label>
-          <input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required />
-        </div>
-      </div>
-      <div style={{display:'flex',gap:8}}>
-        <button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>
-        <button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button>
-      </div>
-    </form>
-  );
-}
-
-function PersonTab({ person, label, expenses, incomes, settings, onRefresh }) {
-  const [view, setView] = useState('list');
+function PersonTab({ person, expenses, incomes, settings, categoryOrder, onReorder, onRefresh }) {
   const [showExpForm, setShowExpForm] = useState(false);
   const [showIncForm, setShowIncForm] = useState(false);
-  const [editingExpense, setEditingExpense] = useState(null);
   const [editingIncome, setEditingIncome] = useState(null);
 
   const myExpenses = expenses.filter(e=>e.person===person&&!e.is_shared);
   const mySharedExpenses = expenses.filter(e=>e.is_shared);
+  const allExpenses = [...myExpenses, ...mySharedExpenses];
   const myIncomes = incomes.filter(i=>i.person===person);
   const totalInc = myIncomes.reduce((s,i)=>s+Number(i.amount),0);
   const totalExp = myExpenses.reduce((s,e)=>s+Number(e.amount),0);
@@ -479,18 +556,8 @@ function PersonTab({ person, label, expenses, incomes, settings, onRefresh }) {
   const sharedTotal = mySharedExpenses.reduce((s,e)=>s+Number(e.amount),0);
   const myShared = sharedTotal*(pct/100);
   const net = totalInc - totalExp - myShared;
-
-  const deleteExpense = async (id) => { await supabase.from('expenses').delete().eq('id',id); onRefresh(); };
   const deleteIncome = async (id) => { await supabase.from('incomes').delete().eq('id',id); onRefresh(); };
-
-  const allExpenses = [...myExpenses, ...mySharedExpenses];
-  const catMap = {};
-  allExpenses.forEach(e=>{
-    const amt = e.is_shared ? Number(e.amount)*(pct/100) : Number(e.amount);
-    catMap[e.category]=(catMap[e.category]||0)+amt;
-  });
-  const chartData = Object.entries(catMap).sort((a,b)=>b[1]-a[1]);
-  const maxVal = chartData[0]?.[1]||1;
+  const label = person==='laslo'?settings.laslo_name:settings.her_name;
 
   return (
     <div>
@@ -531,151 +598,50 @@ function PersonTab({ person, label, expenses, incomes, settings, onRefresh }) {
 
       <div className="card">
         <div className="section-header">
-          <div className="section-title">💸 Uitgaven</div>
-          <div style={{display:'flex',gap:8,alignItems:'center'}}>
-            <div className="view-toggle">
-              <button className={`toggle-btn ${view==='list'?'active':''}`} onClick={()=>setView('list')}>Lijst</button>
-              <button className={`toggle-btn ${view==='chart'?'active':''}`} onClick={()=>setView('chart')}>Grafiek</button>
-            </div>
-            <button className="add-btn secondary" onClick={()=>setShowExpForm(!showExpForm)}>{showExpForm?'Annuleren':'+ Uitgave toevoegen'}</button>
-          </div>
+          <div className="section-title">💸 Uitgaven per categorie</div>
+          <button className="add-btn secondary" onClick={()=>setShowExpForm(!showExpForm)}>{showExpForm?'Annuleren':'+ Uitgave toevoegen'}</button>
         </div>
         {showExpForm && <ExpenseForm person={person} settings={settings} onSave={()=>{onRefresh();setShowExpForm(false);}} />}
-        {view==='list'
-          ? allExpenses.length===0
-            ? <div className="empty"><div className="empty-icon">✅</div>Geen uitgaven deze maand</div>
-            : allExpenses.map(e=>{
-                const isShared = e.is_shared;
-                const displayAmount = isShared ? Number(e.amount)*(pct/100) : Number(e.amount);
-                return (
-                  <div key={e.id}>
-                    {editingExpense===e.id
-                      ? <EditExpenseForm expense={e} settings={settings} onSave={()=>{onRefresh();setEditingExpense(null);}} onCancel={()=>setEditingExpense(null)} />
-                      : <div className="expense-item">
-                          <div className="expense-left">
-                            <div className="expense-icon"><LogoOrIcon name={e.name} category={e.category} /></div>
-                            <div>
-                              <div className="expense-name">{e.name}{isShared?' 🤝':''}</div>
-                              <div className="expense-meta">{getCategoryInfo(e.category).label} · {fmtDate(e.date)}{e.description?' · '+e.description:''}</div>
-                            </div>
-                          </div>
-                          <div className="expense-right">
-                            <div style={{textAlign:'right'}}>
-                              <div className="expense-amount">{fmtEur(displayAmount)}</div>
-                              {isShared && <div style={{fontSize:11,color:'#94a3b8'}}>van {fmtEur(e.amount)} totaal</div>}
-                            </div>
-                            <button className="delete-btn" onClick={()=>setEditingExpense(e.id)}>✏️</button>
-                            <button className="delete-btn" onClick={()=>deleteExpense(e.id)}>🗑</button>
-                          </div>
-                        </div>
-                    }
-                  </div>
-                );
-              })
-          : <div className="chart-wrap">
-              {chartData.length===0
-                ? <div className="empty"><div className="empty-icon">📊</div>Nog geen data</div>
-                : chartData.map(([cat,val])=>{
-                  const info=getCategoryInfo(cat);
-                  return (
-                    <div key={cat} className="chart-bar-row">
-                      <div className="chart-bar-label">{info.icon} {info.label}</div>
-                      <div className="chart-bar-outer">
-                        <div className="chart-bar-inner" style={{width:`${(val/maxVal)*100}%`,background:CAT_COLORS[cat]||'#94a3b8'}}>
-                          <span className="chart-bar-val">{fmtEur(val)}</span>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })
-              }
-            </div>
-        }
+        <CategoryExpenseList
+          expenses={allExpenses}
+          pct={pct}
+          settings={settings}
+          onRefresh={onRefresh}
+          categoryOrder={categoryOrder}
+          onReorder={onReorder}
+        />
       </div>
     </div>
   );
 }
 
-function SharedTab({ expenses, settings, onRefresh }) {
-  const [view, setView] = useState('list');
+function SharedTab({ expenses, settings, categoryOrder, onReorder, onRefresh }) {
   const [showForm, setShowForm] = useState(false);
-  const [editingExpense, setEditingExpense] = useState(null);
   const sharedExp = expenses.filter(e=>e.is_shared);
   const total = sharedExp.reduce((s,e)=>s+Number(e.amount),0);
   const pct = settings.shared_pct;
-  const lasloOwes = total*(pct/100);
-  const herOwes = total*((100-pct)/100);
-  const deleteExpense = async (id) => { await supabase.from('expenses').delete().eq('id',id); onRefresh(); };
-  const catMap = {};
-  sharedExp.forEach(e=>{ catMap[e.category]=(catMap[e.category]||0)+Number(e.amount); });
-  const chartData = Object.entries(catMap).sort((a,b)=>b[1]-a[1]);
-  const maxVal = chartData[0]?.[1]||1;
 
   return (
     <div>
       <div className="grid-3 mb-24">
         <div className="stat-card"><div className="stat-label">Totaal gedeeld</div><div className="stat-value red">{fmtEur(total)}</div></div>
-        <div className="stat-card"><div className="stat-label"><span className="dot laslo"></span>{settings.laslo_name} betaalt ({pct}%)</div><div className="stat-value purple">{fmtEur(lasloOwes)}</div></div>
-        <div className="stat-card"><div className="stat-label"><span className="dot her"></span>{settings.her_name} betaalt ({100-pct}%)</div><div className="stat-value" style={{color:'#f472b6'}}>{fmtEur(herOwes)}</div></div>
+        <div className="stat-card"><div className="stat-label"><span className="dot laslo"></span>{settings.laslo_name} betaalt ({pct}%)</div><div className="stat-value purple">{fmtEur(total*(pct/100))}</div></div>
+        <div className="stat-card"><div className="stat-label"><span className="dot her"></span>{settings.her_name} betaalt ({100-pct}%)</div><div className="stat-value" style={{color:'#f472b6'}}>{fmtEur(total*((100-pct)/100))}</div></div>
       </div>
       <div className="card">
         <div className="section-header">
-          <div className="section-title">🤝 Gedeelde uitgaven</div>
-          <div style={{display:'flex',gap:8,alignItems:'center'}}>
-            <div className="view-toggle">
-              <button className={`toggle-btn ${view==='list'?'active':''}`} onClick={()=>setView('list')}>Lijst</button>
-              <button className={`toggle-btn ${view==='chart'?'active':''}`} onClick={()=>setView('chart')}>Grafiek</button>
-            </div>
-            <button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Gedeelde toevoegen'}</button>
-          </div>
+          <div className="section-title">🤝 Gedeelde uitgaven per categorie</div>
+          <button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Gedeelde toevoegen'}</button>
         </div>
         {showForm && <ExpenseForm person="shared" isShared={true} settings={settings} onSave={()=>{onRefresh();setShowForm(false);}} />}
-        {view==='list'
-          ? sharedExp.length===0
-            ? <div className="empty"><div className="empty-icon">🤝</div>Geen gedeelde uitgaven deze maand</div>
-            : sharedExp.map(e=>(
-              <div key={e.id}>
-                {editingExpense===e.id
-                  ? <EditExpenseForm expense={e} settings={settings} onSave={()=>{onRefresh();setEditingExpense(null);}} onCancel={()=>setEditingExpense(null)} />
-                  : <div className="expense-item">
-                      <div className="expense-left">
-                        <div className="expense-icon"><LogoOrIcon name={e.name} category={e.category} /></div>
-                        <div>
-                          <div className="expense-name">{e.name}</div>
-                          <div className="expense-meta">{getCategoryInfo(e.category).label} · {fmtDate(e.date)}{e.description?' · '+e.description:''}</div>
-                        </div>
-                      </div>
-                      <div className="expense-right">
-                        <div style={{textAlign:'right'}}>
-                          <div className="expense-amount">{fmtEur(e.amount)}</div>
-                          <div style={{fontSize:11,color:'#94a3b8'}}>{settings.laslo_name} {fmtEur(e.amount*(pct/100))} · {settings.her_name} {fmtEur(e.amount*((100-pct)/100))}</div>
-                        </div>
-                        <button className="delete-btn" onClick={()=>setEditingExpense(e.id)}>✏️</button>
-                        <button className="delete-btn" onClick={()=>deleteExpense(e.id)}>🗑</button>
-                      </div>
-                    </div>
-                }
-              </div>
-            ))
-          : <div className="chart-wrap">
-              {chartData.length===0
-                ? <div className="empty"><div className="empty-icon">📊</div>Nog geen data</div>
-                : chartData.map(([cat,val])=>{
-                  const info=getCategoryInfo(cat);
-                  return (
-                    <div key={cat} className="chart-bar-row">
-                      <div className="chart-bar-label">{info.icon} {info.label}</div>
-                      <div className="chart-bar-outer">
-                        <div className="chart-bar-inner" style={{width:`${(val/maxVal)*100}%`,background:CAT_COLORS[cat]||'#94a3b8'}}>
-                          <span className="chart-bar-val">{fmtEur(val)}</span>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })
-              }
-            </div>
-        }
+        <CategoryExpenseList
+          expenses={sharedExp}
+          pct={pct}
+          settings={settings}
+          onRefresh={onRefresh}
+          categoryOrder={categoryOrder}
+          onReorder={onReorder}
+        />
       </div>
     </div>
   );
@@ -687,12 +653,8 @@ function AccountsTab({ accounts, settings, onRefresh }) {
   const lasloTotal = accounts.filter(a=>a.owner==='laslo').reduce((s,a)=>s+Number(a.balance),0);
   const herTotal = accounts.filter(a=>a.owner==='her').reduce((s,a)=>s+Number(a.balance),0);
   const sharedTotal = accounts.filter(a=>a.owner==='shared').reduce((s,a)=>s+Number(a.balance),0);
-  const netWorth = lasloTotal + herTotal + sharedTotal;
-  const saveAccount = async (e) => {
-    e.preventDefault();
-    await supabase.from('accounts').insert({ name:form.name, balance:parseFloat(form.balance), owner:form.owner });
-    setForm({ name:'', balance:'', owner:'laslo' }); setShowForm(false); onRefresh();
-  };
+  const netWorth = lasloTotal+herTotal+sharedTotal;
+  const saveAccount = async (e) => { e.preventDefault(); await supabase.from('accounts').insert({ name:form.name, balance:parseFloat(form.balance), owner:form.owner }); setForm({name:'',balance:'',owner:'laslo'}); setShowForm(false); onRefresh(); };
   const deleteAccount = async (id) => { await supabase.from('accounts').delete().eq('id',id); onRefresh(); };
   const updateBalance = async (id, val) => { await supabase.from('accounts').update({ balance:parseFloat(val) }).eq('id',id); onRefresh(); };
   const ownerLabel = o => o==='laslo'?settings.laslo_name:o==='her'?settings.her_name:'Gedeeld';
@@ -700,10 +662,7 @@ function AccountsTab({ accounts, settings, onRefresh }) {
 
   return (
     <div>
-      <div className="networth-total mb-24">
-        <div className="networth-label">Totaal vermogen</div>
-        <div className="networth-value">{fmtEur(netWorth)}</div>
-      </div>
+      <div className="networth-total mb-24"><div className="networth-label">Totaal vermogen</div><div className="networth-value">{fmtEur(netWorth)}</div></div>
       <div className="grid-3 mb-24">
         <div className="stat-card"><div className="stat-label"><span className="dot laslo"></span>{settings.laslo_name}</div><div className="stat-value green">{fmtEur(lasloTotal)}</div></div>
         <div className="stat-card"><div className="stat-label"><span className="dot her"></span>{settings.her_name}</div><div className="stat-value green">{fmtEur(herTotal)}</div></div>
@@ -724,10 +683,7 @@ function AccountsTab({ accounts, settings, onRefresh }) {
             <button className="add-btn" type="submit">Opslaan</button>
           </form>
         )}
-        {accounts.length===0
-          ? <div className="empty"><div className="empty-icon">🏦</div>Nog geen rekeningen toegevoegd</div>
-          : accounts.map(a=><AccountItem key={a.id} account={a} ownerLabel={ownerLabel} ownerIcon={ownerIcon} onDelete={deleteAccount} onUpdateBalance={updateBalance} />)
-        }
+        {accounts.length===0 ? <div className="empty"><div className="empty-icon">🏦</div>Nog geen rekeningen toegevoegd</div> : accounts.map(a=><AccountItem key={a.id} account={a} ownerLabel={ownerLabel} ownerIcon={ownerIcon} onDelete={deleteAccount} onUpdateBalance={updateBalance} />)}
       </div>
     </div>
   );
@@ -780,12 +736,7 @@ function SettingsTab({ settings, onRefresh }) {
               <div className="form-group"><label className="form-label">{form.laslo_name} maandinkomen (€)</label><input className="form-input" type="number" placeholder="0" value={form.laslo_income} onChange={e=>setForm({...form,laslo_income:e.target.value})} /></div>
               <div className="form-group"><label className="form-label">{form.her_name} maandinkomen (€)</label><input className="form-input" type="number" placeholder="0" value={form.her_income} onChange={e=>setForm({...form,her_income:e.target.value})} /></div>
             </div>
-            {autoCalc && (
-              <div style={{marginBottom:12,padding:'10px 14px',background:'#f0f4ff',borderRadius:10,fontSize:13,color:'#667eea',fontWeight:500}}>
-                💡 Op basis van inkomen: {form.laslo_name} {autoCalc}% / {form.her_name} {100-autoCalc}%
-                <button type="button" className="add-btn" style={{marginLeft:12,padding:'4px 12px',fontSize:12}} onClick={()=>setForm({...form,shared_pct:autoCalc})}>Toepassen</button>
-              </div>
-            )}
+            {autoCalc && <div style={{marginBottom:12,padding:'10px 14px',background:'#f0f4ff',borderRadius:10,fontSize:13,color:'#667eea',fontWeight:500}}>💡 Op basis van inkomen: {form.laslo_name} {autoCalc}% / {form.her_name} {100-autoCalc}%<button type="button" className="add-btn" style={{marginLeft:12,padding:'4px 12px',fontSize:12}} onClick={()=>setForm({...form,shared_pct:autoCalc})}>Toepassen</button></div>}
           </div>
           <div style={{marginBottom:24}}>
             <div className="form-label" style={{marginBottom:12}}>Verdeling gedeelde uitgaven</div>
