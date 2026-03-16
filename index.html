@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Shared Finances" />
   <title>Shared Finances</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
@@ -76,6 +79,8 @@
     .add-btn { padding: 12px 24px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
     .add-btn:hover { opacity: 0.9; }
     .add-btn.secondary { background: #f1f5f9; color: #475569; }
+    .add-btn.green { background: linear-gradient(135deg, #10b981, #059669); }
+    .add-btn.red { background: linear-gradient(135deg, #ef4444, #dc2626); }
     .slider-wrap { padding: 8px 0; }
     .slider-label { display: flex; justify-content: space-between; font-size: 13px; color: #475569; margin-bottom: 8px; }
     .slider-label span { font-weight: 600; color: #667eea; }
@@ -108,21 +113,46 @@
     .dot.laslo { background: #667eea; }
     .dot.her { background: #f472b6; }
     .dot.shared { background: #10b981; }
-
-    /* CATEGORY SECTIONS */
     .cat-section { margin-bottom: 16px; border-radius: 14px; overflow: hidden; border: 1px solid #e2e8f0; }
     .cat-section.dragging-over { border: 2px dashed #667eea; background: #f0f4ff; }
     .cat-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #f8fafc; cursor: grab; user-select: none; }
     .cat-header:active { cursor: grabbing; }
     .cat-header-left { display: flex; align-items: center; gap: 10px; }
-    .cat-header-icon { font-size: 20px; }
     .cat-header-name { font-size: 14px; font-weight: 600; color: #1e293b; }
     .cat-header-count { font-size: 12px; color: #94a3b8; }
     .cat-header-right { display: flex; align-items: center; gap: 12px; }
     .cat-total { font-size: 15px; font-weight: 700; color: #ef4444; }
     .drag-handle { color: #cbd5e1; font-size: 18px; cursor: grab; }
     .cat-body { padding: 0 16px; }
-    .cat-section-dragging { opacity: 0.5; }
+
+    /* HOUSE PAGE */
+    .scan-hero { background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 20px; padding: 32px; text-align: center; color: white; margin-bottom: 24px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 20px rgba(245,158,11,0.3); }
+    .scan-hero:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,158,11,0.4); }
+    .scan-hero-icon { font-size: 56px; margin-bottom: 12px; }
+    .scan-hero-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .scan-hero-sub { font-size: 14px; opacity: 0.85; }
+    .scan-processing { background: #f0f4ff; border-radius: 16px; padding: 24px; text-align: center; border: 2px dashed #667eea; margin-bottom: 24px; }
+    .scan-processing-icon { font-size: 40px; margin-bottom: 12px; animation: spin 1s linear infinite; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .house-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #f1f5f9; }
+    .house-item:last-child { border-bottom: none; }
+    .house-left { display: flex; align-items: center; gap: 12px; }
+    .house-icon { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: #fef3c7; border-radius: 12px; font-size: 20px; overflow: hidden; }
+    .house-icon img { width: 44px; height: 44px; object-fit: cover; border-radius: 12px; cursor: pointer; }
+    .house-name { font-size: 14px; font-weight: 600; color: #1e293b; }
+    .house-meta { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+    .house-right { display: flex; align-items: center; gap: 12px; }
+    .house-amount { font-size: 15px; font-weight: 700; color: #f59e0b; }
+    .paid-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+    .paid-badge.shared { background: #ede9fe; color: #7c3aed; }
+    .paid-badge.laslo { background: #e0e7ff; color: #4338ca; }
+    .paid-badge.her { background: #fce7f3; color: #be185d; }
+    .receipt-thumb { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; cursor: pointer; border: 2px solid #e2e8f0; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .modal-img { max-width: 100%; max-height: 90vh; border-radius: 12px; }
+    .modal-close { position: absolute; top: 20px; right: 20px; background: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .scan-result-preview { background: #f0fdf4; border: 2px solid #10b981; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+    .scan-result-title { font-size: 13px; font-weight: 600; color: #10b981; margin-bottom: 8px; }
   </style>
 </head>
 <body>
@@ -130,8 +160,8 @@
 <script type="text/babel">
 const { useState, useEffect, useCallback, useRef } = React;
 
-const SUPABASE_URL = 'https://yqiwehmpddqscilmrxhr.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlxaXdlaG1wZGRxc2NpbG1yeGhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNDQzNzEsImV4cCI6MjA4ODgyMDM3MX0.r1fjqd4mtsE3kb4ESBY0STjWSfi4w3dAH4ydspkVmEU';
+const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const CATEGORIES = [
@@ -151,16 +181,33 @@ const CATEGORIES = [
   { id: 'other', label: 'Other', icon: '📦' },
 ];
 
+const HOUSE_CATEGORIES = [
+  { id: 'mortgage', label: 'Hypotheek', icon: '🏦' },
+  { id: 'insurance', label: 'Verzekering', icon: '🛡️' },
+  { id: 'maintenance', label: 'Onderhoud', icon: '🔧' },
+  { id: 'renovation', label: 'Verbouwing', icon: '🏗️' },
+  { id: 'furniture', label: 'Meubels', icon: '🛋️' },
+  { id: 'appliances', label: 'Apparatuur', icon: '🔌' },
+  { id: 'garden', label: 'Tuin', icon: '🌿' },
+  { id: 'cleaning', label: 'Schoonmaak', icon: '🧹' },
+  { id: 'utilities', label: 'Nutsvoorzieningen', icon: '💡' },
+  { id: 'other', label: 'Overig', icon: '📦' },
+];
+
 const CAT_COLORS = {
   housing:'#667eea', groceries:'#10b981', transport:'#f59e0b',
   utilities:'#06b6d4', health:'#ef4444', dining:'#f97316',
   entertainment:'#8b5cf6', clothing:'#ec4899', travel:'#14b8a6',
   subscriptions:'#6366f1', insurance:'#84cc16', education:'#eab308',
   savings:'#22c55e', other:'#94a3b8',
+  mortgage:'#667eea', maintenance:'#f59e0b', renovation:'#ef4444',
+  furniture:'#8b5cf6', appliances:'#06b6d4', garden:'#10b981',
+  cleaning:'#f97316',
 };
 
-function getCategoryInfo(id) {
-  return CATEGORIES.find(c => c.id === id) || CATEGORIES[CATEGORIES.length - 1];
+function getCategoryInfo(id, isHouse=false) {
+  const list = isHouse ? HOUSE_CATEGORIES : CATEGORIES;
+  return list.find(c => c.id === id) || list[list.length - 1];
 }
 
 function LogoOrIcon({ name, category }) {
@@ -176,14 +223,12 @@ function LogoOrIcon({ name, category }) {
       spotify:'spotify.com', netflix:'netflix.com', amazon:'amazon.com',
       google:'google.com', apple:'apple.com', microsoft:'microsoft.com',
       youtube:'youtube.com', disney:'disneyplus.com', linkedin:'linkedin.com',
-      dropbox:'dropbox.com', slack:'slack.com', github:'github.com',
-      adobe:'adobe.com', zoom:'zoom.us', paypal:'paypal.com',
-      uber:'uber.com', airbnb:'airbnb.com', twitter:'twitter.com',
-      instagram:'instagram.com', facebook:'facebook.com', tiktok:'tiktok.com',
-      twitch:'twitch.tv', steam:'steampowered.com', ikea:'ikea.com',
-      abn:'abnamro.nl', ing:'ing.nl', rabobank:'rabobank.nl',
-      ns:'ns.nl', 'albert heijn':'ah.nl', vodafone:'vodafone.com',
-      kpn:'kpn.com', ziggo:'ziggo.nl', odido:'odido.nl',
+      dropbox:'dropbox.com', slack:'slack.com', adobe:'adobe.com',
+      zoom:'zoom.us', paypal:'paypal.com', uber:'uber.com',
+      airbnb:'airbnb.com', ikea:'ikea.com', abn:'abnamro.nl',
+      ing:'ing.nl', rabobank:'rabobank.nl', ns:'ns.nl',
+      'albert heijn':'ah.nl', vodafone:'vodafone.com', kpn:'kpn.com',
+      ziggo:'ziggo.nl', odido:'odido.nl',
     };
     const lower = n.toLowerCase();
     for (const [k, v] of Object.entries(map)) { if (lower.includes(k)) return v; }
@@ -213,34 +258,46 @@ function currentMonthRange() {
   return { start, end };
 }
 
-// ─── DRAG AND DROP CATEGORY LIST ─────────────────────────────────────────────
-function CategoryExpenseList({ expenses, pct, isShared, settings, onRefresh, categoryOrder, onReorder }) {
+// ── IMAGE COMPRESSION ────────────────────────────────────────────────────────
+async function compressImage(file, maxWidth=800, quality=0.6) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ratio = Math.min(maxWidth / img.width, 1);
+        canvas.width = img.width * ratio;
+        canvas.height = img.height * ratio;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob((blob) => resolve(blob), 'image/jpeg', quality);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+// ── CATEGORY EXPENSE LIST WITH DRAG ─────────────────────────────────────────
+function CategoryExpenseList({ expenses, pct, settings, onRefresh, categoryOrder, onReorder }) {
   const [dragOver, setDragOver] = useState(null);
   const dragItem = useRef(null);
   const [editingExpense, setEditingExpense] = useState(null);
 
-  // Build ordered list of categories that have expenses
   const catTotals = {};
   expenses.forEach(e => {
     const amt = e.is_shared ? Number(e.amount)*(pct/100) : Number(e.amount);
     catTotals[e.category] = (catTotals[e.category]||0) + amt;
   });
   const usedCats = Object.keys(catTotals);
-
-  // Apply saved order, append any new cats at end
   const orderedCats = [
     ...categoryOrder.filter(c => usedCats.includes(c)),
     ...usedCats.filter(c => !categoryOrder.includes(c)),
   ];
 
-  const handleDragStart = (e, catId) => {
-    dragItem.current = catId;
-    e.dataTransfer.effectAllowed = 'move';
-  };
-  const handleDragOver = (e, catId) => {
-    e.preventDefault();
-    setDragOver(catId);
-  };
+  const handleDragStart = (e, catId) => { dragItem.current = catId; e.dataTransfer.effectAllowed = 'move'; };
+  const handleDragOver = (e, catId) => { e.preventDefault(); setDragOver(catId); };
   const handleDrop = (e, catId) => {
     e.preventDefault();
     if (!dragItem.current || dragItem.current === catId) { setDragOver(null); return; }
@@ -250,11 +307,9 @@ function CategoryExpenseList({ expenses, pct, isShared, settings, onRefresh, cat
     newOrder.splice(fromIdx, 1);
     newOrder.splice(toIdx, 0, dragItem.current);
     onReorder(newOrder);
-    dragItem.current = null;
-    setDragOver(null);
+    dragItem.current = null; setDragOver(null);
   };
   const handleDragEnd = () => { dragItem.current = null; setDragOver(null); };
-
   const deleteExpense = async (id) => { await supabase.from('expenses').delete().eq('id',id); onRefresh(); };
 
   if (orderedCats.length === 0) return <div className="empty"><div className="empty-icon">✅</div>Geen uitgaven deze maand</div>;
@@ -266,25 +321,15 @@ function CategoryExpenseList({ expenses, pct, isShared, settings, onRefresh, cat
         const catExpenses = expenses.filter(e => e.category === catId);
         const catTotal = catTotals[catId] || 0;
         return (
-          <div
-            key={catId}
-            className={`cat-section ${dragOver===catId?'dragging-over':''}`}
-            draggable
-            onDragStart={e=>handleDragStart(e,catId)}
-            onDragOver={e=>handleDragOver(e,catId)}
-            onDrop={e=>handleDrop(e,catId)}
-            onDragEnd={handleDragEnd}
-          >
+          <div key={catId} className={`cat-section ${dragOver===catId?'dragging-over':''}`} draggable onDragStart={e=>handleDragStart(e,catId)} onDragOver={e=>handleDragOver(e,catId)} onDrop={e=>handleDrop(e,catId)} onDragEnd={handleDragEnd}>
             <div className="cat-header">
               <div className="cat-header-left">
                 <span className="drag-handle">⠿</span>
-                <span className="cat-header-icon">{info.icon}</span>
+                <span style={{fontSize:18}}>{info.icon}</span>
                 <span className="cat-header-name">{info.label}</span>
                 <span className="cat-header-count">({catExpenses.length})</span>
               </div>
-              <div className="cat-header-right">
-                <span className="cat-total">{fmtEur(catTotal)}</span>
-              </div>
+              <span className="cat-total">{fmtEur(catTotal)}</span>
             </div>
             <div className="cat-body">
               {catExpenses.map(e => {
@@ -374,6 +419,7 @@ function EditIncomeForm({ income, onSave, onCancel }) {
   );
 }
 
+// ── APP ──────────────────────────────────────────────────────────────────────
 function App() {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -420,19 +466,22 @@ function Main({ session }) {
   const [expenses, setExpenses] = useState([]);
   const [incomes, setIncomes] = useState([]);
   const [accounts, setAccounts] = useState([]);
-  const [settings, setSettings] = useState({ laslo_name:'Laslo', her_name:'Partner', shared_pct:60, category_order:'' });
+  const [houseExpenses, setHouseExpenses] = useState([]);
+  const [settings, setSettings] = useState({ laslo_name:'Laslo', her_name:'Partner', shared_pct:60, category_order:'', openai_key:'' });
 
   const fetchAll = useCallback(async () => {
     const { start, end } = currentMonthRange();
-    const [eRes, iRes, aRes, sRes] = await Promise.all([
+    const [eRes, iRes, aRes, sRes, hRes] = await Promise.all([
       supabase.from('expenses').select('*').gte('date',start).lte('date',end).order('date'),
       supabase.from('incomes').select('*').gte('date',start).lte('date',end).order('date'),
       supabase.from('accounts').select('*').order('owner'),
       supabase.from('settings').select('*').eq('id',1).single(),
+      supabase.from('house_expenses').select('*').order('date', {ascending:false}),
     ]);
     setExpenses(eRes.data||[]);
     setIncomes(iRes.data||[]);
     setAccounts(aRes.data||[]);
+    setHouseExpenses(hRes.data||[]);
     if (sRes.data) setSettings(sRes.data);
   }, []);
 
@@ -451,6 +500,7 @@ function Main({ session }) {
     { id:'laslo', label:`💙 ${settings.laslo_name}` },
     { id:'her', label:`💗 ${settings.her_name}` },
     { id:'shared', label:'🤝 Shared' },
+    { id:'house', label:'🏠 Huis' },
     { id:'accounts', label:'🏦 Accounts' },
     { id:'settings', label:'⚙️ Settings' },
   ];
@@ -471,6 +521,7 @@ function Main({ session }) {
         {tab==='laslo' && <PersonTab person="laslo" expenses={expenses} incomes={incomes} settings={settings} categoryOrder={categoryOrder} onReorder={saveCategoryOrder} onRefresh={fetchAll} />}
         {tab==='her' && <PersonTab person="her" expenses={expenses} incomes={incomes} settings={settings} categoryOrder={categoryOrder} onReorder={saveCategoryOrder} onRefresh={fetchAll} />}
         {tab==='shared' && <SharedTab expenses={expenses} settings={settings} categoryOrder={categoryOrder} onReorder={saveCategoryOrder} onRefresh={fetchAll} />}
+        {tab==='house' && <HouseTab houseExpenses={houseExpenses} settings={settings} onRefresh={fetchAll} />}
         {tab==='accounts' && <AccountsTab accounts={accounts} settings={settings} onRefresh={fetchAll} />}
         {tab==='settings' && <SettingsTab settings={settings} onRefresh={fetchAll} />}
       </div>
@@ -478,6 +529,273 @@ function Main({ session }) {
   );
 }
 
+// ── HOUSE TAB ────────────────────────────────────────────────────────────────
+function HouseTab({ houseExpenses, settings, onRefresh }) {
+  const [showForm, setShowForm] = useState(false);
+  const [scanning, setScanning] = useState(false);
+  const [scannedData, setScannedData] = useState(null);
+  const [lightboxUrl, setLightboxUrl] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const total = houseExpenses.reduce((s,e)=>s+Number(e.amount),0);
+  const lasloTotal = houseExpenses.filter(e=>e.paid_by==='laslo').reduce((s,e)=>s+Number(e.amount),0);
+  const herTotal = houseExpenses.filter(e=>e.paid_by==='her').reduce((s,e)=>s+Number(e.amount),0);
+  const sharedTotal = houseExpenses.filter(e=>e.paid_by==='shared').reduce((s,e)=>s+Number(e.amount),0);
+
+  const handleScanClick = () => fileInputRef.current.click();
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setScanning(true);
+    setScannedData(null);
+
+    try {
+      const compressed = await compressImage(file, 800, 0.6);
+      const reader = new FileReader();
+      reader.onload = async (ev) => {
+        const base64 = ev.target.result.split(',')[1];
+        const res = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${settings.openai_key}` },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [{
+              role: 'user',
+              content: [
+                { type: 'text', text: 'Dit is een bon of factuur. Extraheer de volgende gegevens en geef ze terug als JSON: { "name": "naam van winkel/leverancier", "amount": getal, "date": "YYYY-MM-DD", "category": een van: mortgage/insurance/maintenance/renovation/furniture/appliances/garden/cleaning/utilities/other, "description": "korte omschrijving" }. Als je een waarde niet kunt vinden, gebruik dan een lege string of 0.' },
+                { type: 'image_url', image_url: { url: `data:image/jpeg;base64,${base64}` } }
+              ]
+            }],
+            max_tokens: 500,
+          })
+        });
+        const data = await res.json();
+        const text = data.choices?.[0]?.message?.content || '';
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          setScannedData({ ...parsed, _file: compressed });
+        }
+        setScanning(false);
+      };
+      reader.readAsDataURL(compressed);
+    } catch (err) {
+      console.error(err);
+      setScanning(false);
+    }
+    e.target.value = '';
+  };
+
+  const deleteHouseExpense = async (id, receiptUrl) => {
+    if (receiptUrl) {
+      const path = receiptUrl.split('/receipts/')[1];
+      if (path) await supabase.storage.from('receipts').remove([path]);
+    }
+    await supabase.from('house_expenses').delete().eq('id',id);
+    onRefresh();
+  };
+
+  return (
+    <div>
+      {lightboxUrl && (
+        <div className="modal-overlay" onClick={()=>setLightboxUrl(null)}>
+          <button className="modal-close" onClick={()=>setLightboxUrl(null)}>✕</button>
+          <img className="modal-img" src={lightboxUrl} alt="bon" />
+        </div>
+      )}
+
+      <input ref={fileInputRef} type="file" accept="image/*" capture="environment" style={{display:'none'}} onChange={handleFileChange} />
+
+      {!settings.openai_key && (
+        <div style={{background:'#fef3c7',border:'2px solid #f59e0b',borderRadius:12,padding:16,marginBottom:24,fontSize:14,color:'#92400e'}}>
+          ⚠️ Voeg eerst je OpenAI API key toe via ⚙️ Settings om de bon-scanner te gebruiken.
+        </div>
+      )}
+
+      <div className="scan-hero" onClick={handleScanClick}>
+        <div className="scan-hero-icon">📸</div>
+        <div className="scan-hero-title">Bon scannen</div>
+        <div className="scan-hero-sub">Tik hier om je camera te openen en een foto te maken van een bon</div>
+      </div>
+
+      {scanning && (
+        <div className="scan-processing">
+          <div className="scan-processing-icon">⚙️</div>
+          <div style={{fontSize:15,fontWeight:600,color:'#667eea'}}>Bon wordt verwerkt…</div>
+          <div style={{fontSize:13,color:'#94a3b8',marginTop:4}}>Even geduld, AI leest de bon</div>
+        </div>
+      )}
+
+      {scannedData && (
+        <div style={{marginBottom:24}}>
+          <div className="scan-result-preview">
+            <div className="scan-result-title">✅ Bon gescand! Controleer en sla op:</div>
+          </div>
+          <HouseExpenseForm
+            settings={settings}
+            prefill={scannedData}
+            prefillFile={scannedData._file}
+            onSave={()=>{ setScannedData(null); onRefresh(); }}
+            onCancel={()=>setScannedData(null)}
+          />
+        </div>
+      )}
+
+      <div className="grid-4 mb-24">
+        <div className="stat-card"><div className="stat-label">Totaal huis</div><div className="stat-value" style={{color:'#f59e0b'}}>{fmtEur(total)}</div></div>
+        <div className="stat-card"><div className="stat-label"><span className="dot laslo"></span>{settings.laslo_name}</div><div className="stat-value purple">{fmtEur(lasloTotal)}</div></div>
+        <div className="stat-card"><div className="stat-label"><span className="dot her"></span>{settings.her_name}</div><div className="stat-value" style={{color:'#f472b6'}}>{fmtEur(herTotal)}</div></div>
+        <div className="stat-card"><div className="stat-label"><span className="dot shared"></span>Gedeeld</div><div className="stat-value green">{fmtEur(sharedTotal)}</div></div>
+      </div>
+
+      <div className="card">
+        <div className="section-header">
+          <div className="section-title">🏠 Huiskosten</div>
+          <button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Handmatig toevoegen'}</button>
+        </div>
+        {showForm && <HouseExpenseForm settings={settings} onSave={()=>{onRefresh();setShowForm(false);}} onCancel={()=>setShowForm(false)} />}
+
+        {houseExpenses.length===0
+          ? <div className="empty"><div className="empty-icon">🏠</div>Nog geen huiskosten toegevoegd</div>
+          : houseExpenses.map(e => {
+            const cat = getCategoryInfo(e.category, true);
+            return (
+              <div key={e.id}>
+                {editingId===e.id
+                  ? <HouseExpenseForm settings={settings} prefill={e} isEdit={true} onSave={async (formData, file) => {
+                      let receipt_url = e.receipt_url;
+                      if (file) {
+                        const compressed = await compressImage(file, 800, 0.6);
+                        const fileName = `${Date.now()}.jpg`;
+                        await supabase.storage.from('receipts').upload(fileName, compressed, { contentType:'image/jpeg', upsert:true });
+                        const { data: urlData } = supabase.storage.from('receipts').getPublicUrl(fileName);
+                        receipt_url = urlData.publicUrl;
+                      }
+                      await supabase.from('house_expenses').update({ ...formData, receipt_url }).eq('id', e.id);
+                      setEditingId(null); onRefresh();
+                    }} onCancel={()=>setEditingId(null)} />
+                  : <div className="house-item">
+                      <div className="house-left">
+                        <div className="house-icon">
+                          {e.receipt_url
+                            ? <img src={e.receipt_url} alt="bon" onClick={()=>setLightboxUrl(e.receipt_url)} />
+                            : cat.icon
+                          }
+                        </div>
+                        <div>
+                          <div className="house-name">{e.name}</div>
+                          <div className="house-meta">{cat.label} · {fmtDate(e.date)}{e.description?' · '+e.description:''}</div>
+                        </div>
+                      </div>
+                      <div className="house-right">
+                        <span className={`paid-badge ${e.paid_by}`}>{e.paid_by==='laslo'?settings.laslo_name:e.paid_by==='her'?settings.her_name:'Gedeeld'}</span>
+                        <div style={{textAlign:'right'}}>
+                          <div className="house-amount">{fmtEur(e.amount)}</div>
+                        </div>
+                        <button className="delete-btn" onClick={()=>setEditingId(e.id)}>✏️</button>
+                        <button className="delete-btn" onClick={()=>deleteHouseExpense(e.id, e.receipt_url)}>🗑</button>
+                      </div>
+                    </div>
+                }
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+  );
+}
+
+function HouseExpenseForm({ settings, prefill={}, prefillFile=null, isEdit=false, onSave, onCancel }) {
+  const today = new Date().toISOString().split('T')[0];
+  const [form, setForm] = useState({
+    name: prefill.name||'',
+    amount: prefill.amount||'',
+    category: prefill.category||'other',
+    description: prefill.description||'',
+    date: prefill.date||today,
+    paid_by: prefill.paid_by||'shared',
+  });
+  const [file, setFile] = useState(prefillFile||null);
+  const [preview, setPreview] = useState(null);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setPreview(url);
+      return () => URL.revokeObjectURL(url);
+    }
+  }, [file]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      if (isEdit) {
+        await onSave(form, file);
+      } else {
+        let receipt_url = null;
+        if (file) {
+          const compressed = file.type === 'image/jpeg' ? file : await compressImage(file, 800, 0.6);
+          const fileName = `${Date.now()}.jpg`;
+          await supabase.storage.from('receipts').upload(fileName, compressed, { contentType:'image/jpeg', upsert:true });
+          const { data: urlData } = supabase.storage.from('receipts').getPublicUrl(fileName);
+          receipt_url = urlData.publicUrl;
+        }
+        await supabase.from('house_expenses').insert({
+          name: form.name, amount: parseFloat(form.amount), category: form.category,
+          description: form.description, date: form.date, paid_by: form.paid_by,
+          receipt_url,
+        });
+        onSave();
+      }
+    } catch(err) { console.error(err); }
+    setSaving(false);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} style={{background:'#fffbeb',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #f59e0b'}}>
+      <div className="form-row">
+        <div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. IKEA kast" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required /></div>
+        <div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required /></div>
+      </div>
+      <div className="form-row">
+        <div className="form-group">
+          <label className="form-label">Categorie</label>
+          <select className="form-select" value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>
+            {HOUSE_CATEGORIES.map(c=><option key={c.id} value={c.id}>{c.icon} {c.label}</option>)}
+          </select>
+        </div>
+        <div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required /></div>
+      </div>
+      <div className="form-row">
+        <div className="form-group">
+          <label className="form-label">Betaald door</label>
+          <select className="form-select" value={form.paid_by} onChange={e=>setForm({...form,paid_by:e.target.value})}>
+            <option value="shared">Gedeelde rekening</option>
+            <option value="laslo">{settings.laslo_name}</option>
+            <option value="her">{settings.her_name}</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label className="form-label">Bon toevoegen</label>
+          <input type="file" accept="image/*" className="form-input" style={{padding:'8px'}} onChange={e=>setFile(e.target.files[0])} />
+        </div>
+      </div>
+      {preview && <div style={{marginBottom:12}}><img src={preview} alt="preview" style={{width:80,height:80,objectFit:'cover',borderRadius:10,border:'2px solid #f59e0b'}} /></div>}
+      <div className="form-group" style={{marginBottom:12}}><label className="form-label">Omschrijving (optioneel)</label><input className="form-input" placeholder="Voeg een notitie toe…" value={form.description} onChange={e=>setForm({...form,description:e.target.value})} /></div>
+      <div style={{display:'flex',gap:8}}>
+        <button className="add-btn green" type="submit" disabled={saving} style={{padding:'10px 24px'}}>{saving?'Opslaan…':'Opslaan'}</button>
+        {onCancel && <button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'10px 24px'}}>Annuleren</button>}
+      </div>
+    </form>
+  );
+}
+
+// ── OVERVIEW ─────────────────────────────────────────────────────────────────
 function Overview({ expenses, incomes, accounts, settings }) {
   const now = new Date();
   const monthName = now.toLocaleString('nl-NL',{month:'long',year:'numeric'});
@@ -541,11 +859,11 @@ function Overview({ expenses, incomes, accounts, settings }) {
   );
 }
 
+// ── PERSON TAB ───────────────────────────────────────────────────────────────
 function PersonTab({ person, expenses, incomes, settings, categoryOrder, onReorder, onRefresh }) {
   const [showExpForm, setShowExpForm] = useState(false);
   const [showIncForm, setShowIncForm] = useState(false);
   const [editingIncome, setEditingIncome] = useState(null);
-
   const myExpenses = expenses.filter(e=>e.person===person&&!e.is_shared);
   const mySharedExpenses = expenses.filter(e=>e.is_shared);
   const allExpenses = [...myExpenses, ...mySharedExpenses];
@@ -557,7 +875,6 @@ function PersonTab({ person, expenses, incomes, settings, categoryOrder, onReord
   const myShared = sharedTotal*(pct/100);
   const net = totalInc - totalExp - myShared;
   const deleteIncome = async (id) => { await supabase.from('incomes').delete().eq('id',id); onRefresh(); };
-  const label = person==='laslo'?settings.laslo_name:settings.her_name;
 
   return (
     <div>
@@ -566,7 +883,6 @@ function PersonTab({ person, expenses, incomes, settings, categoryOrder, onReord
         <div className="stat-card"><div className="stat-label">Totale uitgaven</div><div className="stat-value red">{fmtEur(totalExp+myShared)}</div><div className="stat-sub">Persoonlijk {fmtEur(totalExp)} · Gedeeld {fmtEur(myShared)}</div></div>
         <div className="stat-card"><div className="stat-label">Cashflow</div><div className={`stat-value ${net>=0?'green':'red'}`}>{fmtEur(net)}</div><div className="stat-sub">Na {pct}% van gedeelde kosten</div></div>
       </div>
-
       <div className="card mb-16">
         <div className="section-header">
           <div className="section-title">💚 Inkomen</div>
@@ -595,32 +911,24 @@ function PersonTab({ person, expenses, incomes, settings, categoryOrder, onReord
           ))
         }
       </div>
-
       <div className="card">
         <div className="section-header">
           <div className="section-title">💸 Uitgaven per categorie</div>
           <button className="add-btn secondary" onClick={()=>setShowExpForm(!showExpForm)}>{showExpForm?'Annuleren':'+ Uitgave toevoegen'}</button>
         </div>
         {showExpForm && <ExpenseForm person={person} settings={settings} onSave={()=>{onRefresh();setShowExpForm(false);}} />}
-        <CategoryExpenseList
-          expenses={allExpenses}
-          pct={pct}
-          settings={settings}
-          onRefresh={onRefresh}
-          categoryOrder={categoryOrder}
-          onReorder={onReorder}
-        />
+        <CategoryExpenseList expenses={allExpenses} pct={pct} settings={settings} onRefresh={onRefresh} categoryOrder={categoryOrder} onReorder={onReorder} />
       </div>
     </div>
   );
 }
 
+// ── SHARED TAB ───────────────────────────────────────────────────────────────
 function SharedTab({ expenses, settings, categoryOrder, onReorder, onRefresh }) {
   const [showForm, setShowForm] = useState(false);
   const sharedExp = expenses.filter(e=>e.is_shared);
   const total = sharedExp.reduce((s,e)=>s+Number(e.amount),0);
   const pct = settings.shared_pct;
-
   return (
     <div>
       <div className="grid-3 mb-24">
@@ -634,19 +942,13 @@ function SharedTab({ expenses, settings, categoryOrder, onReorder, onRefresh }) 
           <button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Gedeelde toevoegen'}</button>
         </div>
         {showForm && <ExpenseForm person="shared" isShared={true} settings={settings} onSave={()=>{onRefresh();setShowForm(false);}} />}
-        <CategoryExpenseList
-          expenses={sharedExp}
-          pct={pct}
-          settings={settings}
-          onRefresh={onRefresh}
-          categoryOrder={categoryOrder}
-          onReorder={onReorder}
-        />
+        <CategoryExpenseList expenses={sharedExp} pct={pct} settings={settings} onRefresh={onRefresh} categoryOrder={categoryOrder} onReorder={onReorder} />
       </div>
     </div>
   );
 }
 
+// ── ACCOUNTS TAB ─────────────────────────────────────────────────────────────
 function AccountsTab({ accounts, settings, onRefresh }) {
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ name:'', balance:'', owner:'laslo' });
@@ -659,7 +961,6 @@ function AccountsTab({ accounts, settings, onRefresh }) {
   const updateBalance = async (id, val) => { await supabase.from('accounts').update({ balance:parseFloat(val) }).eq('id',id); onRefresh(); };
   const ownerLabel = o => o==='laslo'?settings.laslo_name:o==='her'?settings.her_name:'Gedeeld';
   const ownerIcon = o => o==='laslo'?'💙':o==='her'?'💗':'🤝';
-
   return (
     <div>
       <div className="networth-total mb-24"><div className="networth-label">Totaal vermogen</div><div className="networth-value">{fmtEur(netWorth)}</div></div>
@@ -709,12 +1010,16 @@ function AccountItem({ account, ownerLabel, ownerIcon, onDelete, onUpdateBalance
   );
 }
 
+// ── SETTINGS TAB ─────────────────────────────────────────────────────────────
 function SettingsTab({ settings, onRefresh }) {
   const [form, setForm] = useState({...settings, laslo_income:'', her_income:''});
   const [saved, setSaved] = useState(false);
   const save = async (e) => {
     e.preventDefault();
-    await supabase.from('settings').update({ laslo_name:form.laslo_name, her_name:form.her_name, shared_pct:parseFloat(form.shared_pct) }).eq('id',1);
+    await supabase.from('settings').update({
+      laslo_name:form.laslo_name, her_name:form.her_name,
+      shared_pct:parseFloat(form.shared_pct), openai_key:form.openai_key
+    }).eq('id',1);
     setSaved(true); setTimeout(()=>setSaved(false),2000); onRefresh();
   };
   const lasloInc = parseFloat(form.laslo_income)||0;
@@ -730,6 +1035,13 @@ function SettingsTab({ settings, onRefresh }) {
             <div className="form-group"><label className="form-label">Jouw naam</label><input className="form-input" value={form.laslo_name} onChange={e=>setForm({...form,laslo_name:e.target.value})} required /></div>
             <div className="form-group"><label className="form-label">Naam partner</label><input className="form-input" value={form.her_name} onChange={e=>setForm({...form,her_name:e.target.value})} required /></div>
           </div>
+
+          <div style={{marginBottom:24}}>
+            <div className="form-label" style={{marginBottom:8}}>🤖 OpenAI API Key (voor bon-scanner)</div>
+            <input className="form-input" type="password" placeholder="sk-..." value={form.openai_key} onChange={e=>setForm({...form,openai_key:e.target.value})} style={{width:'100%',marginBottom:4}} />
+            <div style={{fontSize:12,color:'#94a3b8'}}>Wordt veilig opgeslagen in je database, niet in de code.</div>
+          </div>
+
           <div style={{marginBottom:24}}>
             <div className="form-label" style={{marginBottom:12}}>Automatisch berekenen op basis van inkomen</div>
             <div className="form-row">
@@ -738,6 +1050,7 @@ function SettingsTab({ settings, onRefresh }) {
             </div>
             {autoCalc && <div style={{marginBottom:12,padding:'10px 14px',background:'#f0f4ff',borderRadius:10,fontSize:13,color:'#667eea',fontWeight:500}}>💡 Op basis van inkomen: {form.laslo_name} {autoCalc}% / {form.her_name} {100-autoCalc}%<button type="button" className="add-btn" style={{marginLeft:12,padding:'4px 12px',fontSize:12}} onClick={()=>setForm({...form,shared_pct:autoCalc})}>Toepassen</button></div>}
           </div>
+
           <div style={{marginBottom:24}}>
             <div className="form-label" style={{marginBottom:12}}>Verdeling gedeelde uitgaven</div>
             <div className="slider-wrap">
@@ -753,6 +1066,7 @@ function SettingsTab({ settings, onRefresh }) {
   );
 }
 
+// ── EXPENSE FORM ─────────────────────────────────────────────────────────────
 function ExpenseForm({ person, isShared=false, settings, onSave }) {
   const today = new Date().toISOString().split('T')[0];
   const [form, setForm] = useState({ name:'', amount:'', category:'housing', description:'', date:today, is_shared:isShared });
@@ -783,6 +1097,7 @@ function ExpenseForm({ person, isShared=false, settings, onSave }) {
   );
 }
 
+// ── INCOME FORM ──────────────────────────────────────────────────────────────
 function IncomeForm({ person, onSave }) {
   const today = new Date().toISOString().split('T')[0];
   const [form, setForm] = useState({ label:'', amount:'', date:today });
