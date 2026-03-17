@@ -33,7 +33,6 @@
     .tab-btn.active { color: #667eea; border-bottom-color: #667eea; }
     .main-content { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
     .card { background: white; border-radius: 16px; padding: 20px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-    .card-title { font-size: 15px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
     .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
@@ -44,6 +43,7 @@
     .stat-value.green { color: #10b981; }
     .stat-value.red { color: #ef4444; }
     .stat-value.purple { color: #667eea; }
+    .stat-value.orange { color: #f59e0b; }
     .stat-sub { font-size: 12px; color: #94a3b8; margin-top: 4px; }
     .upcoming-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
     .upcoming-item:last-child { border-bottom: none; }
@@ -81,6 +81,7 @@
     .add-btn.secondary { background: #f1f5f9; color: #475569; }
     .add-btn.green { background: linear-gradient(135deg, #10b981, #059669); }
     .add-btn.danger { background: linear-gradient(135deg, #ef4444, #dc2626); }
+    .add-btn.orange { background: linear-gradient(135deg, #f59e0b, #d97706); }
     .slider-wrap { padding: 8px 0; }
     .slider-label { display: flex; justify-content: space-between; font-size: 13px; color: #475569; margin-bottom: 8px; }
     .slider-label span { font-weight: 600; color: #667eea; }
@@ -96,12 +97,6 @@
     .view-toggle { display: flex; gap: 4px; background: #f1f5f9; border-radius: 8px; padding: 3px; }
     .toggle-btn { padding: 6px 14px; border: none; background: none; border-radius: 6px; font-size: 13px; cursor: pointer; color: #64748b; font-weight: 500; transition: all 0.2s; }
     .toggle-btn.active { background: white; color: #1e293b; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-    .chart-wrap { padding: 8px 0; }
-    .chart-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-    .chart-bar-label { font-size: 12px; color: #64748b; width: 80px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .chart-bar-outer { flex: 1; height: 22px; background: #f1f5f9; border-radius: 6px; overflow: hidden; }
-    .chart-bar-inner { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 8px; }
-    .chart-bar-val { font-size: 11px; font-weight: 600; color: white; }
     .empty { text-align: center; padding: 40px; color: #94a3b8; font-size: 14px; }
     .empty-icon { font-size: 40px; margin-bottom: 12px; }
     .networth-total { background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 16px; padding: 24px; color: white; margin-bottom: 16px; }
@@ -153,6 +148,39 @@
     .pw-section-title { font-size: 15px; font-weight: 700; color: #dc2626; margin-bottom: 16px; }
     .success-msg { background: #f0fdf4; border: 2px solid #10b981; border-radius: 10px; padding: 12px 16px; font-size: 14px; color: #065f46; font-weight: 500; margin-top: 12px; }
     .error-msg { background: #fef2f2; border: 2px solid #fecaca; border-radius: 10px; padding: 12px 16px; font-size: 14px; color: #dc2626; font-weight: 500; margin-top: 12px; }
+
+    /* RENOVATION */
+    .reno-budget-bar { background: #f1f5f9; border-radius: 12px; height: 20px; overflow: hidden; margin: 12px 0; }
+    .reno-budget-fill { height: 100%; border-radius: 12px; transition: width 0.5s; display: flex; align-items: center; padding-left: 10px; }
+    .reno-budget-fill-text { font-size: 11px; font-weight: 700; color: white; white-space: nowrap; }
+    .reno-cat { background: white; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-bottom: 16px; overflow: hidden; }
+    .reno-cat-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+    .reno-cat-title { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; color: #1e293b; }
+    .reno-cat-total { font-size: 14px; font-weight: 700; color: #667eea; }
+    .reno-items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; padding: 16px; }
+    @media (max-width: 600px) { .reno-items-grid { grid-template-columns: 1fr; } }
+    .reno-item { border: 2px solid #e2e8f0; border-radius: 14px; overflow: hidden; transition: all 0.2s; position: relative; }
+    .reno-item.chosen { border-color: #10b981; background: #f0fdf4; }
+    .reno-item.paid { border-color: #667eea; background: #f0f4ff; }
+    .reno-item-img { width: 100%; height: 140px; object-fit: cover; background: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 40px; }
+    .reno-item-img img { width: 100%; height: 140px; object-fit: cover; }
+    .reno-item-body { padding: 12px 14px; }
+    .reno-item-name { font-size: 14px; font-weight: 600; color: #1e293b; margin-bottom: 4px; }
+    .reno-item-price { font-size: 18px; font-weight: 700; color: #667eea; margin-bottom: 6px; }
+    .reno-item-total { font-size: 12px; color: #94a3b8; margin-bottom: 8px; }
+    .reno-item-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    .status-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+    .status-badge.orienterend { background: #f1f5f9; color: #64748b; }
+    .status-badge.offerte { background: #fef3c7; color: #d97706; }
+    .status-badge.gekozen { background: #dcfce7; color: #16a34a; }
+    .status-badge.betaald { background: #dbeafe; color: #2563eb; }
+    .chosen-ribbon { position: absolute; top: 10px; right: 10px; background: #10b981; color: white; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+    .url-fetch-bar { display: flex; gap: 8px; margin-bottom: 16px; }
+    .url-fetch-bar input { flex: 1; }
+    .reno-add-cat { background: #f8faff; border: 2px dashed #667eea; border-radius: 14px; padding: 20px; text-align: center; cursor: pointer; color: #667eea; font-weight: 600; font-size: 14px; margin-bottom: 16px; transition: background 0.2s; }
+    .reno-add-cat:hover { background: #f0f4ff; }
+    .chosen-star { color: #10b981; font-size: 16px; }
+
     @media (max-width: 600px) {
       .house-item { flex-direction: column; align-items: flex-start; gap: 10px; }
       .house-right { width: 100%; justify-content: flex-start; }
@@ -212,6 +240,20 @@ const CAT_COLORS = {
   appliances:'#06b6d4', garden:'#10b981', cleaning:'#f97316',
 };
 
+const STATUS_OPTIONS = [
+  { id: 'orienterend', label: 'Oriënterend', color: '#64748b' },
+  { id: 'offerte', label: 'Offerte aangevraagd', color: '#d97706' },
+  { id: 'gekozen', label: 'Gekozen', color: '#16a34a' },
+  { id: 'betaald', label: 'Betaald', color: '#2563eb' },
+];
+
+const PRICE_TYPES = [
+  { id: 'total', label: 'Totaalprijs' },
+  { id: 'm2', label: 'Per m²' },
+  { id: 'piece', label: 'Per stuk' },
+  { id: 'hour', label: 'Per uur' },
+];
+
 function getCategoryInfo(id, isHouse=false) {
   const list = isHouse ? HOUSE_CATEGORIES : CATEGORIES;
   return list.find(c => c.id === id) || list[list.length - 1];
@@ -229,13 +271,9 @@ function LogoOrIcon({ name, category }) {
     const map = {
       spotify:'spotify.com', netflix:'netflix.com', amazon:'amazon.com',
       google:'google.com', apple:'apple.com', microsoft:'microsoft.com',
-      youtube:'youtube.com', disney:'disneyplus.com', linkedin:'linkedin.com',
-      dropbox:'dropbox.com', slack:'slack.com', adobe:'adobe.com',
-      zoom:'zoom.us', paypal:'paypal.com', uber:'uber.com',
-      airbnb:'airbnb.com', ikea:'ikea.com', abn:'abnamro.nl',
-      ing:'ing.nl', rabobank:'rabobank.nl', ns:'ns.nl',
-      'albert heijn':'ah.nl', vodafone:'vodafone.com', kpn:'kpn.com',
-      ziggo:'ziggo.nl', odido:'odido.nl',
+      ikea:'ikea.com', abn:'abnamro.nl', ing:'ing.nl',
+      rabobank:'rabobank.nl', 'albert heijn':'ah.nl', vodafone:'vodafone.com',
+      kpn:'kpn.com', ziggo:'ziggo.nl', odido:'odido.nl',
     };
     const lower = n.toLowerCase();
     for (const [k, v] of Object.entries(map)) { if (lower.includes(k)) return v; }
@@ -501,6 +539,7 @@ function Main({ session }) {
     { id:'her', label:`💗 ${settings.her_name}` },
     { id:'shared', label:'🤝 Shared' },
     { id:'house', label:'🏠 Huis' },
+    { id:'renovation', label:'🔨 Verbouwing' },
     { id:'accounts', label:'🏦 Accounts' },
     { id:'settings', label:'⚙️ Settings' },
   ];
@@ -522,8 +561,362 @@ function Main({ session }) {
         {tab==='her' && <PersonTab person="her" expenses={expenses} incomes={incomes} settings={settings} categoryOrder={categoryOrder} onReorder={saveCategoryOrder} onRefresh={fetchAll} />}
         {tab==='shared' && <SharedTab expenses={expenses} settings={settings} categoryOrder={categoryOrder} onReorder={saveCategoryOrder} onRefresh={fetchAll} />}
         {tab==='house' && <HouseTab houseExpenses={houseExpenses} settings={settings} onRefresh={fetchAll} />}
+        {tab==='renovation' && <RenovationTab settings={settings} />}
         {tab==='accounts' && <AccountsTab accounts={accounts} settings={settings} onRefresh={fetchAll} />}
         {tab==='settings' && <SettingsTab settings={settings} onRefresh={fetchAll} />}
+      </div>
+    </div>
+  );
+}
+
+// ── RENOVATION TAB ───────────────────────────────────────────────────────────
+function RenovationTab({ settings }) {
+  const [categories, setCategories] = useState([]);
+  const [items, setItems] = useState([]);
+  const [budget, setBudget] = useState(0);
+  const [editingBudget, setEditingBudget] = useState(false);
+  const [tempBudget, setTempBudget] = useState('');
+  const [showAddCat, setShowAddCat] = useState(false);
+  const [newCat, setNewCat] = useState({ name:'', icon:'🔨' });
+  const [addingItemToCat, setAddingItemToCat] = useState(null);
+  const [fetchingUrl, setFetchingUrl] = useState(false);
+
+  const fetchReno = useCallback(async () => {
+    const [catRes, itemRes, budgetRes] = await Promise.all([
+      supabase.from('renovation_categories').select('*').order('sort_order'),
+      supabase.from('renovation_items').select('*').order('created_at'),
+      supabase.from('renovation_settings').select('*').eq('id',1).single(),
+    ]);
+    setCategories(catRes.data||[]);
+    setItems(itemRes.data||[]);
+    if (budgetRes.data) setBudget(Number(budgetRes.data.total_budget)||0);
+  }, []);
+
+  useEffect(() => { fetchReno(); }, [fetchReno]);
+
+  const totalPlanned = items.filter(i=>i.is_chosen||i.status==='betaald').reduce((s,i)=>s+calcTotal(i),0);
+  const totalPaid = items.filter(i=>i.status==='betaald').reduce((s,i)=>s+calcTotal(i),0);
+  const totalOrienting = items.reduce((s,i)=>s+calcTotal(i),0);
+  const remaining = budget - totalPlanned;
+  const pct = budget > 0 ? Math.min((totalPlanned/budget)*100, 100) : 0;
+  const paidPct = budget > 0 ? Math.min((totalPaid/budget)*100, 100) : 0;
+
+  function calcTotal(item) {
+    const price = Number(item.price)||0;
+    const qty = Number(item.quantity)||1;
+    if (item.price_type === 'total') return price;
+    return price * qty;
+  }
+
+  const saveBudget = async () => {
+    await supabase.from('renovation_settings').update({ total_budget: parseFloat(tempBudget)||0 }).eq('id',1);
+    setEditingBudget(false); fetchReno();
+  };
+
+  const addCategory = async (e) => {
+    e.preventDefault();
+    const maxOrder = categories.length > 0 ? Math.max(...categories.map(c=>c.sort_order||0)) : 0;
+    await supabase.from('renovation_categories').insert({ name:newCat.name, icon:newCat.icon, sort_order:maxOrder+1 });
+    setNewCat({ name:'', icon:'🔨' }); setShowAddCat(false); fetchReno();
+  };
+
+  const deleteCategory = async (id) => {
+    await supabase.from('renovation_categories').delete().eq('id',id);
+    fetchReno();
+  };
+
+  const updateItemStatus = async (id, status) => {
+    await supabase.from('renovation_items').update({ status }).eq('id',id);
+    fetchReno();
+  };
+
+  const chooseItem = async (catId, itemId) => {
+    const catItems = items.filter(i=>i.category_id===catId);
+    await Promise.all(catItems.map(i=>supabase.from('renovation_items').update({ is_chosen: i.id===itemId }).eq('id',i.id)));
+    fetchReno();
+  };
+
+  const deleteItem = async (id) => {
+    await supabase.from('renovation_items').delete().eq('id',id);
+    fetchReno();
+  };
+
+  const fetchFromUrl = async (url, catId, setFormData) => {
+    if (!settings.openai_key) { alert('Voeg eerst je OpenAI API key toe in Settings.'); return; }
+    setFetchingUrl(true);
+    try {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${settings.openai_key}` },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [{ role:'user', content: `Haal productinformatie op van deze URL: ${url}. Geef een JSON terug met: { "name": "productnaam", "price": getal (prijs), "price_type": "total" of "m2" of "piece" of "hour", "image_url": "url van productafbeelding", "notes": "korte omschrijving" }. Als je de pagina niet kunt ophalen, schat dan op basis van de URL.` }],
+          max_tokens: 500,
+        })
+      });
+      const data = await res.json();
+      const text = data.choices?.[0]?.message?.content || '';
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        const parsed = JSON.parse(jsonMatch[0]);
+        setFormData(prev => ({ ...prev, ...parsed, url }));
+      }
+    } catch(err) { console.error(err); }
+    setFetchingUrl(false);
+  };
+
+  const barColor = pct > 90 ? '#ef4444' : pct > 70 ? '#f59e0b' : '#10b981';
+
+  return (
+    <div>
+      {/* Budget overview */}
+      <div className="networth-total mb-16" style={{background:'linear-gradient(135deg, #f59e0b, #d97706)'}}>
+        <div className="networth-label">Verbouwingsbudget</div>
+        {editingBudget
+          ? <div style={{display:'flex',gap:8,alignItems:'center',marginTop:8}}>
+              <input type="number" value={tempBudget} onChange={e=>setTempBudget(e.target.value)} style={{padding:'8px 12px',borderRadius:8,border:'none',fontSize:20,fontWeight:700,width:180}} />
+              <button className="add-btn" style={{background:'white',color:'#d97706',padding:'8px 16px'}} onClick={saveBudget}>Opslaan</button>
+              <button className="add-btn secondary" style={{padding:'8px 16px'}} onClick={()=>setEditingBudget(false)}>Annuleren</button>
+            </div>
+          : <div style={{display:'flex',alignItems:'center',gap:12}}>
+              <div className="networth-value">{fmtEur(budget)}</div>
+              <button onClick={()=>{ setTempBudget(budget); setEditingBudget(true); }} style={{background:'rgba(255,255,255,0.2)',border:'none',borderRadius:8,padding:'6px 12px',color:'white',cursor:'pointer',fontSize:13}}>✏️ Wijzigen</button>
+            </div>
+        }
+      </div>
+
+      <div className="grid-4 mb-24">
+        <div className="stat-card"><div className="stat-label">Totaal gepland</div><div className="stat-value purple">{fmtEur(totalPlanned)}</div><div className="stat-sub">Gekozen items</div></div>
+        <div className="stat-card"><div className="stat-label">Al betaald</div><div className="stat-value green">{fmtEur(totalPaid)}</div></div>
+        <div className="stat-card"><div className="stat-label">Nog beschikbaar</div><div className={`stat-value ${remaining<0?'red':'green'}`}>{fmtEur(remaining)}</div></div>
+        <div className="stat-card"><div className="stat-label">Alle opties samen</div><div className="stat-value orange">{fmtEur(totalOrienting)}</div><div className="stat-sub">Incl. alternatieven</div></div>
+      </div>
+
+      {/* Budget bar */}
+      <div className="card mb-24">
+        <div style={{fontSize:14,fontWeight:600,color:'#475569',marginBottom:8}}>Budgetverloop</div>
+        <div className="reno-budget-bar">
+          <div className="reno-budget-fill" style={{width:`${pct}%`,background:barColor}}>
+            {pct > 15 && <span className="reno-budget-fill-text">{Math.round(pct)}% gebruikt</span>}
+          </div>
+        </div>
+        <div style={{display:'flex',justifyContent:'space-between',fontSize:12,color:'#94a3b8',marginTop:4}}>
+          <span>Betaald {fmtEur(totalPaid)}</span>
+          <span>Gepland {fmtEur(totalPlanned)}</span>
+          <span>Budget {fmtEur(budget)}</span>
+        </div>
+      </div>
+
+      {/* Add category */}
+      {showAddCat
+        ? <form onSubmit={addCategory} className="card mb-16" style={{borderLeft:'4px solid #667eea'}}>
+            <div style={{fontSize:15,fontWeight:700,marginBottom:12}}>Nieuwe categorie</div>
+            <div className="form-row">
+              <div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. Vloeren" value={newCat.name} onChange={e=>setNewCat({...newCat,name:e.target.value})} required /></div>
+              <div className="form-group"><label className="form-label">Icoon (emoji)</label><input className="form-input" placeholder="🔨" value={newCat.icon} onChange={e=>setNewCat({...newCat,icon:e.target.value})} /></div>
+            </div>
+            <div style={{display:'flex',gap:8}}>
+              <button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Toevoegen</button>
+              <button className="add-btn secondary" type="button" onClick={()=>setShowAddCat(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button>
+            </div>
+          </form>
+        : <div className="reno-add-cat" onClick={()=>setShowAddCat(true)}>+ Nieuwe categorie toevoegen</div>
+      }
+
+      {/* Categories */}
+      {categories.length === 0
+        ? <div className="empty"><div className="empty-icon">🔨</div>Voeg een categorie toe om te beginnen</div>
+        : categories.map(cat => {
+          const catItems = items.filter(i=>i.category_id===cat.id);
+          const chosenItem = catItems.find(i=>i.is_chosen);
+          const catTotal = chosenItem ? calcTotal(chosenItem) : 0;
+          return (
+            <div key={cat.id} className="reno-cat">
+              <div className="reno-cat-header">
+                <div className="reno-cat-title">
+                  <span>{cat.icon}</span>
+                  <span>{cat.name}</span>
+                  <span style={{fontSize:13,color:'#94a3b8',fontWeight:400}}>({catItems.length} opties)</span>
+                </div>
+                <div style={{display:'flex',alignItems:'center',gap:12}}>
+                  {chosenItem && <span className="reno-cat-total">{fmtEur(catTotal)} gekozen</span>}
+                  <button className="add-btn secondary" style={{padding:'6px 14px',fontSize:12}} onClick={()=>setAddingItemToCat(addingItemToCat===cat.id?null:cat.id)}>+ Optie toevoegen</button>
+                  <button className="delete-btn" onClick={()=>deleteCategory(cat.id)}>🗑</button>
+                </div>
+              </div>
+
+              {addingItemToCat===cat.id && (
+                <div style={{padding:'0 16px 16px'}}>
+                  <AddItemForm
+                    catId={cat.id}
+                    settings={settings}
+                    fetchingUrl={fetchingUrl}
+                    onFetchUrl={fetchFromUrl}
+                    onSave={()=>{ setAddingItemToCat(null); fetchReno(); }}
+                    onCancel={()=>setAddingItemToCat(null)}
+                  />
+                </div>
+              )}
+
+              {catItems.length === 0
+                ? <div style={{padding:'20px',textAlign:'center',color:'#94a3b8',fontSize:14}}>Nog geen opties toegevoegd</div>
+                : <div className="reno-items-grid">
+                    {catItems.map(item => (
+                      <RenovationItemCard
+                        key={item.id}
+                        item={item}
+                        calcTotal={calcTotal}
+                        onChoose={()=>chooseItem(cat.id, item.id)}
+                        onStatusChange={(s)=>updateItemStatus(item.id,s)}
+                        onDelete={()=>deleteItem(item.id)}
+                        onRefresh={fetchReno}
+                      />
+                    ))}
+                  </div>
+              }
+            </div>
+          );
+        })
+      }
+    </div>
+  );
+}
+
+function AddItemForm({ catId, settings, fetchingUrl, onFetchUrl, onSave, onCancel }) {
+  const [url, setUrl] = useState('');
+  const [form, setForm] = useState({ name:'', price:'', price_type:'total', quantity:'1', unit:'stuk', image_url:'', notes:'', status:'orienterend' });
+
+  const handleFetch = () => { if (url) onFetchUrl(url, catId, setForm); };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await supabase.from('renovation_items').insert({
+      category_id: catId, name:form.name, url, image_url:form.image_url,
+      price:parseFloat(form.price)||0, price_type:form.price_type,
+      quantity:parseFloat(form.quantity)||1, unit:form.unit,
+      notes:form.notes, status:form.status, is_chosen:false,
+    });
+    onSave();
+  };
+
+  return (
+    <form onSubmit={handleSubmit} style={{background:'#f8faff',borderRadius:12,padding:16,border:'2px solid #667eea',marginTop:12}}>
+      <div style={{fontSize:13,fontWeight:600,color:'#667eea',marginBottom:12}}>Nieuwe optie toevoegen</div>
+      <div className="url-fetch-bar">
+        <input className="form-input" placeholder="Plak een product URL…" value={url} onChange={e=>setUrl(e.target.value)} />
+        <button type="button" className="add-btn" style={{whiteSpace:'nowrap',padding:'10px 16px',fontSize:13}} onClick={handleFetch} disabled={fetchingUrl}>
+          {fetchingUrl?'⏳ Laden…':'🔍 Ophalen'}
+        </button>
+      </div>
+      {form.image_url && <img src={form.image_url} alt="preview" style={{width:'100%',height:120,objectFit:'cover',borderRadius:10,marginBottom:12}} onError={e=>e.target.style.display='none'} />}
+      <div className="form-row">
+        <div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="Productnaam" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required /></div>
+        <div className="form-group"><label className="form-label">Prijs (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.price} onChange={e=>setForm({...form,price:e.target.value})} required /></div>
+      </div>
+      <div className="form-row">
+        <div className="form-group">
+          <label className="form-label">Prijstype</label>
+          <select className="form-select" value={form.price_type} onChange={e=>setForm({...form,price_type:e.target.value})}>
+            {PRICE_TYPES.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}
+          </select>
+        </div>
+        {form.price_type !== 'total' && (
+          <div className="form-group">
+            <label className="form-label">{form.price_type==='hour'?'Aantal uren':'Aantal m² / stuks'}</label>
+            <input className="form-input" type="number" step="0.1" value={form.quantity} onChange={e=>setForm({...form,quantity:e.target.value})} />
+          </div>
+        )}
+      </div>
+      <div className="form-row">
+        <div className="form-group">
+          <label className="form-label">Status</label>
+          <select className="form-select" value={form.status} onChange={e=>setForm({...form,status:e.target.value})}>
+            {STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}
+          </select>
+        </div>
+        <div className="form-group"><label className="form-label">Afbeelding URL (optioneel)</label><input className="form-input" placeholder="https://..." value={form.image_url} onChange={e=>setForm({...form,image_url:e.target.value})} /></div>
+      </div>
+      <div className="form-group" style={{marginBottom:12}}><label className="form-label">Notities</label><input className="form-input" placeholder="Optionele notitie…" value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})} /></div>
+      <div style={{display:'flex',gap:8}}>
+        <button className="add-btn green" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>
+        <button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button>
+      </div>
+    </form>
+  );
+}
+
+function RenovationItemCard({ item, calcTotal, onChoose, onStatusChange, onDelete, onRefresh }) {
+  const [editing, setEditing] = useState(false);
+  const [form, setForm] = useState({ name:item.name, price:item.price, price_type:item.price_type, quantity:item.quantity, unit:item.unit||'stuk', image_url:item.image_url||'', notes:item.notes||'', status:item.status, url:item.url||'' });
+  const total = calcTotal(item);
+  const statusInfo = STATUS_OPTIONS.find(s=>s.id===item.status)||STATUS_OPTIONS[0];
+
+  const saveEdit = async (e) => {
+    e.preventDefault();
+    await supabase.from('renovation_items').update({ name:form.name, price:parseFloat(form.price)||0, price_type:form.price_type, quantity:parseFloat(form.quantity)||1, unit:form.unit, image_url:form.image_url, notes:form.notes, status:form.status, url:form.url }).eq('id',item.id);
+    setEditing(false); onRefresh();
+  };
+
+  if (editing) {
+    return (
+      <div style={{gridColumn:'1/-1'}}>
+        <form onSubmit={saveEdit} style={{background:'#f8faff',borderRadius:12,padding:16,border:'2px solid #667eea'}}>
+          <div style={{fontSize:13,fontWeight:600,color:'#667eea',marginBottom:12}}>Bewerken</div>
+          {form.image_url && <img src={form.image_url} alt="preview" style={{width:'100%',height:100,objectFit:'cover',borderRadius:10,marginBottom:12}} onError={e=>e.target.style.display='none'} />}
+          <div className="form-row">
+            <div className="form-group"><label className="form-label">Naam</label><input className="form-input" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required /></div>
+            <div className="form-group"><label className="form-label">Prijs (€)</label><input className="form-input" type="number" step="0.01" value={form.price} onChange={e=>setForm({...form,price:e.target.value})} /></div>
+          </div>
+          <div className="form-row">
+            <div className="form-group"><label className="form-label">Prijstype</label><select className="form-select" value={form.price_type} onChange={e=>setForm({...form,price_type:e.target.value})}>{PRICE_TYPES.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}</select></div>
+            {form.price_type!=='total' && <div className="form-group"><label className="form-label">Aantal</label><input className="form-input" type="number" step="0.1" value={form.quantity} onChange={e=>setForm({...form,quantity:e.target.value})} /></div>}
+          </div>
+          <div className="form-row">
+            <div className="form-group"><label className="form-label">Status</label><select className="form-select" value={form.status} onChange={e=>setForm({...form,status:e.target.value})}>{STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select></div>
+            <div className="form-group"><label className="form-label">Afbeelding URL</label><input className="form-input" value={form.image_url} onChange={e=>setForm({...form,image_url:e.target.value})} /></div>
+          </div>
+          <div className="form-group" style={{marginBottom:12}}><label className="form-label">URL</label><input className="form-input" value={form.url} onChange={e=>setForm({...form,url:e.target.value})} /></div>
+          <div className="form-group" style={{marginBottom:12}}><label className="form-label">Notities</label><input className="form-input" value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})} /></div>
+          <div style={{display:'flex',gap:8}}>
+            <button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>
+            <button className="add-btn secondary" type="button" onClick={()=>setEditing(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button>
+          </div>
+        </form>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`reno-item ${item.is_chosen?'chosen':''} ${item.status==='betaald'?'paid':''}`}>
+      {item.is_chosen && <div className="chosen-ribbon">✓ Gekozen</div>}
+      <div className="reno-item-img">
+        {item.image_url
+          ? <img src={item.image_url} alt={item.name} onError={e=>{ e.target.style.display='none'; e.target.parentElement.innerHTML='🔨'; }} />
+          : '🔨'
+        }
+      </div>
+      <div className="reno-item-body">
+        <div className="reno-item-name">{item.name}</div>
+        <div className="reno-item-price">
+          {fmtEur(item.price)}
+          {item.price_type!=='total' && <span style={{fontSize:13,color:'#94a3b8'}}> /{item.price_type==='m2'?'m²':item.price_type==='hour'?'uur':'stuk'}</span>}
+        </div>
+        {item.price_type!=='total' && (
+          <div className="reno-item-total">Totaal: {fmtEur(total)} ({item.quantity} {item.price_type==='m2'?'m²':item.price_type==='hour'?'uur':'stuks'})</div>
+        )}
+        {item.notes && <div style={{fontSize:12,color:'#64748b',marginBottom:8}}>{item.notes}</div>}
+        <div style={{display:'flex',gap:6,marginBottom:8,flexWrap:'wrap'}}>
+          <span className={`status-badge ${item.status}`}>{statusInfo.label}</span>
+          {item.url && <a href={item.url} target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:'#667eea',fontWeight:600,textDecoration:'none'}}>🔗 Link</a>}
+        </div>
+        <div className="reno-item-actions">
+          {!item.is_chosen && <button className="add-btn green" style={{padding:'5px 12px',fontSize:12}} onClick={onChoose}>✓ Kiezen</button>}
+          <select className="form-select" style={{padding:'5px 8px',fontSize:12,flex:1}} value={item.status} onChange={e=>onStatusChange(e.target.value)}>
+            {STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}
+          </select>
+          <button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button>
+          <button className="delete-btn" onClick={onDelete}>🗑</button>
+        </div>
       </div>
     </div>
   );
@@ -684,17 +1077,13 @@ function HouseTab({ houseExpenses, settings, onRefresh }) {
   const [lightboxUrl, setLightboxUrl] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const fileInputRef = useRef(null);
-
   const total = houseExpenses.reduce((s,e)=>s+Number(e.amount),0);
   const lasloTotal = houseExpenses.filter(e=>e.paid_by==='laslo').reduce((s,e)=>s+Number(e.amount),0);
   const herTotal = houseExpenses.filter(e=>e.paid_by==='her').reduce((s,e)=>s+Number(e.amount),0);
   const sharedTotal = houseExpenses.filter(e=>e.paid_by==='shared').reduce((s,e)=>s+Number(e.amount),0);
-
   const handleScanClick = () => fileInputRef.current.click();
-
   const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const file = e.target.files[0]; if (!file) return;
     setScanning(true); setScannedData(null);
     try {
       const compressed = await compressImage(file, 800, 0.6);
@@ -702,128 +1091,60 @@ function HouseTab({ houseExpenses, settings, onRefresh }) {
       reader.onload = async (ev) => {
         const base64 = ev.target.result.split(',')[1];
         const res = await fetch('https://api.openai.com/v1/chat/completions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${settings.openai_key}` },
-          body: JSON.stringify({
-            model: 'gpt-4o',
-            messages: [{ role: 'user', content: [
-              { type: 'text', text: 'Dit is een bon of factuur. Extraheer de volgende gegevens en geef ze terug als JSON: { "name": "naam van winkel/leverancier", "amount": getal, "date": "YYYY-MM-DD", "category": een van: mortgage/insurance/maintenance/renovation/furniture/appliances/garden/cleaning/utilities/other, "description": "korte omschrijving" }. Als je een waarde niet kunt vinden, gebruik dan een lege string of 0.' },
-              { type: 'image_url', image_url: { url: `data:image/jpeg;base64,${base64}` } }
-            ]}],
-            max_tokens: 500,
-          })
+          method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${settings.openai_key}`},
+          body:JSON.stringify({ model:'gpt-4o', messages:[{role:'user',content:[
+            {type:'text',text:'Dit is een bon of factuur. Extraheer de volgende gegevens en geef ze terug als JSON: { "name": "naam van winkel/leverancier", "amount": getal, "date": "YYYY-MM-DD", "category": een van: mortgage/insurance/maintenance/renovation/furniture/appliances/garden/cleaning/utilities/other, "description": "korte omschrijving" }. Als je een waarde niet kunt vinden, gebruik dan een lege string of 0.'},
+            {type:'image_url',image_url:{url:`data:image/jpeg;base64,${base64}`}}
+          ]}], max_tokens:500 })
         });
         const data = await res.json();
-        const text = data.choices?.[0]?.message?.content || '';
+        const text = data.choices?.[0]?.message?.content||'';
         const jsonMatch = text.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-          const parsed = JSON.parse(jsonMatch[0]);
-          setScannedData({ ...parsed, _file: compressed });
-        }
+        if (jsonMatch) { const parsed = JSON.parse(jsonMatch[0]); setScannedData({...parsed,_file:compressed}); }
         setScanning(false);
       };
       reader.readAsDataURL(compressed);
-    } catch (err) { console.error(err); setScanning(false); }
-    e.target.value = '';
+    } catch(err) { console.error(err); setScanning(false); }
+    e.target.value='';
   };
-
   const deleteHouseExpense = async (id, receiptUrl) => {
-    if (receiptUrl) {
-      const path = receiptUrl.split('/receipts/')[1];
-      if (path) await supabase.storage.from('receipts').remove([path]);
-    }
-    await supabase.from('house_expenses').delete().eq('id',id);
-    onRefresh();
+    if (receiptUrl) { const path=receiptUrl.split('/receipts/')[1]; if(path) await supabase.storage.from('receipts').remove([path]); }
+    await supabase.from('house_expenses').delete().eq('id',id); onRefresh();
   };
-
   return (
     <div>
-      {lightboxUrl && (
-        <div className="modal-overlay" onClick={()=>setLightboxUrl(null)}>
-          <button className="modal-close" onClick={()=>setLightboxUrl(null)}>✕</button>
-          <img className="modal-img" src={lightboxUrl} alt="bon" />
-        </div>
-      )}
+      {lightboxUrl && (<div className="modal-overlay" onClick={()=>setLightboxUrl(null)}><button className="modal-close" onClick={()=>setLightboxUrl(null)}>✕</button><img className="modal-img" src={lightboxUrl} alt="bon" /></div>)}
       <input ref={fileInputRef} type="file" accept="image/*" capture="environment" style={{display:'none'}} onChange={handleFileChange} />
-
-      {!settings.openai_key && (
-        <div style={{background:'#fef3c7',border:'2px solid #f59e0b',borderRadius:12,padding:16,marginBottom:24,fontSize:14,color:'#92400e'}}>
-          ⚠️ Voeg eerst je OpenAI API key toe via ⚙️ Settings om de bon-scanner te gebruiken.
-        </div>
-      )}
-
-      <div className="scan-hero" onClick={handleScanClick}>
-        <div className="scan-hero-icon">📸</div>
-        <div className="scan-hero-title">Bon scannen</div>
-        <div className="scan-hero-sub">Tik hier om je camera te openen en een foto te maken van een bon</div>
-      </div>
-
-      {scanning && (
-        <div className="scan-processing">
-          <div className="scan-processing-icon">⚙️</div>
-          <div style={{fontSize:15,fontWeight:600,color:'#667eea'}}>Bon wordt verwerkt…</div>
-          <div style={{fontSize:13,color:'#94a3b8',marginTop:4}}>Even geduld, AI leest de bon</div>
-        </div>
-      )}
-
-      {scannedData && (
-        <div style={{marginBottom:24}}>
-          <div className="scan-result-preview">
-            <div className="scan-result-title">✅ Bon gescand! Controleer en sla op:</div>
-          </div>
-          <HouseExpenseForm settings={settings} prefill={scannedData} prefillFile={scannedData._file} onSave={()=>{ setScannedData(null); onRefresh(); }} onCancel={()=>setScannedData(null)} />
-        </div>
-      )}
-
+      {!settings.openai_key && (<div style={{background:'#fef3c7',border:'2px solid #f59e0b',borderRadius:12,padding:16,marginBottom:24,fontSize:14,color:'#92400e'}}>⚠️ Voeg eerst je OpenAI API key toe via ⚙️ Settings om de bon-scanner te gebruiken.</div>)}
+      <div className="scan-hero" onClick={handleScanClick}><div className="scan-hero-icon">📸</div><div className="scan-hero-title">Bon scannen</div><div className="scan-hero-sub">Tik hier om je camera te openen en een foto te maken van een bon</div></div>
+      {scanning && (<div className="scan-processing"><div className="scan-processing-icon">⚙️</div><div style={{fontSize:15,fontWeight:600,color:'#667eea'}}>Bon wordt verwerkt…</div><div style={{fontSize:13,color:'#94a3b8',marginTop:4}}>Even geduld, AI leest de bon</div></div>)}
+      {scannedData && (<div style={{marginBottom:24}}><div className="scan-result-preview"><div className="scan-result-title">✅ Bon gescand! Controleer en sla op:</div></div><HouseExpenseForm settings={settings} prefill={scannedData} prefillFile={scannedData._file} onSave={()=>{setScannedData(null);onRefresh();}} onCancel={()=>setScannedData(null)} /></div>)}
       <div className="grid-4 mb-24">
         <div className="stat-card"><div className="stat-label">Totaal huis</div><div className="stat-value" style={{color:'#f59e0b'}}>{fmtEur(total)}</div></div>
         <div className="stat-card"><div className="stat-label"><span className="dot laslo"></span>{settings.laslo_name}</div><div className="stat-value purple">{fmtEur(lasloTotal)}</div></div>
         <div className="stat-card"><div className="stat-label"><span className="dot her"></span>{settings.her_name}</div><div className="stat-value" style={{color:'#f472b6'}}>{fmtEur(herTotal)}</div></div>
         <div className="stat-card"><div className="stat-label"><span className="dot shared"></span>Gedeeld</div><div className="stat-value green">{fmtEur(sharedTotal)}</div></div>
       </div>
-
       <div className="card">
-        <div className="section-header">
-          <div className="section-title">🏠 Huiskosten</div>
-          <button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Handmatig toevoegen'}</button>
-        </div>
+        <div className="section-header"><div className="section-title">🏠 Huiskosten</div><button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Handmatig toevoegen'}</button></div>
         {showForm && <HouseExpenseForm settings={settings} onSave={()=>{onRefresh();setShowForm(false);}} onCancel={()=>setShowForm(false)} />}
-        {houseExpenses.length===0
-          ? <div className="empty"><div className="empty-icon">🏠</div>Nog geen huiskosten toegevoegd</div>
+        {houseExpenses.length===0 ? <div className="empty"><div className="empty-icon">🏠</div>Nog geen huiskosten toegevoegd</div>
           : houseExpenses.map(e => {
             const cat = getCategoryInfo(e.category, true);
             return (
               <div key={e.id}>
                 {editingId===e.id
-                  ? <HouseExpenseForm settings={settings} prefill={e} isEdit={true}
-                      onSave={async (formData, file) => {
-                        let receipt_url = e.receipt_url;
-                        if (file) {
-                          const compressed = await compressImage(file, 800, 0.6);
-                          const fileName = `${Date.now()}.jpg`;
-                          await supabase.storage.from('receipts').upload(fileName, compressed, { contentType:'image/jpeg', upsert:true });
-                          const { data: urlData } = supabase.storage.from('receipts').getPublicUrl(fileName);
-                          receipt_url = urlData.publicUrl;
-                        }
-                        await supabase.from('house_expenses').update({ ...formData, receipt_url }).eq('id', e.id);
-                        setEditingId(null); onRefresh();
-                      }}
-                      onCancel={()=>setEditingId(null)} />
+                  ? <HouseExpenseForm settings={settings} prefill={e} isEdit={true} onSave={async(formData,file)=>{ let receipt_url=e.receipt_url; if(file){const compressed=await compressImage(file,800,0.6);const fileName=`${Date.now()}.jpg`;await supabase.storage.from('receipts').upload(fileName,compressed,{contentType:'image/jpeg',upsert:true});const{data:urlData}=supabase.storage.from('receipts').getPublicUrl(fileName);receipt_url=urlData.publicUrl;} await supabase.from('house_expenses').update({...formData,receipt_url}).eq('id',e.id);setEditingId(null);onRefresh();}} onCancel={()=>setEditingId(null)} />
                   : <div className="house-item">
                       <div className="house-left">
-                        <div className="house-icon">
-                          {e.receipt_url ? <img src={e.receipt_url} alt="bon" onClick={()=>setLightboxUrl(e.receipt_url)} /> : cat.icon}
-                        </div>
-                        <div>
-                          <div className="house-name">{e.name}</div>
-                          <div className="house-meta">{cat.label} · {fmtDate(e.date)}{e.description?' · '+e.description:''}</div>
-                        </div>
+                        <div className="house-icon">{e.receipt_url?<img src={e.receipt_url} alt="bon" onClick={()=>setLightboxUrl(e.receipt_url)} />:cat.icon}</div>
+                        <div><div className="house-name">{e.name}</div><div className="house-meta">{cat.label} · {fmtDate(e.date)}{e.description?' · '+e.description:''}</div></div>
                       </div>
                       <div className="house-right">
                         <span className={`paid-badge ${e.paid_by}`}>{e.paid_by==='laslo'?settings.laslo_name:e.paid_by==='her'?settings.her_name:'Gedeeld'}</span>
                         <div className="house-amount">{fmtEur(e.amount)}</div>
                         <button className="delete-btn" onClick={()=>setEditingId(e.id)}>✏️</button>
-                        <button className="delete-btn" onClick={()=>deleteHouseExpense(e.id, e.receipt_url)}>🗑</button>
+                        <button className="delete-btn" onClick={()=>deleteHouseExpense(e.id,e.receipt_url)}>🗑</button>
                       </div>
                     </div>
                 }
@@ -838,43 +1159,24 @@ function HouseTab({ houseExpenses, settings, onRefresh }) {
 
 function HouseExpenseForm({ settings, prefill={}, prefillFile=null, isEdit=false, onSave, onCancel }) {
   const today = new Date().toISOString().split('T')[0];
-  const [form, setForm] = useState({
-    name: prefill.name||'', amount: prefill.amount||'', category: prefill.category||'other',
-    description: prefill.description||'', date: prefill.date||today, paid_by: prefill.paid_by||'shared',
-  });
+  const [form, setForm] = useState({ name:prefill.name||'', amount:prefill.amount||'', category:prefill.category||'other', description:prefill.description||'', date:prefill.date||today, paid_by:prefill.paid_by||'shared' });
   const [file, setFile] = useState(prefillFile||null);
   const [preview, setPreview] = useState(null);
   const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setPreview(url);
-      return () => URL.revokeObjectURL(url);
-    }
-  }, [file]);
-
+  useEffect(() => { if(file){const url=URL.createObjectURL(file);setPreview(url);return()=>URL.revokeObjectURL(url);} }, [file]);
   const handleSubmit = async (e) => {
     e.preventDefault(); setSaving(true);
     try {
-      if (isEdit) {
-        await onSave(form, file);
-      } else {
-        let receipt_url = null;
-        if (file) {
-          const compressed = file.type === 'image/jpeg' ? file : await compressImage(file, 800, 0.6);
-          const fileName = `${Date.now()}.jpg`;
-          await supabase.storage.from('receipts').upload(fileName, compressed, { contentType:'image/jpeg', upsert:true });
-          const { data: urlData } = supabase.storage.from('receipts').getPublicUrl(fileName);
-          receipt_url = urlData.publicUrl;
-        }
-        await supabase.from('house_expenses').insert({ name:form.name, amount:parseFloat(form.amount), category:form.category, description:form.description, date:form.date, paid_by:form.paid_by, receipt_url });
+      if(isEdit){ await onSave(form,file); }
+      else {
+        let receipt_url=null;
+        if(file){const compressed=file.type==='image/jpeg'?file:await compressImage(file,800,0.6);const fileName=`${Date.now()}.jpg`;await supabase.storage.from('receipts').upload(fileName,compressed,{contentType:'image/jpeg',upsert:true});const{data:urlData}=supabase.storage.from('receipts').getPublicUrl(fileName);receipt_url=urlData.publicUrl;}
+        await supabase.from('house_expenses').insert({name:form.name,amount:parseFloat(form.amount),category:form.category,description:form.description,date:form.date,paid_by:form.paid_by,receipt_url});
         onSave();
       }
-    } catch(err) { console.error(err); }
+    } catch(err){console.error(err);}
     setSaving(false);
   };
-
   return (
     <form onSubmit={handleSubmit} style={{background:'#fffbeb',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #f59e0b'}}>
       <div className="form-row">
@@ -906,9 +1208,9 @@ function AccountsTab({ accounts, settings, onRefresh }) {
   const herTotal = accounts.filter(a=>a.owner==='her').reduce((s,a)=>s+Number(a.balance),0);
   const sharedTotal = accounts.filter(a=>a.owner==='shared').reduce((s,a)=>s+Number(a.balance),0);
   const netWorth = lasloTotal+herTotal+sharedTotal;
-  const saveAccount = async (e) => { e.preventDefault(); await supabase.from('accounts').insert({ name:form.name, balance:parseFloat(form.balance), owner:form.owner }); setForm({name:'',balance:'',owner:'laslo'}); setShowForm(false); onRefresh(); };
+  const saveAccount = async (e) => { e.preventDefault(); await supabase.from('accounts').insert({name:form.name,balance:parseFloat(form.balance),owner:form.owner}); setForm({name:'',balance:'',owner:'laslo'}); setShowForm(false); onRefresh(); };
   const deleteAccount = async (id) => { await supabase.from('accounts').delete().eq('id',id); onRefresh(); };
-  const updateBalance = async (id, val) => { await supabase.from('accounts').update({ balance:parseFloat(val) }).eq('id',id); onRefresh(); };
+  const updateBalance = async (id,val) => { await supabase.from('accounts').update({balance:parseFloat(val)}).eq('id',id); onRefresh(); };
   const ownerLabel = o => o==='laslo'?settings.laslo_name:o==='her'?settings.her_name:'Gedeeld';
   const ownerIcon = o => o==='laslo'?'💙':o==='her'?'💗':'🤝';
   return (
@@ -920,21 +1222,9 @@ function AccountsTab({ accounts, settings, onRefresh }) {
         <div className="stat-card"><div className="stat-label"><span className="dot shared"></span>Gedeeld</div><div className="stat-value green">{fmtEur(sharedTotal)}</div></div>
       </div>
       <div className="card">
-        <div className="section-header">
-          <div className="section-title">🏦 Bankrekeningen</div>
-          <button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Rekening toevoegen'}</button>
-        </div>
-        {showForm && (
-          <form onSubmit={saveAccount} style={{marginBottom:20}}>
-            <div className="form-row">
-              <div className="form-group"><label className="form-label">Naam rekening</label><input className="form-input" placeholder="bijv. ING Spaarrekening" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required /></div>
-              <div className="form-group"><label className="form-label">Saldo (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.balance} onChange={e=>setForm({...form,balance:e.target.value})} required /></div>
-              <div className="form-group"><label className="form-label">Van wie</label><select className="form-select" value={form.owner} onChange={e=>setForm({...form,owner:e.target.value})}><option value="laslo">{settings.laslo_name}</option><option value="her">{settings.her_name}</option><option value="shared">Gedeeld</option></select></div>
-            </div>
-            <button className="add-btn" type="submit">Opslaan</button>
-          </form>
-        )}
-        {accounts.length===0 ? <div className="empty"><div className="empty-icon">🏦</div>Nog geen rekeningen toegevoegd</div> : accounts.map(a=><AccountItem key={a.id} account={a} ownerLabel={ownerLabel} ownerIcon={ownerIcon} onDelete={deleteAccount} onUpdateBalance={updateBalance} />)}
+        <div className="section-header"><div className="section-title">🏦 Bankrekeningen</div><button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Rekening toevoegen'}</button></div>
+        {showForm && (<form onSubmit={saveAccount} style={{marginBottom:20}}><div className="form-row"><div className="form-group"><label className="form-label">Naam rekening</label><input className="form-input" placeholder="bijv. ING Spaarrekening" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required /></div><div className="form-group"><label className="form-label">Saldo (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.balance} onChange={e=>setForm({...form,balance:e.target.value})} required /></div><div className="form-group"><label className="form-label">Van wie</label><select className="form-select" value={form.owner} onChange={e=>setForm({...form,owner:e.target.value})}><option value="laslo">{settings.laslo_name}</option><option value="her">{settings.her_name}</option><option value="shared">Gedeeld</option></select></div></div><button className="add-btn" type="submit">Opslaan</button></form>)}
+        {accounts.length===0?<div className="empty"><div className="empty-icon">🏦</div>Nog geen rekeningen toegevoegd</div>:accounts.map(a=><AccountItem key={a.id} account={a} ownerLabel={ownerLabel} ownerIcon={ownerIcon} onDelete={deleteAccount} onUpdateBalance={updateBalance} />)}
       </div>
     </div>
   );
@@ -943,7 +1233,7 @@ function AccountsTab({ accounts, settings, onRefresh }) {
 function AccountItem({ account, ownerLabel, ownerIcon, onDelete, onUpdateBalance }) {
   const [editing, setEditing] = useState(false);
   const [val, setVal] = useState(account.balance);
-  const save = () => { onUpdateBalance(account.id, val); setEditing(false); };
+  const save = () => { onUpdateBalance(account.id,val); setEditing(false); };
   return (
     <div className="account-item">
       <div className="account-left">
@@ -951,10 +1241,8 @@ function AccountItem({ account, ownerLabel, ownerIcon, onDelete, onUpdateBalance
         <div><div className="account-name">{account.name}</div><div className="account-owner">{ownerLabel(account.owner)}</div></div>
       </div>
       <div style={{display:'flex',alignItems:'center',gap:10}}>
-        {editing
-          ? <><input type="number" step="0.01" value={val} onChange={e=>setVal(e.target.value)} style={{width:120,padding:'6px 10px',border:'2px solid #667eea',borderRadius:8,fontSize:14}} /><button className="add-btn" style={{padding:'6px 14px',fontSize:13}} onClick={save}>Opslaan</button><button className="add-btn secondary" style={{padding:'6px 14px',fontSize:13}} onClick={()=>setEditing(false)}>Annuleren</button></>
-          : <><div className="account-balance">{fmtEur(account.balance)}</div><button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button><button className="delete-btn" onClick={()=>onDelete(account.id)}>🗑</button></>
-        }
+        {editing?<><input type="number" step="0.01" value={val} onChange={e=>setVal(e.target.value)} style={{width:120,padding:'6px 10px',border:'2px solid #667eea',borderRadius:8,fontSize:14}} /><button className="add-btn" style={{padding:'6px 14px',fontSize:13}} onClick={save}>Opslaan</button><button className="add-btn secondary" style={{padding:'6px 14px',fontSize:13}} onClick={()=>setEditing(false)}>Annuleren</button></>
+        :<><div className="account-balance">{fmtEur(account.balance)}</div><button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button><button className="delete-btn" onClick={()=>onDelete(account.id)}>🗑</button></>}
       </div>
     </div>
   );
@@ -966,32 +1254,24 @@ function SettingsTab({ settings, onRefresh }) {
   const [pwForm, setPwForm] = useState({ newPw:'', confirmPw:'' });
   const [pwMsg, setPwMsg] = useState(null);
   const [pwLoading, setPwLoading] = useState(false);
-
   const save = async (e) => {
     e.preventDefault();
-    await supabase.from('settings').update({
-      laslo_name:form.laslo_name, her_name:form.her_name,
-      shared_pct:parseFloat(form.shared_pct), openai_key:form.openai_key
-    }).eq('id',1);
+    await supabase.from('settings').update({ laslo_name:form.laslo_name, her_name:form.her_name, shared_pct:parseFloat(form.shared_pct), openai_key:form.openai_key }).eq('id',1);
     setSaved(true); setTimeout(()=>setSaved(false),2000); onRefresh();
   };
-
   const changePassword = async (e) => {
     e.preventDefault();
-    if (pwForm.newPw !== pwForm.confirmPw) { setPwMsg({ type:'error', text:'Wachtwoorden komen niet overeen.' }); return; }
-    if (pwForm.newPw.length < 6) { setPwMsg({ type:'error', text:'Wachtwoord moet minimaal 6 tekens zijn.' }); return; }
+    if(pwForm.newPw!==pwForm.confirmPw){setPwMsg({type:'error',text:'Wachtwoorden komen niet overeen.'});return;}
+    if(pwForm.newPw.length<6){setPwMsg({type:'error',text:'Wachtwoord moet minimaal 6 tekens zijn.'});return;}
     setPwLoading(true);
-    const { error } = await supabase.auth.updateUser({ password: pwForm.newPw });
-    if (error) { setPwMsg({ type:'error', text: error.message }); }
-    else { setPwMsg({ type:'success', text:'✅ Wachtwoord succesvol gewijzigd!' }); setPwForm({ newPw:'', confirmPw:'' }); }
-    setPwLoading(false);
-    setTimeout(()=>setPwMsg(null), 4000);
+    const{error}=await supabase.auth.updateUser({password:pwForm.newPw});
+    if(error){setPwMsg({type:'error',text:error.message});}
+    else{setPwMsg({type:'success',text:'✅ Wachtwoord succesvol gewijzigd!'});setPwForm({newPw:'',confirmPw:''});}
+    setPwLoading(false); setTimeout(()=>setPwMsg(null),4000);
   };
-
-  const lasloInc = parseFloat(form.laslo_income)||0;
-  const herInc = parseFloat(form.her_income)||0;
-  const autoCalc = lasloInc>0&&herInc>0 ? Math.round((lasloInc/(lasloInc+herInc))*100) : null;
-
+  const lasloInc=parseFloat(form.laslo_income)||0;
+  const herInc=parseFloat(form.her_income)||0;
+  const autoCalc=lasloInc>0&&herInc>0?Math.round((lasloInc/(lasloInc+herInc))*100):null;
   return (
     <div>
       <div className="card mb-24">
@@ -1002,9 +1282,9 @@ function SettingsTab({ settings, onRefresh }) {
             <div className="form-group"><label className="form-label">Naam partner</label><input className="form-input" value={form.her_name} onChange={e=>setForm({...form,her_name:e.target.value})} required /></div>
           </div>
           <div style={{marginBottom:24}}>
-            <div className="form-label" style={{marginBottom:8}}>🤖 OpenAI API Key (voor bon-scanner)</div>
+            <div className="form-label" style={{marginBottom:8}}>🤖 OpenAI API Key</div>
             <input className="form-input" type="password" placeholder="sk-..." value={form.openai_key} onChange={e=>setForm({...form,openai_key:e.target.value})} style={{width:'100%',marginBottom:4}} />
-            <div style={{fontSize:12,color:'#94a3b8'}}>Wordt veilig opgeslagen in je database, niet in de code.</div>
+            <div style={{fontSize:12,color:'#94a3b8'}}>Wordt veilig opgeslagen in je database.</div>
           </div>
           <div style={{marginBottom:24}}>
             <div className="form-label" style={{marginBottom:12}}>Automatisch berekenen op basis van inkomen</div>
@@ -1012,7 +1292,7 @@ function SettingsTab({ settings, onRefresh }) {
               <div className="form-group"><label className="form-label">{form.laslo_name} maandinkomen (€)</label><input className="form-input" type="number" placeholder="0" value={form.laslo_income} onChange={e=>setForm({...form,laslo_income:e.target.value})} /></div>
               <div className="form-group"><label className="form-label">{form.her_name} maandinkomen (€)</label><input className="form-input" type="number" placeholder="0" value={form.her_income} onChange={e=>setForm({...form,her_income:e.target.value})} /></div>
             </div>
-            {autoCalc && <div style={{marginBottom:12,padding:'10px 14px',background:'#f0f4ff',borderRadius:10,fontSize:13,color:'#667eea',fontWeight:500}}>💡 Op basis van inkomen: {form.laslo_name} {autoCalc}% / {form.her_name} {100-autoCalc}%<button type="button" className="add-btn" style={{marginLeft:12,padding:'4px 12px',fontSize:12}} onClick={()=>setForm({...form,shared_pct:autoCalc})}>Toepassen</button></div>}
+            {autoCalc&&<div style={{marginBottom:12,padding:'10px 14px',background:'#f0f4ff',borderRadius:10,fontSize:13,color:'#667eea',fontWeight:500}}>💡 Op basis van inkomen: {form.laslo_name} {autoCalc}% / {form.her_name} {100-autoCalc}%<button type="button" className="add-btn" style={{marginLeft:12,padding:'4px 12px',fontSize:12}} onClick={()=>setForm({...form,shared_pct:autoCalc})}>Toepassen</button></div>}
           </div>
           <div style={{marginBottom:24}}>
             <div className="form-label" style={{marginBottom:12}}>Verdeling gedeelde uitgaven</div>
@@ -1025,22 +1305,15 @@ function SettingsTab({ settings, onRefresh }) {
           <button className="add-btn" type="submit">{saved?'✅ Opgeslagen!':'Instellingen opslaan'}</button>
         </form>
       </div>
-
       <div className="pw-section">
         <div className="pw-section-title">🔒 Wachtwoord wijzigen</div>
         <form onSubmit={changePassword}>
           <div className="form-row">
-            <div className="form-group">
-              <label className="form-label">Nieuw wachtwoord</label>
-              <input className="form-input" type="password" placeholder="Minimaal 6 tekens" value={pwForm.newPw} onChange={e=>setPwForm({...pwForm,newPw:e.target.value})} required />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Bevestig wachtwoord</label>
-              <input className="form-input" type="password" placeholder="Herhaal wachtwoord" value={pwForm.confirmPw} onChange={e=>setPwForm({...pwForm,confirmPw:e.target.value})} required />
-            </div>
+            <div className="form-group"><label className="form-label">Nieuw wachtwoord</label><input className="form-input" type="password" placeholder="Minimaal 6 tekens" value={pwForm.newPw} onChange={e=>setPwForm({...pwForm,newPw:e.target.value})} required /></div>
+            <div className="form-group"><label className="form-label">Bevestig wachtwoord</label><input className="form-input" type="password" placeholder="Herhaal wachtwoord" value={pwForm.confirmPw} onChange={e=>setPwForm({...pwForm,confirmPw:e.target.value})} required /></div>
           </div>
           <button className="add-btn danger" type="submit" disabled={pwLoading}>{pwLoading?'Bezig…':'Wachtwoord wijzigen'}</button>
-          {pwMsg && <div className={pwMsg.type==='success'?'success-msg':'error-msg'}>{pwMsg.text}</div>}
+          {pwMsg&&<div className={pwMsg.type==='success'?'success-msg':'error-msg'}>{pwMsg.text}</div>}
         </form>
       </div>
     </div>
@@ -1052,7 +1325,7 @@ function ExpenseForm({ person, isShared=false, settings, onSave }) {
   const [form, setForm] = useState({ name:'', amount:'', category:'housing', description:'', date:today, is_shared:isShared });
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await supabase.from('expenses').insert({ name:form.name, amount:parseFloat(form.amount), category:form.category, description:form.description, date:form.date, is_shared:form.is_shared, person:form.is_shared?'shared':person });
+    await supabase.from('expenses').insert({name:form.name,amount:parseFloat(form.amount),category:form.category,description:form.description,date:form.date,is_shared:form.is_shared,person:form.is_shared?'shared':person});
     onSave();
   };
   return (
@@ -1066,12 +1339,7 @@ function ExpenseForm({ person, isShared=false, settings, onSave }) {
         <div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required /></div>
       </div>
       <div className="form-group" style={{marginBottom:12}}><label className="form-label">Omschrijving (optioneel)</label><input className="form-input" placeholder="Voeg een notitie toe…" value={form.description} onChange={e=>setForm({...form,description:e.target.value})} /></div>
-      {!isShared && (
-        <div style={{marginBottom:12,display:'flex',alignItems:'center',gap:8}}>
-          <input type="checkbox" id="shared_chk" checked={form.is_shared} onChange={e=>setForm({...form,is_shared:e.target.checked})} />
-          <label htmlFor="shared_chk" style={{fontSize:14,color:'#475569',cursor:'pointer'}}>Dit is een gedeelde uitgave ({settings.shared_pct}%/{100-settings.shared_pct}%)</label>
-        </div>
-      )}
+      {!isShared&&(<div style={{marginBottom:12,display:'flex',alignItems:'center',gap:8}}><input type="checkbox" id="shared_chk" checked={form.is_shared} onChange={e=>setForm({...form,is_shared:e.target.checked})} /><label htmlFor="shared_chk" style={{fontSize:14,color:'#475569',cursor:'pointer'}}>Dit is een gedeelde uitgave ({settings.shared_pct}%/{100-settings.shared_pct}%)</label></div>)}
       <button className="add-btn" type="submit">Opslaan</button>
     </form>
   );
@@ -1082,7 +1350,7 @@ function IncomeForm({ person, onSave }) {
   const [form, setForm] = useState({ label:'', amount:'', date:today });
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await supabase.from('incomes').insert({ person, label:form.label, amount:parseFloat(form.amount), date:form.date });
+    await supabase.from('incomes').insert({person,label:form.label,amount:parseFloat(form.amount),date:form.date});
     onSave();
   };
   return (
