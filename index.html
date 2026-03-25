@@ -94,9 +94,6 @@
     .account-balance { font-size: 16px; font-weight: 700; color: #10b981; }
     .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
     .section-title { font-size: 17px; font-weight: 700; color: #1e293b; }
-    .view-toggle { display: flex; gap: 4px; background: #f1f5f9; border-radius: 8px; padding: 3px; }
-    .toggle-btn { padding: 6px 14px; border: none; background: none; border-radius: 6px; font-size: 13px; cursor: pointer; color: #64748b; font-weight: 500; transition: all 0.2s; }
-    .toggle-btn.active { background: white; color: #1e293b; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
     .empty { text-align: center; padding: 40px; color: #94a3b8; font-size: 14px; }
     .empty-icon { font-size: 40px; margin-bottom: 12px; }
     .networth-total { background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 16px; padding: 24px; color: white; margin-bottom: 16px; }
@@ -148,8 +145,6 @@
     .pw-section-title { font-size: 15px; font-weight: 700; color: #dc2626; margin-bottom: 16px; }
     .success-msg { background: #f0fdf4; border: 2px solid #10b981; border-radius: 10px; padding: 12px 16px; font-size: 14px; color: #065f46; font-weight: 500; margin-top: 12px; }
     .error-msg { background: #fef2f2; border: 2px solid #fecaca; border-radius: 10px; padding: 12px 16px; font-size: 14px; color: #dc2626; font-weight: 500; margin-top: 12px; }
-
-    /* RENOVATION */
     .reno-budget-bar { background: #f1f5f9; border-radius: 12px; height: 20px; overflow: hidden; margin: 12px 0; }
     .reno-budget-fill { height: 100%; border-radius: 12px; transition: width 0.5s; display: flex; align-items: center; padding-left: 10px; }
     .reno-budget-fill-text { font-size: 11px; font-weight: 700; color: white; white-space: nowrap; }
@@ -179,7 +174,46 @@
     .url-fetch-bar input { flex: 1; }
     .reno-add-cat { background: #f8faff; border: 2px dashed #667eea; border-radius: 14px; padding: 20px; text-align: center; cursor: pointer; color: #667eea; font-weight: 600; font-size: 14px; margin-bottom: 16px; transition: background 0.2s; }
     .reno-add-cat:hover { background: #f0f4ff; }
-    .chosen-star { color: #10b981; font-size: 16px; }
+
+    /* TIMELINE */
+    .timeline-hero { background: linear-gradient(135deg, #7c3aed, #4f46e5); border-radius: 20px; padding: 28px; color: white; margin-bottom: 24px; }
+    .timeline-hero-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .timeline-hero-sub { font-size: 14px; opacity: 0.85; margin-bottom: 20px; }
+    .timeline-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .timeline-stat { background: rgba(255,255,255,0.15); border-radius: 12px; padding: 12px; text-align: center; }
+    .timeline-stat-val { font-size: 22px; font-weight: 700; }
+    .timeline-stat-label { font-size: 12px; opacity: 0.8; margin-top: 2px; }
+    .timeline-wrapper { position: relative; padding-left: 40px; }
+    .timeline-line { position: absolute; left: 18px; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom, #667eea, #e2e8f0); border-radius: 3px; }
+    .timeline-task { position: relative; margin-bottom: 16px; }
+    .timeline-task.dragging { opacity: 0.4; }
+    .timeline-task.drag-over { border-top: 3px solid #667eea; }
+    .timeline-dot { position: absolute; left: -31px; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 2px #667eea; background: white; top: 20px; z-index: 2; transition: all 0.2s; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+    .timeline-dot.done { background: #10b981; box-shadow: 0 0 0 2px #10b981; }
+    .timeline-dot.in_progress { background: #f59e0b; box-shadow: 0 0 0 2px #f59e0b; }
+    .timeline-dot.pending { background: white; }
+    .timeline-card { background: white; border-radius: 14px; padding: 16px 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 2px solid #e2e8f0; transition: border-color 0.2s; cursor: grab; }
+    .timeline-card:active { cursor: grabbing; }
+    .timeline-card.done { border-color: #10b981; background: #f0fdf4; opacity: 0.75; }
+    .timeline-card.in_progress { border-color: #f59e0b; background: #fffbeb; }
+    .timeline-card.ai-suggested { border-left: 4px solid #8b5cf6; }
+    .timeline-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+    .timeline-card-title { font-size: 15px; font-weight: 700; color: #1e293b; }
+    .timeline-card-title.done { text-decoration: line-through; color: #94a3b8; }
+    .timeline-card-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
+    .timeline-time-badge { font-size: 12px; background: #f0f4ff; color: #667eea; padding: 2px 10px; border-radius: 20px; font-weight: 600; }
+    .timeline-ai-badge { font-size: 11px; background: #f3e8ff; color: #7c3aed; padding: 2px 10px; border-radius: 20px; font-weight: 600; }
+    .timeline-desc { font-size: 13px; color: #64748b; margin-bottom: 8px; line-height: 1.5; }
+    .timeline-tips { background: #fffbeb; border-left: 3px solid #f59e0b; padding: 8px 12px; border-radius: 0 8px 8px 0; font-size: 12px; color: #92400e; margin-bottom: 8px; }
+    .timeline-deps { font-size: 12px; color: #94a3b8; margin-bottom: 8px; }
+    .timeline-photo { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; cursor: pointer; }
+    .timeline-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    .timeline-photo-upload { border: 2px dashed #e2e8f0; border-radius: 10px; padding: 12px; text-align: center; cursor: pointer; font-size: 13px; color: #94a3b8; margin-bottom: 8px; transition: border-color 0.2s; }
+    .timeline-photo-upload:hover { border-color: #667eea; color: #667eea; }
+    .dep-arrow { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #94a3b8; padding: 4px 0; }
+    .dep-arrow-line { flex: 1; height: 1px; background: #e2e8f0; }
+    .ai-analyzing { background: linear-gradient(135deg, #7c3aed, #4f46e5); border-radius: 16px; padding: 24px; text-align: center; color: white; margin-bottom: 24px; }
+    .ai-analyzing-icon { font-size: 40px; margin-bottom: 12px; animation: spin 2s linear infinite; }
 
     @media (max-width: 600px) {
       .house-item { flex-direction: column; align-items: flex-start; gap: 10px; }
@@ -188,6 +222,7 @@
       .scan-hero-icon { font-size: 40px; }
       .scan-hero-title { font-size: 18px; }
       .form-row { grid-template-columns: 1fr; }
+      .timeline-stats { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -201,199 +236,348 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const CATEGORIES = [
-  { id: 'housing', label: 'Housing', icon: '🏠' },
-  { id: 'groceries', label: 'Groceries', icon: '🛒' },
-  { id: 'transport', label: 'Transport', icon: '🚗' },
-  { id: 'utilities', label: 'Utilities', icon: '💡' },
-  { id: 'health', label: 'Health', icon: '❤️' },
-  { id: 'dining', label: 'Dining', icon: '🍽️' },
-  { id: 'entertainment', label: 'Entertainment', icon: '🎬' },
-  { id: 'clothing', label: 'Clothing', icon: '👕' },
-  { id: 'travel', label: 'Travel', icon: '✈️' },
-  { id: 'subscriptions', label: 'Subscriptions', icon: '📱' },
-  { id: 'insurance', label: 'Insurance', icon: '🛡️' },
-  { id: 'education', label: 'Education', icon: '📚' },
-  { id: 'savings', label: 'Savings', icon: '🐖' },
-  { id: 'other', label: 'Other', icon: '📦' },
+  { id:'housing',label:'Housing',icon:'🏠'},{id:'groceries',label:'Groceries',icon:'🛒'},
+  {id:'transport',label:'Transport',icon:'🚗'},{id:'utilities',label:'Utilities',icon:'💡'},
+  {id:'health',label:'Health',icon:'❤️'},{id:'dining',label:'Dining',icon:'🍽️'},
+  {id:'entertainment',label:'Entertainment',icon:'🎬'},{id:'clothing',label:'Clothing',icon:'👕'},
+  {id:'travel',label:'Travel',icon:'✈️'},{id:'subscriptions',label:'Subscriptions',icon:'📱'},
+  {id:'insurance',label:'Insurance',icon:'🛡️'},{id:'education',label:'Education',icon:'📚'},
+  {id:'savings',label:'Savings',icon:'🐖'},{id:'other',label:'Other',icon:'📦'},
 ];
-
 const HOUSE_CATEGORIES = [
-  { id: 'mortgage', label: 'Hypotheek', icon: '🏦' },
-  { id: 'insurance', label: 'Verzekering', icon: '🛡️' },
-  { id: 'maintenance', label: 'Onderhoud', icon: '🔧' },
-  { id: 'renovation', label: 'Verbouwing', icon: '🏗️' },
-  { id: 'furniture', label: 'Meubels', icon: '🛋️' },
-  { id: 'appliances', label: 'Apparatuur', icon: '🔌' },
-  { id: 'garden', label: 'Tuin', icon: '🌿' },
-  { id: 'cleaning', label: 'Schoonmaak', icon: '🧹' },
-  { id: 'utilities', label: 'Nutsvoorzieningen', icon: '💡' },
-  { id: 'other', label: 'Overig', icon: '📦' },
+  {id:'mortgage',label:'Hypotheek',icon:'🏦'},{id:'insurance',label:'Verzekering',icon:'🛡️'},
+  {id:'maintenance',label:'Onderhoud',icon:'🔧'},{id:'renovation',label:'Verbouwing',icon:'🏗️'},
+  {id:'furniture',label:'Meubels',icon:'🛋️'},{id:'appliances',label:'Apparatuur',icon:'🔌'},
+  {id:'garden',label:'Tuin',icon:'🌿'},{id:'cleaning',label:'Schoonmaak',icon:'🧹'},
+  {id:'utilities',label:'Nutsvoorzieningen',icon:'💡'},{id:'other',label:'Overig',icon:'📦'},
 ];
-
-const CAT_COLORS = {
-  housing:'#667eea', groceries:'#10b981', transport:'#f59e0b',
-  utilities:'#06b6d4', health:'#ef4444', dining:'#f97316',
-  entertainment:'#8b5cf6', clothing:'#ec4899', travel:'#14b8a6',
-  subscriptions:'#6366f1', insurance:'#84cc16', education:'#eab308',
-  savings:'#22c55e', other:'#94a3b8', mortgage:'#667eea',
-  maintenance:'#f59e0b', renovation:'#ef4444', furniture:'#8b5cf6',
-  appliances:'#06b6d4', garden:'#10b981', cleaning:'#f97316',
-};
-
 const STATUS_OPTIONS = [
-  { id: 'orienterend', label: 'Oriënterend', color: '#64748b' },
-  { id: 'offerte', label: 'Offerte aangevraagd', color: '#d97706' },
-  { id: 'gekozen', label: 'Gekozen', color: '#16a34a' },
-  { id: 'betaald', label: 'Betaald', color: '#2563eb' },
+  {id:'orienterend',label:'Oriënterend'},{id:'offerte',label:'Offerte aangevraagd'},
+  {id:'gekozen',label:'Gekozen'},{id:'betaald',label:'Betaald'},
 ];
-
 const PRICE_TYPES = [
-  { id: 'total', label: 'Totaalprijs' },
-  { id: 'm2', label: 'Per m²' },
-  { id: 'piece', label: 'Per stuk' },
-  { id: 'hour', label: 'Per uur' },
+  {id:'total',label:'Totaalprijs'},{id:'m2',label:'Per m²'},
+  {id:'piece',label:'Per stuk'},{id:'hour',label:'Per uur'},
 ];
 
-function getCategoryInfo(id, isHouse=false) {
-  const list = isHouse ? HOUSE_CATEGORIES : CATEGORIES;
-  return list.find(c => c.id === id) || list[list.length - 1];
+function getCategoryInfo(id,isHouse=false) {
+  const list = isHouse?HOUSE_CATEGORIES:CATEGORIES;
+  return list.find(c=>c.id===id)||list[list.length-1];
 }
+function LogoOrIcon({name,category}) {
+  const [logoUrl,setLogoUrl]=useState(null);
+  const [failed,setFailed]=useState(false);
+  useEffect(()=>{
+    if(!name)return;
+    const map={spotify:'spotify.com',netflix:'netflix.com',amazon:'amazon.com',ikea:'ikea.com',ing:'ing.nl',rabobank:'rabobank.nl','albert heijn':'ah.nl',vodafone:'vodafone.com',kpn:'kpn.com',ziggo:'ziggo.nl'};
+    const lower=name.toLowerCase();
+    for(const[k,v]of Object.entries(map)){if(lower.includes(k)){setLogoUrl(`https://logo.clearbit.com/${v}`);break;}}
+  },[name]);
+  const cat=getCategoryInfo(category);
+  if(logoUrl&&!failed)return<img src={logoUrl} alt={name} onError={()=>setFailed(true)} style={{width:28,height:28,objectFit:'contain'}}/>;
+  return<span style={{fontSize:22}}>{cat.icon}</span>;
+}
+function daysUntil(d){const t=new Date();t.setHours(0,0,0,0);const x=new Date(d);x.setHours(0,0,0,0);return Math.round((x-t)/86400000);}
+function fmtDate(d){if(!d)return'';return new Date(d).toLocaleDateString('nl-NL',{day:'numeric',month:'short'});}
+function fmtEur(n){return'€'+Number(n).toLocaleString('nl-NL',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function currentMonthRange(){const now=new Date();return{start:new Date(now.getFullYear(),now.getMonth(),1).toISOString().split('T')[0],end:new Date(now.getFullYear(),now.getMonth()+1,0).toISOString().split('T')[0]};}
+async function compressImage(file,maxWidth=800,quality=0.6){return new Promise(resolve=>{const reader=new FileReader();reader.onload=e=>{const img=new Image();img.onload=()=>{const canvas=document.createElement('canvas');const ratio=Math.min(maxWidth/img.width,1);canvas.width=img.width*ratio;canvas.height=img.height*ratio;canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);canvas.toBlob(blob=>resolve(blob),'image/jpeg',quality);};img.src=e.target.result;};reader.readAsDataURL(file);});}
 
-function LogoOrIcon({ name, category }) {
-  const [logoUrl, setLogoUrl] = useState(null);
-  const [failed, setFailed] = useState(false);
-  useEffect(() => {
-    if (!name) return;
-    const domain = guessDomain(name);
-    if (domain) setLogoUrl(`https://logo.clearbit.com/${domain}`);
-  }, [name]);
-  function guessDomain(n) {
-    const map = {
-      spotify:'spotify.com', netflix:'netflix.com', amazon:'amazon.com',
-      google:'google.com', apple:'apple.com', microsoft:'microsoft.com',
-      ikea:'ikea.com', abn:'abnamro.nl', ing:'ing.nl',
-      rabobank:'rabobank.nl', 'albert heijn':'ah.nl', vodafone:'vodafone.com',
-      kpn:'kpn.com', ziggo:'ziggo.nl', odido:'odido.nl',
-    };
-    const lower = n.toLowerCase();
-    for (const [k, v] of Object.entries(map)) { if (lower.includes(k)) return v; }
-    return null;
-  }
-  const cat = getCategoryInfo(category);
-  if (logoUrl && !failed) return <img src={logoUrl} alt={name} onError={() => setFailed(true)} style={{width:28,height:28,objectFit:'contain'}} />;
-  return <span style={{fontSize:22}}>{cat.icon}</span>;
-}
+// ── TIMELINE TAB ─────────────────────────────────────────────────────────────
+function TimelineTab({settings}) {
+  const [tasks,setTasks]=useState([]);
+  const [showAddForm,setShowAddForm]=useState(false);
+  const [analyzing,setAnalyzing]=useState(false);
+  const [lightboxUrl,setLightboxUrl]=useState(null);
+  const [dragOverId,setDragOverId]=useState(null);
+  const dragItem=useRef(null);
+  const fileInputRef=useRef(null);
+  const photoTaskRef=useRef(null);
 
-function daysUntil(dateStr) {
-  const today = new Date(); today.setHours(0,0,0,0);
-  const d = new Date(dateStr); d.setHours(0,0,0,0);
-  return Math.round((d - today) / 86400000);
-}
-function fmtDate(dateStr) {
-  if (!dateStr) return '';
-  return new Date(dateStr).toLocaleDateString('nl-NL', { day:'numeric', month:'short' });
-}
-function fmtEur(n) {
-  return '€' + Number(n).toLocaleString('nl-NL', { minimumFractionDigits:2, maximumFractionDigits:2 });
-}
-function currentMonthRange() {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
-  const end = new Date(now.getFullYear(), now.getMonth()+1, 0).toISOString().split('T')[0];
-  return { start, end };
-}
+  const fetchTasks=useCallback(async()=>{
+    const{data}=await supabase.from('renovation_timeline').select('*').order('order_position');
+    setTasks(data||[]);
+  },[]);
+  useEffect(()=>{fetchTasks();},[fetchTasks]);
 
-async function compressImage(file, maxWidth=800, quality=0.6) {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const ratio = Math.min(maxWidth / img.width, 1);
-        canvas.width = img.width * ratio;
-        canvas.height = img.height * ratio;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        canvas.toBlob((blob) => resolve(blob), 'image/jpeg', quality);
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
-}
+  const totalHours=tasks.reduce((s,t)=>s+Number(t.estimated_hours||0),0);
+  const doneTasks=tasks.filter(t=>t.status==='done').length;
+  const inProgressTasks=tasks.filter(t=>t.status==='in_progress').length;
 
-function CategoryExpenseList({ expenses, pct, settings, onRefresh, categoryOrder, onReorder }) {
-  const [dragOver, setDragOver] = useState(null);
-  const dragItem = useRef(null);
-  const [editingExpense, setEditingExpense] = useState(null);
-  const catTotals = {};
-  expenses.forEach(e => {
-    const amt = e.is_shared ? Number(e.amount)*(pct/100) : Number(e.amount);
-    catTotals[e.category] = (catTotals[e.category]||0) + amt;
-  });
-  const usedCats = Object.keys(catTotals);
-  const orderedCats = [
-    ...categoryOrder.filter(c => usedCats.includes(c)),
-    ...usedCats.filter(c => !categoryOrder.includes(c)),
-  ];
-  const handleDragStart = (e, catId) => { dragItem.current = catId; e.dataTransfer.effectAllowed = 'move'; };
-  const handleDragOver = (e, catId) => { e.preventDefault(); setDragOver(catId); };
-  const handleDrop = (e, catId) => {
-    e.preventDefault();
-    if (!dragItem.current || dragItem.current === catId) { setDragOver(null); return; }
-    const newOrder = [...orderedCats];
-    const fromIdx = newOrder.indexOf(dragItem.current);
-    const toIdx = newOrder.indexOf(catId);
-    newOrder.splice(fromIdx, 1);
-    newOrder.splice(toIdx, 0, dragItem.current);
-    onReorder(newOrder);
-    dragItem.current = null; setDragOver(null);
+  const analyzeWithAI=async()=>{
+    if(!settings.openai_key){alert('Voeg eerst je OpenAI API key toe in Settings.');return;}
+    if(tasks.length===0){alert('Voeg eerst taken toe.');return;}
+    setAnalyzing(true);
+    try {
+      const taskList=tasks.map((t,i)=>({id:t.id,name:t.task_name,hasPhoto:!!t.photo_url}));
+      const res=await fetch('https://api.openai.com/v1/chat/completions',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':`Bearer ${settings.openai_key}`},
+        body:JSON.stringify({
+          model:'gpt-4o',
+          messages:[{role:'user',content:`Je bent een verbouwingsexpert. Hier zijn de taken die iemand wil uitvoeren voor een verbouwing:\n\n${taskList.map((t,i)=>`${i+1}. ${t.name}`).join('\n')}\n\nGeef een JSON terug met:\n1. De optimale volgorde van deze taken\n2. Eventuele ontbrekende taken die noodzakelijk zijn (die worden automatisch toegevoegd)\n3. Per taak: geschatte uren, beschrijving, tips & aandachtspunten, en welke andere taken eerst gedaan moeten worden\n\nFormaat:\n{\n  "ordered_tasks": [\n    {\n      "id": "bestaand id of 'new_X' voor nieuwe taken",\n      "task_name": "naam",\n      "description": "wat houdt dit in",\n      "estimated_hours": getal,\n      "tips": "belangrijke aandachtspunten",\n      "depends_on_names": ["naam van taak die eerst moet"],\n      "is_new": true/false\n    }\n  ]\n}`}],
+          max_tokens:2000,
+        })
+      });
+      const data=await res.json();
+      const text=data.choices?.[0]?.message?.content||'';
+      const jsonMatch=text.match(/\{[\s\S]*\}/);
+      if(jsonMatch){
+        const parsed=JSON.parse(jsonMatch[0]);
+        const ordered=parsed.ordered_tasks||[];
+        // Build name->id map for existing tasks
+        const nameToId={};
+        tasks.forEach(t=>{nameToId[t.task_name.toLowerCase()]=t.id;});
+        // Insert new tasks first
+        const newTasks=ordered.filter(t=>t.is_new);
+        const insertedIds={};
+        for(const nt of newTasks){
+          const{data:ins}=await supabase.from('renovation_timeline').insert({task_name:nt.task_name,description:nt.description||'',estimated_hours:nt.estimated_hours||0,tips:nt.tips||'',status:'pending',order_position:999,depends_on:[],ai_suggested:true}).select().single();
+          if(ins){insertedIds[nt.task_name.toLowerCase()]=ins.id;nameToId[nt.task_name.toLowerCase()]=ins.id;}
+        }
+        // Now update all tasks with order + dependencies
+        for(let i=0;i<ordered.length;i++){
+          const ot=ordered[i];
+          const tid=ot.is_new?insertedIds[ot.task_name.toLowerCase()]:nameToId[ot.task_name.toLowerCase()]||ot.id;
+          if(!tid)continue;
+          const depIds=(ot.depends_on_names||[]).map(n=>nameToId[n.toLowerCase()]).filter(Boolean);
+          await supabase.from('renovation_timeline').update({order_position:i,description:ot.description||'',estimated_hours:ot.estimated_hours||0,tips:ot.tips||'',depends_on:depIds}).eq('id',tid);
+        }
+        await fetchTasks();
+      }
+    } catch(err){console.error(err);}
+    setAnalyzing(false);
   };
-  const handleDragEnd = () => { dragItem.current = null; setDragOver(null); };
-  const deleteExpense = async (id) => { await supabase.from('expenses').delete().eq('id',id); onRefresh(); };
-  if (orderedCats.length === 0) return <div className="empty"><div className="empty-icon">✅</div>Geen uitgaven deze maand</div>;
-  return (
+
+  const analyzePhoto=async(file,taskId)=>{
+    if(!settings.openai_key)return;
+    try{
+      const compressed=await compressImage(file,800,0.6);
+      // Upload photo
+      const fileName=`timeline_${Date.now()}.jpg`;
+      await supabase.storage.from('receipts').upload(fileName,compressed,{contentType:'image/jpeg',upsert:true});
+      const{data:urlData}=supabase.storage.from('receipts').getPublicUrl(fileName);
+      const photoUrl=urlData.publicUrl;
+      await supabase.from('renovation_timeline').update({photo_url:photoUrl}).eq('id',taskId);
+      // Ask AI about photo
+      const reader=new FileReader();
+      reader.onload=async(ev)=>{
+        const base64=ev.target.result.split(',')[1];
+        const res=await fetch('https://api.openai.com/v1/chat/completions',{
+          method:'POST',
+          headers:{'Content-Type':'application/json','Authorization':`Bearer ${settings.openai_key}`},
+          body:JSON.stringify({
+            model:'gpt-4o',
+            messages:[{role:'user',content:[
+              {type:'text',text:`Dit is een foto bij de verbouwingtaak: "${tasks.find(t=>t.id===taskId)?.task_name}". Analyseer de foto en geef een JSON terug met eventuele extra taken die EERST gedaan moeten worden op basis van wat je ziet. Formaat: { "extra_tasks": [{ "task_name": "naam", "description": "uitleg", "estimated_hours": getal, "tips": "aandachtspunten" }], "observations": "wat je ziet op de foto en waarom deze taken nodig zijn" }. Als er geen extra taken nodig zijn, geef een lege array terug.`},
+              {type:'image_url',image_url:{url:`data:image/jpeg;base64,${base64}`}}
+            ]}],
+            max_tokens:1000,
+          })
+        });
+        const data=await res.json();
+        const text=data.choices?.[0]?.message?.content||'';
+        const jsonMatch=text.match(/\{[\s\S]*\}/);
+        if(jsonMatch){
+          const parsed=JSON.parse(jsonMatch[0]);
+          const extras=parsed.extra_tasks||[];
+          const currentTask=tasks.find(t=>t.id===taskId);
+          const currentPos=currentTask?currentTask.order_position:0;
+          // Insert extra tasks before current task
+          const newDepIds=[];
+          for(let i=0;i<extras.length;i++){
+            const{data:ins}=await supabase.from('renovation_timeline').insert({task_name:extras[i].task_name,description:extras[i].description||'',estimated_hours:extras[i].estimated_hours||0,tips:extras[i].tips||'',status:'pending',order_position:currentPos-(extras.length-i)*0.1,depends_on:[],ai_suggested:true}).select().single();
+            if(ins)newDepIds.push(ins.id);
+          }
+          // Update current task dependencies
+          if(newDepIds.length>0){
+            const existing=currentTask?.depends_on||[];
+            await supabase.from('renovation_timeline').update({depends_on:[...existing,...newDepIds]}).eq('id',taskId);
+          }
+          await fetchTasks();
+          if(parsed.observations)alert(`📸 AI analyse: ${parsed.observations}`);
+        }
+      };
+      reader.readAsDataURL(compressed);
+    }catch(err){console.error(err);}
+  };
+
+  const updateStatus=async(id,status)=>{
+    await supabase.from('renovation_timeline').update({status}).eq('id',id);
+    fetchTasks();
+  };
+  const deleteTask=async(id)=>{
+    await supabase.from('renovation_timeline').delete().eq('id',id);
+    fetchTasks();
+  };
+
+  // Drag to reorder
+  const handleDragStart=(e,id)=>{dragItem.current=id;e.dataTransfer.effectAllowed='move';};
+  const handleDragOver=(e,id)=>{e.preventDefault();setDragOverId(id);};
+  const handleDrop=async(e,targetId)=>{
+    e.preventDefault();
+    if(!dragItem.current||dragItem.current===targetId){setDragOverId(null);return;}
+    const newOrder=[...tasks];
+    const fromIdx=newOrder.findIndex(t=>t.id===dragItem.current);
+    const toIdx=newOrder.findIndex(t=>t.id===targetId);
+    const[moved]=newOrder.splice(fromIdx,1);
+    newOrder.splice(toIdx,0,moved);
+    setTasks(newOrder);
+    for(let i=0;i<newOrder.length;i++){
+      await supabase.from('renovation_timeline').update({order_position:i}).eq('id',newOrder[i].id);
+    }
+    dragItem.current=null;setDragOverId(null);
+  };
+  const handleDragEnd=()=>{dragItem.current=null;setDragOverId(null);};
+
+  const handlePhotoForTask=(taskId)=>{
+    photoTaskRef.current=taskId;
+    fileInputRef.current.click();
+  };
+  const handlePhotoChange=async(e)=>{
+    const file=e.target.files[0];
+    if(!file||!photoTaskRef.current)return;
+    await analyzePhoto(file,photoTaskRef.current);
+    e.target.value='';
+  };
+
+  return(
     <div>
-      {orderedCats.map(catId => {
-        const info = getCategoryInfo(catId);
-        const catExpenses = expenses.filter(e => e.category === catId);
-        const catTotal = catTotals[catId] || 0;
-        return (
-          <div key={catId} className={`cat-section ${dragOver===catId?'dragging-over':''}`} draggable onDragStart={e=>handleDragStart(e,catId)} onDragOver={e=>handleDragOver(e,catId)} onDrop={e=>handleDrop(e,catId)} onDragEnd={handleDragEnd}>
-            <div className="cat-header">
-              <div className="cat-header-left">
-                <span className="drag-handle">⠿</span>
-                <span style={{fontSize:18}}>{info.icon}</span>
-                <span className="cat-header-name">{info.label}</span>
-                <span className="cat-header-count">({catExpenses.length})</span>
+      {lightboxUrl&&(<div className="modal-overlay" onClick={()=>setLightboxUrl(null)}><button className="modal-close">✕</button><img className="modal-img" src={lightboxUrl} alt="foto"/></div>)}
+      <input ref={fileInputRef} type="file" accept="image/*" capture="environment" style={{display:'none'}} onChange={handlePhotoChange}/>
+
+      <div className="timeline-hero">
+        <div className="timeline-hero-title">📅 Verbouwingstijdlijn</div>
+        <div className="timeline-hero-sub">AI bepaalt de optimale volgorde. Jij past aan waar nodig.</div>
+        <div className="timeline-stats">
+          <div className="timeline-stat"><div className="timeline-stat-val">{tasks.length}</div><div className="timeline-stat-label">Taken totaal</div></div>
+          <div className="timeline-stat"><div className="timeline-stat-val">{doneTasks}</div><div className="timeline-stat-label">Afgerond</div></div>
+          <div className="timeline-stat"><div className="timeline-stat-val">{totalHours}u</div><div className="timeline-stat-label">Geschatte tijd</div></div>
+        </div>
+      </div>
+
+      {!settings.openai_key&&(<div style={{background:'#fef3c7',border:'2px solid #f59e0b',borderRadius:12,padding:16,marginBottom:24,fontSize:14,color:'#92400e'}}>⚠️ Voeg eerst je OpenAI API key toe via ⚙️ Settings.</div>)}
+
+      <div style={{display:'flex',gap:12,marginBottom:24,flexWrap:'wrap'}}>
+        <button className="add-btn" style={{background:'linear-gradient(135deg,#7c3aed,#4f46e5)'}} onClick={analyzeWithAI}>🤖 AI: Plan mijn verbouwing</button>
+        <button className="add-btn secondary" onClick={()=>setShowAddForm(!showAddForm)}>{showAddForm?'Annuleren':'+ Taak toevoegen'}</button>
+      </div>
+
+      {showAddForm&&<AddTimelineTaskForm onSave={async(form)=>{const pos=tasks.length>0?Math.max(...tasks.map(t=>t.order_position||0))+1:0;await supabase.from('renovation_timeline').insert({task_name:form.name,description:form.description||'',estimated_hours:parseFloat(form.hours)||0,tips:'',status:'pending',order_position:pos,depends_on:[],ai_suggested:false});fetchTasks();setShowAddForm(false);}} onCancel={()=>setShowAddForm(false)}/>}
+
+      {analyzing&&(<div className="ai-analyzing"><div className="ai-analyzing-icon">🤖</div><div style={{fontSize:16,fontWeight:700,marginBottom:4}}>AI analyseert je verbouwing…</div><div style={{fontSize:13,opacity:0.85}}>Taken worden geordend, afhankelijkheden bepaald en ontbrekende stappen toegevoegd</div></div>)}
+
+      {tasks.length===0&&!analyzing&&(<div className="empty"><div className="empty-icon">📋</div>Voeg taken toe en laat AI de optimale volgorde bepalen</div>)}
+
+      <div className="timeline-wrapper">
+        {tasks.length>0&&<div className="timeline-line"/>}
+        {tasks.map((task,idx)=>{
+          const deps=tasks.filter(t=>(task.depends_on||[]).includes(t.id));
+          return(
+            <div key={task.id} className={`timeline-task ${dragOverId===task.id?'drag-over':''}`} draggable onDragStart={e=>handleDragStart(e,task.id)} onDragOver={e=>handleDragOver(e,task.id)} onDrop={e=>handleDrop(e,task.id)} onDragEnd={handleDragEnd}>
+              <div className={`timeline-dot ${task.status}`} onClick={()=>updateStatus(task.id,task.status==='pending'?'in_progress':task.status==='in_progress'?'done':'pending')}>
+                {task.status==='done'?'✓':task.status==='in_progress'?'▶':''}
               </div>
-              <span className="cat-total">{fmtEur(catTotal)}</span>
+              <div className={`timeline-card ${task.status} ${task.ai_suggested?'ai-suggested':''}`}>
+                <div className="timeline-card-header">
+                  <div>
+                    <div className={`timeline-card-title ${task.status==='done'?'done':''}`}>
+                      {idx+1}. {task.task_name}
+                    </div>
+                    <div className="timeline-card-meta">
+                      {task.estimated_hours>0&&<span className="timeline-time-badge">⏱ ~{task.estimated_hours}u</span>}
+                      {task.ai_suggested&&<span className="timeline-ai-badge">🤖 AI toegevoegd</span>}
+                      <span className={`status-badge ${task.status==='done'?'gekozen':task.status==='in_progress'?'offerte':'orienterend'}`}>
+                        {task.status==='done'?'✓ Klaar':task.status==='in_progress'?'▶ Bezig':'⏳ Nog doen'}
+                      </span>
+                    </div>
+                  </div>
+                  <div style={{display:'flex',gap:4}}>
+                    <button className="delete-btn" onClick={()=>handlePhotoForTask(task.id)}>📸</button>
+                    <button className="delete-btn" onClick={()=>deleteTask(task.id)}>🗑</button>
+                  </div>
+                </div>
+                {task.photo_url&&<img className="timeline-photo" src={task.photo_url} alt="foto" onClick={()=>setLightboxUrl(task.photo_url)}/>}
+                {task.description&&<div className="timeline-desc">{task.description}</div>}
+                {task.tips&&<div className="timeline-tips">💡 {task.tips}</div>}
+                {deps.length>0&&(
+                  <div className="timeline-deps">
+                    <div style={{fontSize:11,fontWeight:600,color:'#94a3b8',marginBottom:4}}>EERST DOEN:</div>
+                    {deps.map(d=>(
+                      <div key={d.id} className="dep-arrow">
+                        <span style={{fontSize:12}}>→</span>
+                        <span style={{color:d.status==='done'?'#10b981':'#64748b',fontWeight:d.status==='done'?600:400,textDecoration:d.status==='done'?'line-through':'none'}}>
+                          {d.task_name}
+                        </span>
+                        {d.status==='done'&&<span style={{fontSize:10,color:'#10b981'}}>✓</span>}
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div className="timeline-actions">
+                  <button className="add-btn secondary" style={{padding:'4px 12px',fontSize:12}} onClick={()=>updateStatus(task.id,task.status==='pending'?'in_progress':task.status==='in_progress'?'done':'pending')}>
+                    {task.status==='pending'?'▶ Start':task.status==='in_progress'?'✓ Klaar':'↩ Heropen'}
+                  </button>
+                </div>
+              </div>
             </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function AddTimelineTaskForm({onSave,onCancel}) {
+  const [form,setForm]=useState({name:'',description:'',hours:''});
+  return(
+    <form onSubmit={e=>{e.preventDefault();onSave(form);}} style={{background:'#f5f3ff',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #7c3aed'}}>
+      <div style={{fontSize:13,fontWeight:600,color:'#7c3aed',marginBottom:12}}>Nieuwe taak toevoegen</div>
+      <div className="form-row">
+        <div className="form-group"><label className="form-label">Taaknaam</label><input className="form-input" placeholder="bijv. Vloerverwarming installeren" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div>
+        <div className="form-group"><label className="form-label">Geschatte uren (optioneel)</label><input className="form-input" type="number" placeholder="0" value={form.hours} onChange={e=>setForm({...form,hours:e.target.value})}/></div>
+      </div>
+      <div className="form-group" style={{marginBottom:12}}><label className="form-label">Beschrijving (optioneel)</label><input className="form-input" placeholder="Extra details…" value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/></div>
+      <div style={{display:'flex',gap:8}}>
+        <button className="add-btn" style={{background:'linear-gradient(135deg,#7c3aed,#4f46e5)',padding:'8px 20px',fontSize:13}} type="submit">Toevoegen</button>
+        <button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button>
+      </div>
+    </form>
+  );
+}
+
+// ── CATEGORY EXPENSE LIST ────────────────────────────────────────────────────
+function CategoryExpenseList({expenses,pct,settings,onRefresh,categoryOrder,onReorder}){
+  const[dragOver,setDragOver]=useState(null);
+  const dragItem=useRef(null);
+  const[editingExpense,setEditingExpense]=useState(null);
+  const catTotals={};
+  expenses.forEach(e=>{const amt=e.is_shared?Number(e.amount)*(pct/100):Number(e.amount);catTotals[e.category]=(catTotals[e.category]||0)+amt;});
+  const usedCats=Object.keys(catTotals);
+  const orderedCats=[...categoryOrder.filter(c=>usedCats.includes(c)),...usedCats.filter(c=>!categoryOrder.includes(c))];
+  const handleDragStart=(e,catId)=>{dragItem.current=catId;e.dataTransfer.effectAllowed='move';};
+  const handleDragOver=(e,catId)=>{e.preventDefault();setDragOver(catId);};
+  const handleDrop=(e,catId)=>{e.preventDefault();if(!dragItem.current||dragItem.current===catId){setDragOver(null);return;}const newOrder=[...orderedCats];const fi=newOrder.indexOf(dragItem.current);const ti=newOrder.indexOf(catId);newOrder.splice(fi,1);newOrder.splice(ti,0,dragItem.current);onReorder(newOrder);dragItem.current=null;setDragOver(null);};
+  const handleDragEnd=()=>{dragItem.current=null;setDragOver(null);};
+  const deleteExpense=async(id)=>{await supabase.from('expenses').delete().eq('id',id);onRefresh();};
+  if(orderedCats.length===0)return<div className="empty"><div className="empty-icon">✅</div>Geen uitgaven deze maand</div>;
+  return(
+    <div>
+      {orderedCats.map(catId=>{
+        const info=getCategoryInfo(catId);
+        const catExpenses=expenses.filter(e=>e.category===catId);
+        const catTotal=catTotals[catId]||0;
+        return(
+          <div key={catId} className={`cat-section ${dragOver===catId?'dragging-over':''}`} draggable onDragStart={e=>handleDragStart(e,catId)} onDragOver={e=>handleDragOver(e,catId)} onDrop={e=>handleDrop(e,catId)} onDragEnd={handleDragEnd}>
+            <div className="cat-header"><div className="cat-header-left"><span className="drag-handle">⠿</span><span style={{fontSize:18}}>{info.icon}</span><span className="cat-header-name">{info.label}</span><span className="cat-header-count">({catExpenses.length})</span></div><span className="cat-total">{fmtEur(catTotal)}</span></div>
             <div className="cat-body">
-              {catExpenses.map(e => {
-                const displayAmount = e.is_shared ? Number(e.amount)*(pct/100) : Number(e.amount);
-                return (
+              {catExpenses.map(e=>{
+                const displayAmount=e.is_shared?Number(e.amount)*(pct/100):Number(e.amount);
+                return(
                   <div key={e.id}>
                     {editingExpense===e.id
-                      ? <EditExpenseForm expense={e} settings={settings} onSave={()=>{onRefresh();setEditingExpense(null);}} onCancel={()=>setEditingExpense(null)} />
-                      : <div className="expense-item">
-                          <div className="expense-left">
-                            <div className="expense-icon"><LogoOrIcon name={e.name} category={e.category} /></div>
-                            <div>
-                              <div className="expense-name">{e.name}{e.is_shared?' 🤝':''}</div>
-                              <div className="expense-meta">{fmtDate(e.date)}{e.description?' · '+e.description:''}</div>
-                            </div>
-                          </div>
-                          <div className="expense-right">
-                            <div style={{textAlign:'right'}}>
-                              <div className="expense-amount">{fmtEur(displayAmount)}</div>
-                              {e.is_shared && <div style={{fontSize:11,color:'#94a3b8'}}>van {fmtEur(e.amount)} totaal</div>}
-                            </div>
-                            <button className="delete-btn" onClick={()=>setEditingExpense(e.id)}>✏️</button>
-                            <button className="delete-btn" onClick={()=>deleteExpense(e.id)}>🗑</button>
-                          </div>
-                        </div>
+                      ?<EditExpenseForm expense={e} settings={settings} onSave={()=>{onRefresh();setEditingExpense(null);}} onCancel={()=>setEditingExpense(null)}/>
+                      :<div className="expense-item"><div className="expense-left"><div className="expense-icon"><LogoOrIcon name={e.name} category={e.category}/></div><div><div className="expense-name">{e.name}{e.is_shared?' 🤝':''}</div><div className="expense-meta">{fmtDate(e.date)}{e.description?' · '+e.description:''}</div></div></div><div className="expense-right"><div style={{textAlign:'right'}}><div className="expense-amount">{fmtEur(displayAmount)}</div>{e.is_shared&&<div style={{fontSize:11,color:'#94a3b8'}}>van {fmtEur(e.amount)} totaal</div>}</div><button className="delete-btn" onClick={()=>setEditingExpense(e.id)}>✏️</button><button className="delete-btn" onClick={()=>deleteExpense(e.id)}>🗑</button></div></div>
                     }
                   </div>
                 );
@@ -406,549 +590,104 @@ function CategoryExpenseList({ expenses, pct, settings, onRefresh, categoryOrder
   );
 }
 
-function EditExpenseForm({ expense, settings, onSave, onCancel }) {
-  const [form, setForm] = useState({ name:expense.name, amount:expense.amount, category:expense.category, description:expense.description||'', date:expense.date, is_shared:expense.is_shared });
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await supabase.from('expenses').update({ name:form.name, amount:parseFloat(form.amount), category:form.category, description:form.description, date:form.date, is_shared:form.is_shared, person:form.is_shared?'shared':expense.person }).eq('id',expense.id);
-    onSave();
-  };
-  return (
-    <form onSubmit={handleSubmit} className="edit-form">
-      <div className="form-row">
-        <div className="form-group"><label className="form-label">Naam</label><input className="form-input" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required /></div>
-        <div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" type="number" step="0.01" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required /></div>
-      </div>
-      <div className="form-row">
-        <div className="form-group"><label className="form-label">Categorie</label><select className="form-select" value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>{CATEGORIES.map(c=><option key={c.id} value={c.id}>{c.icon} {c.label}</option>)}</select></div>
-        <div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required /></div>
-      </div>
-      <div className="form-group" style={{marginBottom:12}}><label className="form-label">Omschrijving</label><input className="form-input" value={form.description} onChange={e=>setForm({...form,description:e.target.value})} /></div>
-      <div style={{marginBottom:12,display:'flex',alignItems:'center',gap:8}}>
-        <input type="checkbox" id={`se_${expense.id}`} checked={form.is_shared} onChange={e=>setForm({...form,is_shared:e.target.checked})} />
-        <label htmlFor={`se_${expense.id}`} style={{fontSize:14,color:'#475569',cursor:'pointer'}}>Gedeelde uitgave ({settings.shared_pct}%/{100-settings.shared_pct}%)</label>
-      </div>
-      <div style={{display:'flex',gap:8}}>
-        <button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>
-        <button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button>
-      </div>
-    </form>
-  );
+function EditExpenseForm({expense,settings,onSave,onCancel}){
+  const[form,setForm]=useState({name:expense.name,amount:expense.amount,category:expense.category,description:expense.description||'',date:expense.date,is_shared:expense.is_shared});
+  const handleSubmit=async e=>{e.preventDefault();await supabase.from('expenses').update({name:form.name,amount:parseFloat(form.amount),category:form.category,description:form.description,date:form.date,is_shared:form.is_shared,person:form.is_shared?'shared':expense.person}).eq('id',expense.id);onSave();};
+  return(<form onSubmit={handleSubmit} className="edit-form"><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" type="number" step="0.01" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Categorie</label><select className="form-select" value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>{CATEGORIES.map(c=><option key={c.id} value={c.id}>{c.icon} {c.label}</option>)}</select></div><div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required/></div></div><div className="form-group" style={{marginBottom:12}}><label className="form-label">Omschrijving</label><input className="form-input" value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/></div><div style={{marginBottom:12,display:'flex',alignItems:'center',gap:8}}><input type="checkbox" id={`se_${expense.id}`} checked={form.is_shared} onChange={e=>setForm({...form,is_shared:e.target.checked})}/><label htmlFor={`se_${expense.id}`} style={{fontSize:14,color:'#475569',cursor:'pointer'}}>Gedeelde uitgave ({settings.shared_pct}%/{100-settings.shared_pct}%)</label></div><div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button><button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div></form>);
+}
+function EditIncomeForm({income,onSave,onCancel}){
+  const[form,setForm]=useState({label:income.label,amount:income.amount,date:income.date});
+  const handleSubmit=async e=>{e.preventDefault();await supabase.from('incomes').update({label:form.label,amount:parseFloat(form.amount),date:form.date}).eq('id',income.id);onSave();};
+  return(<form onSubmit={handleSubmit} className="edit-form"><div className="form-row"><div className="form-group"><label className="form-label">Label</label><input className="form-input" value={form.label} onChange={e=>setForm({...form,label:e.target.value})} required/></div><div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" type="number" step="0.01" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required/></div><div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required/></div></div><div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button><button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div></form>);
 }
 
-function EditIncomeForm({ income, onSave, onCancel }) {
-  const [form, setForm] = useState({ label:income.label, amount:income.amount, date:income.date });
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await supabase.from('incomes').update({ label:form.label, amount:parseFloat(form.amount), date:form.date }).eq('id',income.id);
-    onSave();
-  };
-  return (
-    <form onSubmit={handleSubmit} className="edit-form">
-      <div className="form-row">
-        <div className="form-group"><label className="form-label">Label</label><input className="form-input" value={form.label} onChange={e=>setForm({...form,label:e.target.value})} required /></div>
-        <div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" type="number" step="0.01" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required /></div>
-        <div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required /></div>
-      </div>
-      <div style={{display:'flex',gap:8}}>
-        <button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>
-        <button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button>
-      </div>
-    </form>
-  );
+function App(){
+  const[session,setSession]=useState(null);
+  const[loading,setLoading]=useState(true);
+  useEffect(()=>{supabase.auth.getSession().then(({data})=>{setSession(data.session);setLoading(false);});const{data:listener}=supabase.auth.onAuthStateChange((_e,s)=>setSession(s));return()=>listener.subscription.unsubscribe();},[]);
+  if(loading)return<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',fontSize:24}}>⏳</div>;
+  if(!session)return<Login/>;
+  return<Main session={session}/>;
 }
 
-function App() {
-  const [session, setSession] = useState(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => { setSession(data.session); setLoading(false); });
-    const { data: listener } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
-    return () => listener.subscription.unsubscribe();
-  }, []);
-  if (loading) return <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',fontSize:24}}>⏳</div>;
-  if (!session) return <Login />;
-  return <Main session={session} />;
+function Login(){
+  const[email,setEmail]=useState('');
+  const[pw,setPw]=useState('');
+  const[err,setErr]=useState('');
+  const[loading,setLoading]=useState(false);
+  const handleLogin=async e=>{e.preventDefault();setErr('');setLoading(true);const{error}=await supabase.auth.signInWithPassword({email,password:pw});if(error)setErr(error.message);setLoading(false);};
+  return(<div className="login-bg"><div className="login-card"><div className="login-logo">💰</div><div className="login-title">Shared Finances</div><div className="login-sub">Jouw persoonlijke finance dashboard</div><form onSubmit={handleLogin}><input type="email" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} required/><input type="password" placeholder="Wachtwoord" value={pw} onChange={e=>setPw(e.target.value)} required/><button className="login-btn" type="submit" disabled={loading}>{loading?'Inloggen…':'Log in'}</button>{err&&<div className="login-error">{err}</div>}</form></div></div>);
 }
 
-function Login() {
-  const [email, setEmail] = useState('');
-  const [pw, setPw] = useState('');
-  const [err, setErr] = useState('');
-  const [loading, setLoading] = useState(false);
-  const handleLogin = async (e) => {
-    e.preventDefault(); setErr(''); setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password: pw });
-    if (error) setErr(error.message);
-    setLoading(false);
-  };
-  return (
-    <div className="login-bg">
-      <div className="login-card">
-        <div className="login-logo">💰</div>
-        <div className="login-title">Shared Finances</div>
-        <div className="login-sub">Jouw persoonlijke finance dashboard</div>
-        <form onSubmit={handleLogin}>
-          <input type="email" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} required />
-          <input type="password" placeholder="Wachtwoord" value={pw} onChange={e=>setPw(e.target.value)} required />
-          <button className="login-btn" type="submit" disabled={loading}>{loading?'Inloggen…':'Log in'}</button>
-          {err && <div className="login-error">{err}</div>}
-        </form>
-      </div>
-    </div>
-  );
-}
-
-function Main({ session }) {
-  const [tab, setTab] = useState('overview');
-  const [expenses, setExpenses] = useState([]);
-  const [incomes, setIncomes] = useState([]);
-  const [accounts, setAccounts] = useState([]);
-  const [houseExpenses, setHouseExpenses] = useState([]);
-  const [settings, setSettings] = useState({ laslo_name:'Laslo', her_name:'Partner', shared_pct:60, category_order:'', openai_key:'' });
-
-  const fetchAll = useCallback(async () => {
-    const { start, end } = currentMonthRange();
-    const [eRes, iRes, aRes, sRes, hRes] = await Promise.all([
+function Main({session}){
+  const[tab,setTab]=useState('overview');
+  const[expenses,setExpenses]=useState([]);
+  const[incomes,setIncomes]=useState([]);
+  const[accounts,setAccounts]=useState([]);
+  const[houseExpenses,setHouseExpenses]=useState([]);
+  const[settings,setSettings]=useState({laslo_name:'Laslo',her_name:'Partner',shared_pct:60,category_order:'',openai_key:''});
+  const fetchAll=useCallback(async()=>{
+    const{start,end}=currentMonthRange();
+    const[eRes,iRes,aRes,sRes,hRes]=await Promise.all([
       supabase.from('expenses').select('*').gte('date',start).lte('date',end).order('date'),
       supabase.from('incomes').select('*').gte('date',start).lte('date',end).order('date'),
       supabase.from('accounts').select('*').order('owner'),
       supabase.from('settings').select('*').eq('id',1).single(),
-      supabase.from('house_expenses').select('*').order('date', {ascending:false}),
+      supabase.from('house_expenses').select('*').order('date',{ascending:false}),
     ]);
-    setExpenses(eRes.data||[]);
-    setIncomes(iRes.data||[]);
-    setAccounts(aRes.data||[]);
-    setHouseExpenses(hRes.data||[]);
-    if (sRes.data) setSettings(sRes.data);
-  }, []);
-
-  useEffect(() => { fetchAll(); }, [fetchAll]);
-
-  const saveCategoryOrder = async (newOrder) => {
-    const orderStr = newOrder.join(',');
-    setSettings(s => ({...s, category_order: orderStr}));
-    await supabase.from('settings').update({ category_order: orderStr }).eq('id',1);
-  };
-
-  const categoryOrder = settings.category_order ? settings.category_order.split(',') : [];
-
-  const tabs = [
-    { id:'overview', label:'📊 Overview' },
-    { id:'laslo', label:`💙 ${settings.laslo_name}` },
-    { id:'her', label:`💗 ${settings.her_name}` },
-    { id:'shared', label:'🤝 Shared' },
-    { id:'house', label:'🏠 Huis' },
-    { id:'renovation', label:'🔨 Verbouwing' },
-    { id:'accounts', label:'🏦 Accounts' },
-    { id:'settings', label:'⚙️ Settings' },
+    setExpenses(eRes.data||[]);setIncomes(iRes.data||[]);setAccounts(aRes.data||[]);setHouseExpenses(hRes.data||[]);
+    if(sRes.data)setSettings(sRes.data);
+  },[]);
+  useEffect(()=>{fetchAll();},[fetchAll]);
+  const saveCategoryOrder=async(newOrder)=>{const orderStr=newOrder.join(',');setSettings(s=>({...s,category_order:orderStr}));await supabase.from('settings').update({category_order:orderStr}).eq('id',1);};
+  const categoryOrder=settings.category_order?settings.category_order.split(','):[];
+  const tabs=[
+    {id:'overview',label:'📊 Overview'},{id:'laslo',label:`💙 ${settings.laslo_name}`},
+    {id:'her',label:`💗 ${settings.her_name}`},{id:'shared',label:'🤝 Shared'},
+    {id:'house',label:'🏠 Huis'},{id:'renovation',label:'🔨 Verbouwing'},
+    {id:'timeline',label:'📅 Tijdlijn'},{id:'accounts',label:'🏦 Accounts'},
+    {id:'settings',label:'⚙️ Settings'},
   ];
-
-  return (
+  return(
     <div>
-      <header className="app-header">
-        <div className="app-logo">💰 Shared Finances</div>
-        <button className="logout-btn" onClick={()=>supabase.auth.signOut()}>Log out</button>
-      </header>
-      <div className="tabs-bar">
-        {tabs.map(t=>(
-          <button key={t.id} className={`tab-btn ${tab===t.id?'active':''}`} onClick={()=>setTab(t.id)}>{t.label}</button>
-        ))}
-      </div>
+      <header className="app-header"><div className="app-logo">💰 Shared Finances</div><button className="logout-btn" onClick={()=>supabase.auth.signOut()}>Log out</button></header>
+      <div className="tabs-bar">{tabs.map(t=><button key={t.id} className={`tab-btn ${tab===t.id?'active':''}`} onClick={()=>setTab(t.id)}>{t.label}</button>)}</div>
       <div className="main-content">
-        {tab==='overview' && <Overview expenses={expenses} incomes={incomes} accounts={accounts} settings={settings} />}
-        {tab==='laslo' && <PersonTab person="laslo" expenses={expenses} incomes={incomes} settings={settings} categoryOrder={categoryOrder} onReorder={saveCategoryOrder} onRefresh={fetchAll} />}
-        {tab==='her' && <PersonTab person="her" expenses={expenses} incomes={incomes} settings={settings} categoryOrder={categoryOrder} onReorder={saveCategoryOrder} onRefresh={fetchAll} />}
-        {tab==='shared' && <SharedTab expenses={expenses} settings={settings} categoryOrder={categoryOrder} onReorder={saveCategoryOrder} onRefresh={fetchAll} />}
-        {tab==='house' && <HouseTab houseExpenses={houseExpenses} settings={settings} onRefresh={fetchAll} />}
-        {tab==='renovation' && <RenovationTab settings={settings} />}
-        {tab==='accounts' && <AccountsTab accounts={accounts} settings={settings} onRefresh={fetchAll} />}
-        {tab==='settings' && <SettingsTab settings={settings} onRefresh={fetchAll} />}
+        {tab==='overview'&&<Overview expenses={expenses} incomes={incomes} accounts={accounts} settings={settings}/>}
+        {tab==='laslo'&&<PersonTab person="laslo" expenses={expenses} incomes={incomes} settings={settings} categoryOrder={categoryOrder} onReorder={saveCategoryOrder} onRefresh={fetchAll}/>}
+        {tab==='her'&&<PersonTab person="her" expenses={expenses} incomes={incomes} settings={settings} categoryOrder={categoryOrder} onReorder={saveCategoryOrder} onRefresh={fetchAll}/>}
+        {tab==='shared'&&<SharedTab expenses={expenses} settings={settings} categoryOrder={categoryOrder} onReorder={saveCategoryOrder} onRefresh={fetchAll}/>}
+        {tab==='house'&&<HouseTab houseExpenses={houseExpenses} settings={settings} onRefresh={fetchAll}/>}
+        {tab==='renovation'&&<RenovationTab settings={settings}/>}
+        {tab==='timeline'&&<TimelineTab settings={settings}/>}
+        {tab==='accounts'&&<AccountsTab accounts={accounts} settings={settings} onRefresh={fetchAll}/>}
+        {tab==='settings'&&<SettingsTab settings={settings} onRefresh={fetchAll}/>}
       </div>
     </div>
   );
 }
 
-// ── RENOVATION TAB ───────────────────────────────────────────────────────────
-function RenovationTab({ settings }) {
-  const [categories, setCategories] = useState([]);
-  const [items, setItems] = useState([]);
-  const [budget, setBudget] = useState(0);
-  const [editingBudget, setEditingBudget] = useState(false);
-  const [tempBudget, setTempBudget] = useState('');
-  const [showAddCat, setShowAddCat] = useState(false);
-  const [newCat, setNewCat] = useState({ name:'', icon:'🔨' });
-  const [addingItemToCat, setAddingItemToCat] = useState(null);
-  const [fetchingUrl, setFetchingUrl] = useState(false);
-
-  const fetchReno = useCallback(async () => {
-    const [catRes, itemRes, budgetRes] = await Promise.all([
-      supabase.from('renovation_categories').select('*').order('sort_order'),
-      supabase.from('renovation_items').select('*').order('created_at'),
-      supabase.from('renovation_settings').select('*').eq('id',1).single(),
-    ]);
-    setCategories(catRes.data||[]);
-    setItems(itemRes.data||[]);
-    if (budgetRes.data) setBudget(Number(budgetRes.data.total_budget)||0);
-  }, []);
-
-  useEffect(() => { fetchReno(); }, [fetchReno]);
-
-  const totalPlanned = items.filter(i=>i.is_chosen||i.status==='betaald').reduce((s,i)=>s+calcTotal(i),0);
-  const totalPaid = items.filter(i=>i.status==='betaald').reduce((s,i)=>s+calcTotal(i),0);
-  const totalOrienting = items.reduce((s,i)=>s+calcTotal(i),0);
-  const remaining = budget - totalPlanned;
-  const pct = budget > 0 ? Math.min((totalPlanned/budget)*100, 100) : 0;
-  const paidPct = budget > 0 ? Math.min((totalPaid/budget)*100, 100) : 0;
-
-  function calcTotal(item) {
-    const price = Number(item.price)||0;
-    const qty = Number(item.quantity)||1;
-    if (item.price_type === 'total') return price;
-    return price * qty;
-  }
-
-  const saveBudget = async () => {
-    await supabase.from('renovation_settings').update({ total_budget: parseFloat(tempBudget)||0 }).eq('id',1);
-    setEditingBudget(false); fetchReno();
-  };
-
-  const addCategory = async (e) => {
-    e.preventDefault();
-    const maxOrder = categories.length > 0 ? Math.max(...categories.map(c=>c.sort_order||0)) : 0;
-    await supabase.from('renovation_categories').insert({ name:newCat.name, icon:newCat.icon, sort_order:maxOrder+1 });
-    setNewCat({ name:'', icon:'🔨' }); setShowAddCat(false); fetchReno();
-  };
-
-  const deleteCategory = async (id) => {
-    await supabase.from('renovation_categories').delete().eq('id',id);
-    fetchReno();
-  };
-
-  const updateItemStatus = async (id, status) => {
-    await supabase.from('renovation_items').update({ status }).eq('id',id);
-    fetchReno();
-  };
-
-  const chooseItem = async (catId, itemId) => {
-    const catItems = items.filter(i=>i.category_id===catId);
-    await Promise.all(catItems.map(i=>supabase.from('renovation_items').update({ is_chosen: i.id===itemId }).eq('id',i.id)));
-    fetchReno();
-  };
-
-  const deleteItem = async (id) => {
-    await supabase.from('renovation_items').delete().eq('id',id);
-    fetchReno();
-  };
-
-  const fetchFromUrl = async (url, catId, setFormData) => {
-    if (!settings.openai_key) { alert('Voeg eerst je OpenAI API key toe in Settings.'); return; }
-    setFetchingUrl(true);
-    try {
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${settings.openai_key}` },
-        body: JSON.stringify({
-          model: 'gpt-4o',
-          messages: [{ role:'user', content: `Haal productinformatie op van deze URL: ${url}. Geef een JSON terug met: { "name": "productnaam", "price": getal (prijs), "price_type": "total" of "m2" of "piece" of "hour", "image_url": "url van productafbeelding", "notes": "korte omschrijving" }. Als je de pagina niet kunt ophalen, schat dan op basis van de URL.` }],
-          max_tokens: 500,
-        })
-      });
-      const data = await res.json();
-      const text = data.choices?.[0]?.message?.content || '';
-      const jsonMatch = text.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        const parsed = JSON.parse(jsonMatch[0]);
-        setFormData(prev => ({ ...prev, ...parsed, url }));
-      }
-    } catch(err) { console.error(err); }
-    setFetchingUrl(false);
-  };
-
-  const barColor = pct > 90 ? '#ef4444' : pct > 70 ? '#f59e0b' : '#10b981';
-
-  return (
-    <div>
-      {/* Budget overview */}
-      <div className="networth-total mb-16" style={{background:'linear-gradient(135deg, #f59e0b, #d97706)'}}>
-        <div className="networth-label">Verbouwingsbudget</div>
-        {editingBudget
-          ? <div style={{display:'flex',gap:8,alignItems:'center',marginTop:8}}>
-              <input type="number" value={tempBudget} onChange={e=>setTempBudget(e.target.value)} style={{padding:'8px 12px',borderRadius:8,border:'none',fontSize:20,fontWeight:700,width:180}} />
-              <button className="add-btn" style={{background:'white',color:'#d97706',padding:'8px 16px'}} onClick={saveBudget}>Opslaan</button>
-              <button className="add-btn secondary" style={{padding:'8px 16px'}} onClick={()=>setEditingBudget(false)}>Annuleren</button>
-            </div>
-          : <div style={{display:'flex',alignItems:'center',gap:12}}>
-              <div className="networth-value">{fmtEur(budget)}</div>
-              <button onClick={()=>{ setTempBudget(budget); setEditingBudget(true); }} style={{background:'rgba(255,255,255,0.2)',border:'none',borderRadius:8,padding:'6px 12px',color:'white',cursor:'pointer',fontSize:13}}>✏️ Wijzigen</button>
-            </div>
-        }
-      </div>
-
-      <div className="grid-4 mb-24">
-        <div className="stat-card"><div className="stat-label">Totaal gepland</div><div className="stat-value purple">{fmtEur(totalPlanned)}</div><div className="stat-sub">Gekozen items</div></div>
-        <div className="stat-card"><div className="stat-label">Al betaald</div><div className="stat-value green">{fmtEur(totalPaid)}</div></div>
-        <div className="stat-card"><div className="stat-label">Nog beschikbaar</div><div className={`stat-value ${remaining<0?'red':'green'}`}>{fmtEur(remaining)}</div></div>
-        <div className="stat-card"><div className="stat-label">Alle opties samen</div><div className="stat-value orange">{fmtEur(totalOrienting)}</div><div className="stat-sub">Incl. alternatieven</div></div>
-      </div>
-
-      {/* Budget bar */}
-      <div className="card mb-24">
-        <div style={{fontSize:14,fontWeight:600,color:'#475569',marginBottom:8}}>Budgetverloop</div>
-        <div className="reno-budget-bar">
-          <div className="reno-budget-fill" style={{width:`${pct}%`,background:barColor}}>
-            {pct > 15 && <span className="reno-budget-fill-text">{Math.round(pct)}% gebruikt</span>}
-          </div>
-        </div>
-        <div style={{display:'flex',justifyContent:'space-between',fontSize:12,color:'#94a3b8',marginTop:4}}>
-          <span>Betaald {fmtEur(totalPaid)}</span>
-          <span>Gepland {fmtEur(totalPlanned)}</span>
-          <span>Budget {fmtEur(budget)}</span>
-        </div>
-      </div>
-
-      {/* Add category */}
-      {showAddCat
-        ? <form onSubmit={addCategory} className="card mb-16" style={{borderLeft:'4px solid #667eea'}}>
-            <div style={{fontSize:15,fontWeight:700,marginBottom:12}}>Nieuwe categorie</div>
-            <div className="form-row">
-              <div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. Vloeren" value={newCat.name} onChange={e=>setNewCat({...newCat,name:e.target.value})} required /></div>
-              <div className="form-group"><label className="form-label">Icoon (emoji)</label><input className="form-input" placeholder="🔨" value={newCat.icon} onChange={e=>setNewCat({...newCat,icon:e.target.value})} /></div>
-            </div>
-            <div style={{display:'flex',gap:8}}>
-              <button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Toevoegen</button>
-              <button className="add-btn secondary" type="button" onClick={()=>setShowAddCat(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button>
-            </div>
-          </form>
-        : <div className="reno-add-cat" onClick={()=>setShowAddCat(true)}>+ Nieuwe categorie toevoegen</div>
-      }
-
-      {/* Categories */}
-      {categories.length === 0
-        ? <div className="empty"><div className="empty-icon">🔨</div>Voeg een categorie toe om te beginnen</div>
-        : categories.map(cat => {
-          const catItems = items.filter(i=>i.category_id===cat.id);
-          const chosenItem = catItems.find(i=>i.is_chosen);
-          const catTotal = chosenItem ? calcTotal(chosenItem) : 0;
-          return (
-            <div key={cat.id} className="reno-cat">
-              <div className="reno-cat-header">
-                <div className="reno-cat-title">
-                  <span>{cat.icon}</span>
-                  <span>{cat.name}</span>
-                  <span style={{fontSize:13,color:'#94a3b8',fontWeight:400}}>({catItems.length} opties)</span>
-                </div>
-                <div style={{display:'flex',alignItems:'center',gap:12}}>
-                  {chosenItem && <span className="reno-cat-total">{fmtEur(catTotal)} gekozen</span>}
-                  <button className="add-btn secondary" style={{padding:'6px 14px',fontSize:12}} onClick={()=>setAddingItemToCat(addingItemToCat===cat.id?null:cat.id)}>+ Optie toevoegen</button>
-                  <button className="delete-btn" onClick={()=>deleteCategory(cat.id)}>🗑</button>
-                </div>
-              </div>
-
-              {addingItemToCat===cat.id && (
-                <div style={{padding:'0 16px 16px'}}>
-                  <AddItemForm
-                    catId={cat.id}
-                    settings={settings}
-                    fetchingUrl={fetchingUrl}
-                    onFetchUrl={fetchFromUrl}
-                    onSave={()=>{ setAddingItemToCat(null); fetchReno(); }}
-                    onCancel={()=>setAddingItemToCat(null)}
-                  />
-                </div>
-              )}
-
-              {catItems.length === 0
-                ? <div style={{padding:'20px',textAlign:'center',color:'#94a3b8',fontSize:14}}>Nog geen opties toegevoegd</div>
-                : <div className="reno-items-grid">
-                    {catItems.map(item => (
-                      <RenovationItemCard
-                        key={item.id}
-                        item={item}
-                        calcTotal={calcTotal}
-                        onChoose={()=>chooseItem(cat.id, item.id)}
-                        onStatusChange={(s)=>updateItemStatus(item.id,s)}
-                        onDelete={()=>deleteItem(item.id)}
-                        onRefresh={fetchReno}
-                      />
-                    ))}
-                  </div>
-              }
-            </div>
-          );
-        })
-      }
-    </div>
-  );
-}
-
-function AddItemForm({ catId, settings, fetchingUrl, onFetchUrl, onSave, onCancel }) {
-  const [url, setUrl] = useState('');
-  const [form, setForm] = useState({ name:'', price:'', price_type:'total', quantity:'1', unit:'stuk', image_url:'', notes:'', status:'orienterend' });
-
-  const handleFetch = () => { if (url) onFetchUrl(url, catId, setForm); };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await supabase.from('renovation_items').insert({
-      category_id: catId, name:form.name, url, image_url:form.image_url,
-      price:parseFloat(form.price)||0, price_type:form.price_type,
-      quantity:parseFloat(form.quantity)||1, unit:form.unit,
-      notes:form.notes, status:form.status, is_chosen:false,
-    });
-    onSave();
-  };
-
-  return (
-    <form onSubmit={handleSubmit} style={{background:'#f8faff',borderRadius:12,padding:16,border:'2px solid #667eea',marginTop:12}}>
-      <div style={{fontSize:13,fontWeight:600,color:'#667eea',marginBottom:12}}>Nieuwe optie toevoegen</div>
-      <div className="url-fetch-bar">
-        <input className="form-input" placeholder="Plak een product URL…" value={url} onChange={e=>setUrl(e.target.value)} />
-        <button type="button" className="add-btn" style={{whiteSpace:'nowrap',padding:'10px 16px',fontSize:13}} onClick={handleFetch} disabled={fetchingUrl}>
-          {fetchingUrl?'⏳ Laden…':'🔍 Ophalen'}
-        </button>
-      </div>
-      {form.image_url && <img src={form.image_url} alt="preview" style={{width:'100%',height:120,objectFit:'cover',borderRadius:10,marginBottom:12}} onError={e=>e.target.style.display='none'} />}
-      <div className="form-row">
-        <div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="Productnaam" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required /></div>
-        <div className="form-group"><label className="form-label">Prijs (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.price} onChange={e=>setForm({...form,price:e.target.value})} required /></div>
-      </div>
-      <div className="form-row">
-        <div className="form-group">
-          <label className="form-label">Prijstype</label>
-          <select className="form-select" value={form.price_type} onChange={e=>setForm({...form,price_type:e.target.value})}>
-            {PRICE_TYPES.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}
-          </select>
-        </div>
-        {form.price_type !== 'total' && (
-          <div className="form-group">
-            <label className="form-label">{form.price_type==='hour'?'Aantal uren':'Aantal m² / stuks'}</label>
-            <input className="form-input" type="number" step="0.1" value={form.quantity} onChange={e=>setForm({...form,quantity:e.target.value})} />
-          </div>
-        )}
-      </div>
-      <div className="form-row">
-        <div className="form-group">
-          <label className="form-label">Status</label>
-          <select className="form-select" value={form.status} onChange={e=>setForm({...form,status:e.target.value})}>
-            {STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}
-          </select>
-        </div>
-        <div className="form-group"><label className="form-label">Afbeelding URL (optioneel)</label><input className="form-input" placeholder="https://..." value={form.image_url} onChange={e=>setForm({...form,image_url:e.target.value})} /></div>
-      </div>
-      <div className="form-group" style={{marginBottom:12}}><label className="form-label">Notities</label><input className="form-input" placeholder="Optionele notitie…" value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})} /></div>
-      <div style={{display:'flex',gap:8}}>
-        <button className="add-btn green" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>
-        <button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button>
-      </div>
-    </form>
-  );
-}
-
-function RenovationItemCard({ item, calcTotal, onChoose, onStatusChange, onDelete, onRefresh }) {
-  const [editing, setEditing] = useState(false);
-  const [form, setForm] = useState({ name:item.name, price:item.price, price_type:item.price_type, quantity:item.quantity, unit:item.unit||'stuk', image_url:item.image_url||'', notes:item.notes||'', status:item.status, url:item.url||'' });
-  const total = calcTotal(item);
-  const statusInfo = STATUS_OPTIONS.find(s=>s.id===item.status)||STATUS_OPTIONS[0];
-
-  const saveEdit = async (e) => {
-    e.preventDefault();
-    await supabase.from('renovation_items').update({ name:form.name, price:parseFloat(form.price)||0, price_type:form.price_type, quantity:parseFloat(form.quantity)||1, unit:form.unit, image_url:form.image_url, notes:form.notes, status:form.status, url:form.url }).eq('id',item.id);
-    setEditing(false); onRefresh();
-  };
-
-  if (editing) {
-    return (
-      <div style={{gridColumn:'1/-1'}}>
-        <form onSubmit={saveEdit} style={{background:'#f8faff',borderRadius:12,padding:16,border:'2px solid #667eea'}}>
-          <div style={{fontSize:13,fontWeight:600,color:'#667eea',marginBottom:12}}>Bewerken</div>
-          {form.image_url && <img src={form.image_url} alt="preview" style={{width:'100%',height:100,objectFit:'cover',borderRadius:10,marginBottom:12}} onError={e=>e.target.style.display='none'} />}
-          <div className="form-row">
-            <div className="form-group"><label className="form-label">Naam</label><input className="form-input" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required /></div>
-            <div className="form-group"><label className="form-label">Prijs (€)</label><input className="form-input" type="number" step="0.01" value={form.price} onChange={e=>setForm({...form,price:e.target.value})} /></div>
-          </div>
-          <div className="form-row">
-            <div className="form-group"><label className="form-label">Prijstype</label><select className="form-select" value={form.price_type} onChange={e=>setForm({...form,price_type:e.target.value})}>{PRICE_TYPES.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}</select></div>
-            {form.price_type!=='total' && <div className="form-group"><label className="form-label">Aantal</label><input className="form-input" type="number" step="0.1" value={form.quantity} onChange={e=>setForm({...form,quantity:e.target.value})} /></div>}
-          </div>
-          <div className="form-row">
-            <div className="form-group"><label className="form-label">Status</label><select className="form-select" value={form.status} onChange={e=>setForm({...form,status:e.target.value})}>{STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select></div>
-            <div className="form-group"><label className="form-label">Afbeelding URL</label><input className="form-input" value={form.image_url} onChange={e=>setForm({...form,image_url:e.target.value})} /></div>
-          </div>
-          <div className="form-group" style={{marginBottom:12}}><label className="form-label">URL</label><input className="form-input" value={form.url} onChange={e=>setForm({...form,url:e.target.value})} /></div>
-          <div className="form-group" style={{marginBottom:12}}><label className="form-label">Notities</label><input className="form-input" value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})} /></div>
-          <div style={{display:'flex',gap:8}}>
-            <button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>
-            <button className="add-btn secondary" type="button" onClick={()=>setEditing(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button>
-          </div>
-        </form>
-      </div>
-    );
-  }
-
-  return (
-    <div className={`reno-item ${item.is_chosen?'chosen':''} ${item.status==='betaald'?'paid':''}`}>
-      {item.is_chosen && <div className="chosen-ribbon">✓ Gekozen</div>}
-      <div className="reno-item-img">
-        {item.image_url
-          ? <img src={item.image_url} alt={item.name} onError={e=>{ e.target.style.display='none'; e.target.parentElement.innerHTML='🔨'; }} />
-          : '🔨'
-        }
-      </div>
-      <div className="reno-item-body">
-        <div className="reno-item-name">{item.name}</div>
-        <div className="reno-item-price">
-          {fmtEur(item.price)}
-          {item.price_type!=='total' && <span style={{fontSize:13,color:'#94a3b8'}}> /{item.price_type==='m2'?'m²':item.price_type==='hour'?'uur':'stuk'}</span>}
-        </div>
-        {item.price_type!=='total' && (
-          <div className="reno-item-total">Totaal: {fmtEur(total)} ({item.quantity} {item.price_type==='m2'?'m²':item.price_type==='hour'?'uur':'stuks'})</div>
-        )}
-        {item.notes && <div style={{fontSize:12,color:'#64748b',marginBottom:8}}>{item.notes}</div>}
-        <div style={{display:'flex',gap:6,marginBottom:8,flexWrap:'wrap'}}>
-          <span className={`status-badge ${item.status}`}>{statusInfo.label}</span>
-          {item.url && <a href={item.url} target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:'#667eea',fontWeight:600,textDecoration:'none'}}>🔗 Link</a>}
-        </div>
-        <div className="reno-item-actions">
-          {!item.is_chosen && <button className="add-btn green" style={{padding:'5px 12px',fontSize:12}} onClick={onChoose}>✓ Kiezen</button>}
-          <select className="form-select" style={{padding:'5px 8px',fontSize:12,flex:1}} value={item.status} onChange={e=>onStatusChange(e.target.value)}>
-            {STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}
-          </select>
-          <button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button>
-          <button className="delete-btn" onClick={onDelete}>🗑</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Overview({ expenses, incomes, accounts, settings }) {
-  const now = new Date();
-  const monthName = now.toLocaleString('nl-NL',{month:'long',year:'numeric'});
-  const lasloIncome = incomes.filter(i=>i.person==='laslo').reduce((s,i)=>s+Number(i.amount),0);
-  const herIncome = incomes.filter(i=>i.person==='her').reduce((s,i)=>s+Number(i.amount),0);
-  const lasloPersonal = expenses.filter(e=>e.person==='laslo'&&!e.is_shared).reduce((s,e)=>s+Number(e.amount),0);
-  const herPersonal = expenses.filter(e=>e.person==='her'&&!e.is_shared).reduce((s,e)=>s+Number(e.amount),0);
-  const sharedTotal = expenses.filter(e=>e.is_shared).reduce((s,e)=>s+Number(e.amount),0);
-  const pct = settings.shared_pct;
-  const lasloNet = lasloIncome - lasloPersonal - sharedTotal*(pct/100);
-  const herNet = herIncome - herPersonal - sharedTotal*((100-pct)/100);
-  const totalNetWorth = accounts.reduce((s,a)=>s+Number(a.balance),0);
-  const today = new Date(); today.setHours(0,0,0,0);
-  const in7 = new Date(today); in7.setDate(in7.getDate()+7);
-  const upcoming = [...expenses.map(e=>({...e,type:'expense'})),...incomes.map(i=>({...i,type:'income'}))]
-    .filter(x=>{ if(!x.date) return false; const d=new Date(x.date); d.setHours(0,0,0,0); return d>=today&&d<=in7; })
+function Overview({expenses,incomes,accounts,settings}){
+  const now=new Date();
+  const monthName=now.toLocaleString('nl-NL',{month:'long',year:'numeric'});
+  const lasloIncome=incomes.filter(i=>i.person==='laslo').reduce((s,i)=>s+Number(i.amount),0);
+  const herIncome=incomes.filter(i=>i.person==='her').reduce((s,i)=>s+Number(i.amount),0);
+  const lasloPersonal=expenses.filter(e=>e.person==='laslo'&&!e.is_shared).reduce((s,e)=>s+Number(e.amount),0);
+  const herPersonal=expenses.filter(e=>e.person==='her'&&!e.is_shared).reduce((s,e)=>s+Number(e.amount),0);
+  const sharedTotal=expenses.filter(e=>e.is_shared).reduce((s,e)=>s+Number(e.amount),0);
+  const pct=settings.shared_pct;
+  const lasloNet=lasloIncome-lasloPersonal-sharedTotal*(pct/100);
+  const herNet=herIncome-herPersonal-sharedTotal*((100-pct)/100);
+  const totalNetWorth=accounts.reduce((s,a)=>s+Number(a.balance),0);
+  const today=new Date();today.setHours(0,0,0,0);
+  const in7=new Date(today);in7.setDate(in7.getDate()+7);
+  const upcoming=[...expenses.map(e=>({...e,type:'expense'})),...incomes.map(i=>({...i,type:'income'}))]
+    .filter(x=>{if(!x.date)return false;const d=new Date(x.date);d.setHours(0,0,0,0);return d>=today&&d<=in7;})
     .sort((a,b)=>new Date(a.date)-new Date(b.date));
-  return (
+  return(
     <div>
-      <div style={{marginBottom:24}}>
-        <div style={{fontSize:22,fontWeight:700,color:'#1e293b',marginBottom:4}}>Goeiedag! 👋</div>
-        <div style={{color:'#64748b',fontSize:14,textTransform:'capitalize'}}>{monthName}</div>
-      </div>
-      <div className="networth-total mb-16">
-        <div className="networth-label">Totaal vermogen</div>
-        <div className="networth-value">{fmtEur(totalNetWorth)}</div>
-      </div>
+      <div style={{marginBottom:24}}><div style={{fontSize:22,fontWeight:700,color:'#1e293b',marginBottom:4}}>Goeiedag! 👋</div><div style={{color:'#64748b',fontSize:14,textTransform:'capitalize'}}>{monthName}</div></div>
+      <div className="networth-total mb-16"><div className="networth-label">Totaal vermogen</div><div className="networth-value">{fmtEur(totalNetWorth)}</div></div>
       <div className="grid-4 mb-24">
         <div className="stat-card"><div className="stat-label"><span className="dot laslo"></span>{settings.laslo_name} inkomen</div><div className="stat-value green">{fmtEur(lasloIncome)}</div></div>
         <div className="stat-card"><div className="stat-label"><span className="dot her"></span>{settings.her_name} inkomen</div><div className="stat-value green">{fmtEur(herIncome)}</div></div>
@@ -961,45 +700,29 @@ function Overview({ expenses, incomes, accounts, settings }) {
       </div>
       <div className="card">
         <div className="card-title">⏰ Aankomend deze week</div>
-        {upcoming.length===0
-          ? <div className="empty"><div className="empty-icon">🎉</div>Niets aankomend de komende 7 dagen</div>
-          : upcoming.map(x=>{
-            const days=daysUntil(x.date);
-            return (
-              <div key={x.id} className="upcoming-item">
-                <div className="upcoming-left">
-                  <div className="upcoming-icon"><LogoOrIcon name={x.name||x.label} category={x.category||'other'} /></div>
-                  <div><div className="upcoming-name">{x.name||x.label}</div><div className="upcoming-date">{fmtDate(x.date)}</div></div>
-                </div>
-                <div style={{display:'flex',alignItems:'center',gap:8}}>
-                  <span className={`days-badge ${days===0?'today':days<=2?'soon':'future'}`}>{days===0?'Vandaag':days===1?'Morgen':`${days}d`}</span>
-                  <span className={`upcoming-amount ${x.type==='income'?'income':'expense'}`}>{x.type==='income'?'+':'-'}{fmtEur(x.amount)}</span>
-                </div>
-              </div>
-            );
-          })
-        }
+        {upcoming.length===0?<div className="empty"><div className="empty-icon">🎉</div>Niets aankomend de komende 7 dagen</div>
+          :upcoming.map(x=>{const days=daysUntil(x.date);return(<div key={x.id} className="upcoming-item"><div className="upcoming-left"><div className="upcoming-icon"><LogoOrIcon name={x.name||x.label} category={x.category||'other'}/></div><div><div className="upcoming-name">{x.name||x.label}</div><div className="upcoming-date">{fmtDate(x.date)}</div></div></div><div style={{display:'flex',alignItems:'center',gap:8}}><span className={`days-badge ${days===0?'today':days<=2?'soon':'future'}`}>{days===0?'Vandaag':days===1?'Morgen':`${days}d`}</span><span className={`upcoming-amount ${x.type==='income'?'income':'expense'}`}>{x.type==='income'?'+':'-'}{fmtEur(x.amount)}</span></div></div>);})}
       </div>
     </div>
   );
 }
 
-function PersonTab({ person, expenses, incomes, settings, categoryOrder, onReorder, onRefresh }) {
-  const [showExpForm, setShowExpForm] = useState(false);
-  const [showIncForm, setShowIncForm] = useState(false);
-  const [editingIncome, setEditingIncome] = useState(null);
-  const myExpenses = expenses.filter(e=>e.person===person&&!e.is_shared);
-  const mySharedExpenses = expenses.filter(e=>e.is_shared);
-  const allExpenses = [...myExpenses, ...mySharedExpenses];
-  const myIncomes = incomes.filter(i=>i.person===person);
-  const totalInc = myIncomes.reduce((s,i)=>s+Number(i.amount),0);
-  const totalExp = myExpenses.reduce((s,e)=>s+Number(e.amount),0);
-  const pct = person==='laslo'?settings.shared_pct:100-settings.shared_pct;
-  const sharedTotal = mySharedExpenses.reduce((s,e)=>s+Number(e.amount),0);
-  const myShared = sharedTotal*(pct/100);
-  const net = totalInc - totalExp - myShared;
-  const deleteIncome = async (id) => { await supabase.from('incomes').delete().eq('id',id); onRefresh(); };
-  return (
+function PersonTab({person,expenses,incomes,settings,categoryOrder,onReorder,onRefresh}){
+  const[showExpForm,setShowExpForm]=useState(false);
+  const[showIncForm,setShowIncForm]=useState(false);
+  const[editingIncome,setEditingIncome]=useState(null);
+  const myExpenses=expenses.filter(e=>e.person===person&&!e.is_shared);
+  const mySharedExpenses=expenses.filter(e=>e.is_shared);
+  const allExpenses=[...myExpenses,...mySharedExpenses];
+  const myIncomes=incomes.filter(i=>i.person===person);
+  const totalInc=myIncomes.reduce((s,i)=>s+Number(i.amount),0);
+  const totalExp=myExpenses.reduce((s,e)=>s+Number(e.amount),0);
+  const pct=person==='laslo'?settings.shared_pct:100-settings.shared_pct;
+  const sharedTotal=mySharedExpenses.reduce((s,e)=>s+Number(e.amount),0);
+  const myShared=sharedTotal*(pct/100);
+  const net=totalInc-totalExp-myShared;
+  const deleteIncome=async(id)=>{await supabase.from('incomes').delete().eq('id',id);onRefresh();};
+  return(
     <div>
       <div className="grid-3 mb-24">
         <div className="stat-card"><div className="stat-label">Inkomen</div><div className="stat-value green">{fmtEur(totalInc)}</div></div>
@@ -1007,51 +730,26 @@ function PersonTab({ person, expenses, incomes, settings, categoryOrder, onReord
         <div className="stat-card"><div className="stat-label">Cashflow</div><div className={`stat-value ${net>=0?'green':'red'}`}>{fmtEur(net)}</div><div className="stat-sub">Na {pct}% van gedeelde kosten</div></div>
       </div>
       <div className="card mb-16">
-        <div className="section-header">
-          <div className="section-title">💚 Inkomen</div>
-          <button className="add-btn secondary" onClick={()=>setShowIncForm(!showIncForm)}>{showIncForm?'Annuleren':'+ Inkomen toevoegen'}</button>
-        </div>
-        {showIncForm && <IncomeForm person={person} onSave={()=>{onRefresh();setShowIncForm(false);}} />}
-        {myIncomes.length===0
-          ? <div className="empty"><div className="empty-icon">💸</div>Nog geen inkomen toegevoegd</div>
-          : myIncomes.map(i=>(
-            <div key={i.id}>
-              {editingIncome===i.id
-                ? <EditIncomeForm income={i} onSave={()=>{onRefresh();setEditingIncome(null);}} onCancel={()=>setEditingIncome(null)} />
-                : <div className="expense-item">
-                    <div className="expense-left">
-                      <div className="expense-icon">💰</div>
-                      <div><div className="expense-name">{i.label}</div><div className="expense-meta">{fmtDate(i.date)}</div></div>
-                    </div>
-                    <div className="expense-right">
-                      <span className="expense-amount income">{fmtEur(i.amount)}</span>
-                      <button className="delete-btn" onClick={()=>setEditingIncome(i.id)}>✏️</button>
-                      <button className="delete-btn" onClick={()=>deleteIncome(i.id)}>🗑</button>
-                    </div>
-                  </div>
-              }
-            </div>
-          ))
-        }
+        <div className="section-header"><div className="section-title">💚 Inkomen</div><button className="add-btn secondary" onClick={()=>setShowIncForm(!showIncForm)}>{showIncForm?'Annuleren':'+ Inkomen toevoegen'}</button></div>
+        {showIncForm&&<IncomeForm person={person} onSave={()=>{onRefresh();setShowIncForm(false);}}/>}
+        {myIncomes.length===0?<div className="empty"><div className="empty-icon">💸</div>Nog geen inkomen toegevoegd</div>
+          :myIncomes.map(i=>(<div key={i.id}>{editingIncome===i.id?<EditIncomeForm income={i} onSave={()=>{onRefresh();setEditingIncome(null);}} onCancel={()=>setEditingIncome(null)}/>:<div className="expense-item"><div className="expense-left"><div className="expense-icon">💰</div><div><div className="expense-name">{i.label}</div><div className="expense-meta">{fmtDate(i.date)}</div></div></div><div className="expense-right"><span className="expense-amount income">{fmtEur(i.amount)}</span><button className="delete-btn" onClick={()=>setEditingIncome(i.id)}>✏️</button><button className="delete-btn" onClick={()=>deleteIncome(i.id)}>🗑</button></div></div>}</div>))}
       </div>
       <div className="card">
-        <div className="section-header">
-          <div className="section-title">💸 Uitgaven per categorie</div>
-          <button className="add-btn secondary" onClick={()=>setShowExpForm(!showExpForm)}>{showExpForm?'Annuleren':'+ Uitgave toevoegen'}</button>
-        </div>
-        {showExpForm && <ExpenseForm person={person} settings={settings} onSave={()=>{onRefresh();setShowExpForm(false);}} />}
-        <CategoryExpenseList expenses={allExpenses} pct={pct} settings={settings} onRefresh={onRefresh} categoryOrder={categoryOrder} onReorder={onReorder} />
+        <div className="section-header"><div className="section-title">💸 Uitgaven per categorie</div><button className="add-btn secondary" onClick={()=>setShowExpForm(!showExpForm)}>{showExpForm?'Annuleren':'+ Uitgave toevoegen'}</button></div>
+        {showExpForm&&<ExpenseForm person={person} settings={settings} onSave={()=>{onRefresh();setShowExpForm(false);}}/>}
+        <CategoryExpenseList expenses={allExpenses} pct={pct} settings={settings} onRefresh={onRefresh} categoryOrder={categoryOrder} onReorder={onReorder}/>
       </div>
     </div>
   );
 }
 
-function SharedTab({ expenses, settings, categoryOrder, onReorder, onRefresh }) {
-  const [showForm, setShowForm] = useState(false);
-  const sharedExp = expenses.filter(e=>e.is_shared);
-  const total = sharedExp.reduce((s,e)=>s+Number(e.amount),0);
-  const pct = settings.shared_pct;
-  return (
+function SharedTab({expenses,settings,categoryOrder,onReorder,onRefresh}){
+  const[showForm,setShowForm]=useState(false);
+  const sharedExp=expenses.filter(e=>e.is_shared);
+  const total=sharedExp.reduce((s,e)=>s+Number(e.amount),0);
+  const pct=settings.shared_pct;
+  return(
     <div>
       <div className="grid-3 mb-24">
         <div className="stat-card"><div className="stat-label">Totaal gedeeld</div><div className="stat-value red">{fmtEur(total)}</div></div>
@@ -1059,66 +757,40 @@ function SharedTab({ expenses, settings, categoryOrder, onReorder, onRefresh }) 
         <div className="stat-card"><div className="stat-label"><span className="dot her"></span>{settings.her_name} betaalt ({100-pct}%)</div><div className="stat-value" style={{color:'#f472b6'}}>{fmtEur(total*((100-pct)/100))}</div></div>
       </div>
       <div className="card">
-        <div className="section-header">
-          <div className="section-title">🤝 Gedeelde uitgaven per categorie</div>
-          <button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Gedeelde toevoegen'}</button>
-        </div>
-        {showForm && <ExpenseForm person="shared" isShared={true} settings={settings} onSave={()=>{onRefresh();setShowForm(false);}} />}
-        <CategoryExpenseList expenses={sharedExp} pct={pct} settings={settings} onRefresh={onRefresh} categoryOrder={categoryOrder} onReorder={onReorder} />
+        <div className="section-header"><div className="section-title">🤝 Gedeelde uitgaven per categorie</div><button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Gedeelde toevoegen'}</button></div>
+        {showForm&&<ExpenseForm person="shared" isShared={true} settings={settings} onSave={()=>{onRefresh();setShowForm(false);}}/>}
+        <CategoryExpenseList expenses={sharedExp} pct={pct} settings={settings} onRefresh={onRefresh} categoryOrder={categoryOrder} onReorder={onReorder}/>
       </div>
     </div>
   );
 }
 
-function HouseTab({ houseExpenses, settings, onRefresh }) {
-  const [showForm, setShowForm] = useState(false);
-  const [scanning, setScanning] = useState(false);
-  const [scannedData, setScannedData] = useState(null);
-  const [lightboxUrl, setLightboxUrl] = useState(null);
-  const [editingId, setEditingId] = useState(null);
-  const fileInputRef = useRef(null);
-  const total = houseExpenses.reduce((s,e)=>s+Number(e.amount),0);
-  const lasloTotal = houseExpenses.filter(e=>e.paid_by==='laslo').reduce((s,e)=>s+Number(e.amount),0);
-  const herTotal = houseExpenses.filter(e=>e.paid_by==='her').reduce((s,e)=>s+Number(e.amount),0);
-  const sharedTotal = houseExpenses.filter(e=>e.paid_by==='shared').reduce((s,e)=>s+Number(e.amount),0);
-  const handleScanClick = () => fileInputRef.current.click();
-  const handleFileChange = async (e) => {
-    const file = e.target.files[0]; if (!file) return;
-    setScanning(true); setScannedData(null);
-    try {
-      const compressed = await compressImage(file, 800, 0.6);
-      const reader = new FileReader();
-      reader.onload = async (ev) => {
-        const base64 = ev.target.result.split(',')[1];
-        const res = await fetch('https://api.openai.com/v1/chat/completions', {
-          method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${settings.openai_key}`},
-          body:JSON.stringify({ model:'gpt-4o', messages:[{role:'user',content:[
-            {type:'text',text:'Dit is een bon of factuur. Extraheer de volgende gegevens en geef ze terug als JSON: { "name": "naam van winkel/leverancier", "amount": getal, "date": "YYYY-MM-DD", "category": een van: mortgage/insurance/maintenance/renovation/furniture/appliances/garden/cleaning/utilities/other, "description": "korte omschrijving" }. Als je een waarde niet kunt vinden, gebruik dan een lege string of 0.'},
-            {type:'image_url',image_url:{url:`data:image/jpeg;base64,${base64}`}}
-          ]}], max_tokens:500 })
-        });
-        const data = await res.json();
-        const text = data.choices?.[0]?.message?.content||'';
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-        if (jsonMatch) { const parsed = JSON.parse(jsonMatch[0]); setScannedData({...parsed,_file:compressed}); }
-        setScanning(false);
-      };
-      reader.readAsDataURL(compressed);
-    } catch(err) { console.error(err); setScanning(false); }
-    e.target.value='';
+function HouseTab({houseExpenses,settings,onRefresh}){
+  const[showForm,setShowForm]=useState(false);
+  const[scanning,setScanning]=useState(false);
+  const[scannedData,setScannedData]=useState(null);
+  const[lightboxUrl,setLightboxUrl]=useState(null);
+  const[editingId,setEditingId]=useState(null);
+  const fileInputRef=useRef(null);
+  const total=houseExpenses.reduce((s,e)=>s+Number(e.amount),0);
+  const lasloTotal=houseExpenses.filter(e=>e.paid_by==='laslo').reduce((s,e)=>s+Number(e.amount),0);
+  const herTotal=houseExpenses.filter(e=>e.paid_by==='her').reduce((s,e)=>s+Number(e.amount),0);
+  const sharedTotal=houseExpenses.filter(e=>e.paid_by==='shared').reduce((s,e)=>s+Number(e.amount),0);
+  const handleScanClick=()=>fileInputRef.current.click();
+  const handleFileChange=async e=>{
+    const file=e.target.files[0];if(!file)return;
+    setScanning(true);setScannedData(null);
+    try{const compressed=await compressImage(file,800,0.6);const reader=new FileReader();reader.onload=async ev=>{const base64=ev.target.result.split(',')[1];const res=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${settings.openai_key}`},body:JSON.stringify({model:'gpt-4o',messages:[{role:'user',content:[{type:'text',text:'Dit is een bon of factuur. Extraheer de volgende gegevens en geef ze terug als JSON: { "name": "naam van winkel/leverancier", "amount": getal, "date": "YYYY-MM-DD", "category": een van: mortgage/insurance/maintenance/renovation/furniture/appliances/garden/cleaning/utilities/other, "description": "korte omschrijving" }.'},{type:'image_url',image_url:{url:`data:image/jpeg;base64,${base64}`}}]}],max_tokens:500})});const data=await res.json();const text=data.choices?.[0]?.message?.content||'';const jsonMatch=text.match(/\{[\s\S]*\}/);if(jsonMatch){const parsed=JSON.parse(jsonMatch[0]);setScannedData({...parsed,_file:compressed});}setScanning(false);};reader.readAsDataURL(compressed);}catch(err){console.error(err);setScanning(false);}e.target.value='';
   };
-  const deleteHouseExpense = async (id, receiptUrl) => {
-    if (receiptUrl) { const path=receiptUrl.split('/receipts/')[1]; if(path) await supabase.storage.from('receipts').remove([path]); }
-    await supabase.from('house_expenses').delete().eq('id',id); onRefresh();
-  };
-  return (
+  const deleteHouseExpense=async(id,receiptUrl)=>{if(receiptUrl){const path=receiptUrl.split('/receipts/')[1];if(path)await supabase.storage.from('receipts').remove([path]);}await supabase.from('house_expenses').delete().eq('id',id);onRefresh();};
+  return(
     <div>
-      {lightboxUrl && (<div className="modal-overlay" onClick={()=>setLightboxUrl(null)}><button className="modal-close" onClick={()=>setLightboxUrl(null)}>✕</button><img className="modal-img" src={lightboxUrl} alt="bon" /></div>)}
-      <input ref={fileInputRef} type="file" accept="image/*" capture="environment" style={{display:'none'}} onChange={handleFileChange} />
-      {!settings.openai_key && (<div style={{background:'#fef3c7',border:'2px solid #f59e0b',borderRadius:12,padding:16,marginBottom:24,fontSize:14,color:'#92400e'}}>⚠️ Voeg eerst je OpenAI API key toe via ⚙️ Settings om de bon-scanner te gebruiken.</div>)}
+      {lightboxUrl&&(<div className="modal-overlay" onClick={()=>setLightboxUrl(null)}><button className="modal-close" onClick={()=>setLightboxUrl(null)}>✕</button><img className="modal-img" src={lightboxUrl} alt="bon"/></div>)}
+      <input ref={fileInputRef} type="file" accept="image/*" capture="environment" style={{display:'none'}} onChange={handleFileChange}/>
+      {!settings.openai_key&&(<div style={{background:'#fef3c7',border:'2px solid #f59e0b',borderRadius:12,padding:16,marginBottom:24,fontSize:14,color:'#92400e'}}>⚠️ Voeg eerst je OpenAI API key toe via ⚙️ Settings.</div>)}
       <div className="scan-hero" onClick={handleScanClick}><div className="scan-hero-icon">📸</div><div className="scan-hero-title">Bon scannen</div><div className="scan-hero-sub">Tik hier om je camera te openen en een foto te maken van een bon</div></div>
-      {scanning && (<div className="scan-processing"><div className="scan-processing-icon">⚙️</div><div style={{fontSize:15,fontWeight:600,color:'#667eea'}}>Bon wordt verwerkt…</div><div style={{fontSize:13,color:'#94a3b8',marginTop:4}}>Even geduld, AI leest de bon</div></div>)}
-      {scannedData && (<div style={{marginBottom:24}}><div className="scan-result-preview"><div className="scan-result-title">✅ Bon gescand! Controleer en sla op:</div></div><HouseExpenseForm settings={settings} prefill={scannedData} prefillFile={scannedData._file} onSave={()=>{setScannedData(null);onRefresh();}} onCancel={()=>setScannedData(null)} /></div>)}
+      {scanning&&(<div className="scan-processing"><div className="scan-processing-icon">⚙️</div><div style={{fontSize:15,fontWeight:600,color:'#667eea'}}>Bon wordt verwerkt…</div></div>)}
+      {scannedData&&(<div style={{marginBottom:24}}><div className="scan-result-preview"><div className="scan-result-title">✅ Bon gescand! Controleer en sla op:</div></div><HouseExpenseForm settings={settings} prefill={scannedData} prefillFile={scannedData._file} onSave={()=>{setScannedData(null);onRefresh();}} onCancel={()=>setScannedData(null)}/></div>)}
       <div className="grid-4 mb-24">
         <div className="stat-card"><div className="stat-label">Totaal huis</div><div className="stat-value" style={{color:'#f59e0b'}}>{fmtEur(total)}</div></div>
         <div className="stat-card"><div className="stat-label"><span className="dot laslo"></span>{settings.laslo_name}</div><div className="stat-value purple">{fmtEur(lasloTotal)}</div></div>
@@ -1127,245 +799,138 @@ function HouseTab({ houseExpenses, settings, onRefresh }) {
       </div>
       <div className="card">
         <div className="section-header"><div className="section-title">🏠 Huiskosten</div><button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Handmatig toevoegen'}</button></div>
-        {showForm && <HouseExpenseForm settings={settings} onSave={()=>{onRefresh();setShowForm(false);}} onCancel={()=>setShowForm(false)} />}
-        {houseExpenses.length===0 ? <div className="empty"><div className="empty-icon">🏠</div>Nog geen huiskosten toegevoegd</div>
-          : houseExpenses.map(e => {
-            const cat = getCategoryInfo(e.category, true);
-            return (
-              <div key={e.id}>
-                {editingId===e.id
-                  ? <HouseExpenseForm settings={settings} prefill={e} isEdit={true} onSave={async(formData,file)=>{ let receipt_url=e.receipt_url; if(file){const compressed=await compressImage(file,800,0.6);const fileName=`${Date.now()}.jpg`;await supabase.storage.from('receipts').upload(fileName,compressed,{contentType:'image/jpeg',upsert:true});const{data:urlData}=supabase.storage.from('receipts').getPublicUrl(fileName);receipt_url=urlData.publicUrl;} await supabase.from('house_expenses').update({...formData,receipt_url}).eq('id',e.id);setEditingId(null);onRefresh();}} onCancel={()=>setEditingId(null)} />
-                  : <div className="house-item">
-                      <div className="house-left">
-                        <div className="house-icon">{e.receipt_url?<img src={e.receipt_url} alt="bon" onClick={()=>setLightboxUrl(e.receipt_url)} />:cat.icon}</div>
-                        <div><div className="house-name">{e.name}</div><div className="house-meta">{cat.label} · {fmtDate(e.date)}{e.description?' · '+e.description:''}</div></div>
-                      </div>
-                      <div className="house-right">
-                        <span className={`paid-badge ${e.paid_by}`}>{e.paid_by==='laslo'?settings.laslo_name:e.paid_by==='her'?settings.her_name:'Gedeeld'}</span>
-                        <div className="house-amount">{fmtEur(e.amount)}</div>
-                        <button className="delete-btn" onClick={()=>setEditingId(e.id)}>✏️</button>
-                        <button className="delete-btn" onClick={()=>deleteHouseExpense(e.id,e.receipt_url)}>🗑</button>
-                      </div>
-                    </div>
-                }
-              </div>
-            );
-          })
-        }
+        {showForm&&<HouseExpenseForm settings={settings} onSave={()=>{onRefresh();setShowForm(false);}} onCancel={()=>setShowForm(false)}/>}
+        {houseExpenses.length===0?<div className="empty"><div className="empty-icon">🏠</div>Nog geen huiskosten toegevoegd</div>
+          :houseExpenses.map(e=>{const cat=getCategoryInfo(e.category,true);return(<div key={e.id}>{editingId===e.id?<HouseExpenseForm settings={settings} prefill={e} isEdit={true} onSave={async(formData,file)=>{let receipt_url=e.receipt_url;if(file){const compressed=await compressImage(file,800,0.6);const fileName=`${Date.now()}.jpg`;await supabase.storage.from('receipts').upload(fileName,compressed,{contentType:'image/jpeg',upsert:true});const{data:urlData}=supabase.storage.from('receipts').getPublicUrl(fileName);receipt_url=urlData.publicUrl;}await supabase.from('house_expenses').update({...formData,receipt_url}).eq('id',e.id);setEditingId(null);onRefresh();}} onCancel={()=>setEditingId(null)}/>:<div className="house-item"><div className="house-left"><div className="house-icon">{e.receipt_url?<img src={e.receipt_url} alt="bon" onClick={()=>setLightboxUrl(e.receipt_url)}/>:cat.icon}</div><div><div className="house-name">{e.name}</div><div className="house-meta">{cat.label} · {fmtDate(e.date)}{e.description?' · '+e.description:''}</div></div></div><div className="house-right"><span className={`paid-badge ${e.paid_by}`}>{e.paid_by==='laslo'?settings.laslo_name:e.paid_by==='her'?settings.her_name:'Gedeeld'}</span><div className="house-amount">{fmtEur(e.amount)}</div><button className="delete-btn" onClick={()=>setEditingId(e.id)}>✏️</button><button className="delete-btn" onClick={()=>deleteHouseExpense(e.id,e.receipt_url)}>🗑</button></div></div>}</div>);})}
       </div>
     </div>
   );
 }
 
-function HouseExpenseForm({ settings, prefill={}, prefillFile=null, isEdit=false, onSave, onCancel }) {
-  const today = new Date().toISOString().split('T')[0];
-  const [form, setForm] = useState({ name:prefill.name||'', amount:prefill.amount||'', category:prefill.category||'other', description:prefill.description||'', date:prefill.date||today, paid_by:prefill.paid_by||'shared' });
-  const [file, setFile] = useState(prefillFile||null);
-  const [preview, setPreview] = useState(null);
-  const [saving, setSaving] = useState(false);
-  useEffect(() => { if(file){const url=URL.createObjectURL(file);setPreview(url);return()=>URL.revokeObjectURL(url);} }, [file]);
-  const handleSubmit = async (e) => {
-    e.preventDefault(); setSaving(true);
-    try {
-      if(isEdit){ await onSave(form,file); }
-      else {
-        let receipt_url=null;
-        if(file){const compressed=file.type==='image/jpeg'?file:await compressImage(file,800,0.6);const fileName=`${Date.now()}.jpg`;await supabase.storage.from('receipts').upload(fileName,compressed,{contentType:'image/jpeg',upsert:true});const{data:urlData}=supabase.storage.from('receipts').getPublicUrl(fileName);receipt_url=urlData.publicUrl;}
-        await supabase.from('house_expenses').insert({name:form.name,amount:parseFloat(form.amount),category:form.category,description:form.description,date:form.date,paid_by:form.paid_by,receipt_url});
-        onSave();
-      }
-    } catch(err){console.error(err);}
-    setSaving(false);
-  };
-  return (
-    <form onSubmit={handleSubmit} style={{background:'#fffbeb',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #f59e0b'}}>
-      <div className="form-row">
-        <div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. IKEA kast" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required /></div>
-        <div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required /></div>
-      </div>
-      <div className="form-row">
-        <div className="form-group"><label className="form-label">Categorie</label><select className="form-select" value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>{HOUSE_CATEGORIES.map(c=><option key={c.id} value={c.id}>{c.icon} {c.label}</option>)}</select></div>
-        <div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required /></div>
-      </div>
-      <div className="form-row">
-        <div className="form-group"><label className="form-label">Betaald door</label><select className="form-select" value={form.paid_by} onChange={e=>setForm({...form,paid_by:e.target.value})}><option value="shared">Gedeelde rekening</option><option value="laslo">{settings.laslo_name}</option><option value="her">{settings.her_name}</option></select></div>
-        <div className="form-group"><label className="form-label">Bon toevoegen</label><input type="file" accept="image/*" className="form-input" style={{padding:'8px'}} onChange={e=>setFile(e.target.files[0])} /></div>
-      </div>
-      {preview && <div style={{marginBottom:12}}><img src={preview} alt="preview" style={{width:80,height:80,objectFit:'cover',borderRadius:10,border:'2px solid #f59e0b'}} /></div>}
-      <div className="form-group" style={{marginBottom:12}}><label className="form-label">Omschrijving (optioneel)</label><input className="form-input" placeholder="Voeg een notitie toe…" value={form.description} onChange={e=>setForm({...form,description:e.target.value})} /></div>
-      <div style={{display:'flex',gap:8}}>
-        <button className="add-btn green" type="submit" disabled={saving} style={{padding:'10px 24px'}}>{saving?'Opslaan…':'Opslaan'}</button>
-        {onCancel && <button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'10px 24px'}}>Annuleren</button>}
-      </div>
-    </form>
-  );
+function HouseExpenseForm({settings,prefill={},prefillFile=null,isEdit=false,onSave,onCancel}){
+  const today=new Date().toISOString().split('T')[0];
+  const[form,setForm]=useState({name:prefill.name||'',amount:prefill.amount||'',category:prefill.category||'other',description:prefill.description||'',date:prefill.date||today,paid_by:prefill.paid_by||'shared'});
+  const[file,setFile]=useState(prefillFile||null);
+  const[preview,setPreview]=useState(null);
+  const[saving,setSaving]=useState(false);
+  useEffect(()=>{if(file){const url=URL.createObjectURL(file);setPreview(url);return()=>URL.revokeObjectURL(url);}},[file]);
+  const handleSubmit=async e=>{e.preventDefault();setSaving(true);try{if(isEdit){await onSave(form,file);}else{let receipt_url=null;if(file){const compressed=file.type==='image/jpeg'?file:await compressImage(file,800,0.6);const fileName=`${Date.now()}.jpg`;await supabase.storage.from('receipts').upload(fileName,compressed,{contentType:'image/jpeg',upsert:true});const{data:urlData}=supabase.storage.from('receipts').getPublicUrl(fileName);receipt_url=urlData.publicUrl;}await supabase.from('house_expenses').insert({name:form.name,amount:parseFloat(form.amount),category:form.category,description:form.description,date:form.date,paid_by:form.paid_by,receipt_url});onSave();}}catch(err){console.error(err);}setSaving(false);};
+  return(<form onSubmit={handleSubmit} style={{background:'#fffbeb',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #f59e0b'}}><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. IKEA kast" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Categorie</label><select className="form-select" value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>{HOUSE_CATEGORIES.map(c=><option key={c.id} value={c.id}>{c.icon} {c.label}</option>)}</select></div><div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Betaald door</label><select className="form-select" value={form.paid_by} onChange={e=>setForm({...form,paid_by:e.target.value})}><option value="shared">Gedeelde rekening</option><option value="laslo">{settings.laslo_name}</option><option value="her">{settings.her_name}</option></select></div><div className="form-group"><label className="form-label">Bon toevoegen</label><input type="file" accept="image/*" className="form-input" style={{padding:'8px'}} onChange={e=>setFile(e.target.files[0])}/></div></div>{preview&&<div style={{marginBottom:12}}><img src={preview} alt="preview" style={{width:80,height:80,objectFit:'cover',borderRadius:10,border:'2px solid #f59e0b'}}/></div>}<div className="form-group" style={{marginBottom:12}}><label className="form-label">Omschrijving (optioneel)</label><input className="form-input" placeholder="Voeg een notitie toe…" value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/></div><div style={{display:'flex',gap:8}}><button className="add-btn green" type="submit" disabled={saving} style={{padding:'10px 24px'}}>{saving?'Opslaan…':'Opslaan'}</button>{onCancel&&<button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'10px 24px'}}>Annuleren</button>}</div></form>);
 }
 
-function AccountsTab({ accounts, settings, onRefresh }) {
-  const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ name:'', balance:'', owner:'laslo' });
-  const lasloTotal = accounts.filter(a=>a.owner==='laslo').reduce((s,a)=>s+Number(a.balance),0);
-  const herTotal = accounts.filter(a=>a.owner==='her').reduce((s,a)=>s+Number(a.balance),0);
-  const sharedTotal = accounts.filter(a=>a.owner==='shared').reduce((s,a)=>s+Number(a.balance),0);
-  const netWorth = lasloTotal+herTotal+sharedTotal;
-  const saveAccount = async (e) => { e.preventDefault(); await supabase.from('accounts').insert({name:form.name,balance:parseFloat(form.balance),owner:form.owner}); setForm({name:'',balance:'',owner:'laslo'}); setShowForm(false); onRefresh(); };
-  const deleteAccount = async (id) => { await supabase.from('accounts').delete().eq('id',id); onRefresh(); };
-  const updateBalance = async (id,val) => { await supabase.from('accounts').update({balance:parseFloat(val)}).eq('id',id); onRefresh(); };
-  const ownerLabel = o => o==='laslo'?settings.laslo_name:o==='her'?settings.her_name:'Gedeeld';
-  const ownerIcon = o => o==='laslo'?'💙':o==='her'?'💗':'🤝';
-  return (
+function RenovationTab({settings}){
+  const[categories,setCategories]=useState([]);
+  const[items,setItems]=useState([]);
+  const[budget,setBudget]=useState(0);
+  const[editingBudget,setEditingBudget]=useState(false);
+  const[tempBudget,setTempBudget]=useState('');
+  const[showAddCat,setShowAddCat]=useState(false);
+  const[newCat,setNewCat]=useState({name:'',icon:'🔨'});
+  const[addingItemToCat,setAddingItemToCat]=useState(null);
+  const[fetchingUrl,setFetchingUrl]=useState(false);
+  const fetchReno=useCallback(async()=>{const[catRes,itemRes,budgetRes]=await Promise.all([supabase.from('renovation_categories').select('*').order('sort_order'),supabase.from('renovation_items').select('*').order('created_at'),supabase.from('renovation_settings').select('*').eq('id',1).single()]);setCategories(catRes.data||[]);setItems(itemRes.data||[]);if(budgetRes.data)setBudget(Number(budgetRes.data.total_budget)||0);},[]);
+  useEffect(()=>{fetchReno();},[fetchReno]);
+  function calcTotal(item){const price=Number(item.price)||0;const qty=Number(item.quantity)||1;if(item.price_type==='total')return price;return price*qty;}
+  const totalPlanned=items.filter(i=>i.is_chosen||i.status==='betaald').reduce((s,i)=>s+calcTotal(i),0);
+  const totalPaid=items.filter(i=>i.status==='betaald').reduce((s,i)=>s+calcTotal(i),0);
+  const totalOrienting=items.reduce((s,i)=>s+calcTotal(i),0);
+  const remaining=budget-totalPlanned;
+  const pct=budget>0?Math.min((totalPlanned/budget)*100,100):0;
+  const barColor=pct>90?'#ef4444':pct>70?'#f59e0b':'#10b981';
+  const saveBudget=async()=>{await supabase.from('renovation_settings').update({total_budget:parseFloat(tempBudget)||0}).eq('id',1);setEditingBudget(false);fetchReno();};
+  const addCategory=async e=>{e.preventDefault();const maxOrder=categories.length>0?Math.max(...categories.map(c=>c.sort_order||0)):0;await supabase.from('renovation_categories').insert({name:newCat.name,icon:newCat.icon,sort_order:maxOrder+1});setNewCat({name:'',icon:'🔨'});setShowAddCat(false);fetchReno();};
+  const deleteCategory=async id=>{await supabase.from('renovation_categories').delete().eq('id',id);fetchReno();};
+  const updateItemStatus=async(id,status)=>{await supabase.from('renovation_items').update({status}).eq('id',id);fetchReno();};
+  const chooseItem=async(catId,itemId)=>{const catItems=items.filter(i=>i.category_id===catId);await Promise.all(catItems.map(i=>supabase.from('renovation_items').update({is_chosen:i.id===itemId}).eq('id',i.id)));fetchReno();};
+  const deleteItem=async id=>{await supabase.from('renovation_items').delete().eq('id',id);fetchReno();};
+  const fetchFromUrl=async(url,catId,setFormData)=>{if(!settings.openai_key){alert('Voeg eerst je OpenAI API key toe in Settings.');return;}setFetchingUrl(true);try{const res=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${settings.openai_key}`},body:JSON.stringify({model:'gpt-4o',messages:[{role:'user',content:`Haal productinformatie op van deze URL: ${url}. Geef een JSON terug met: { "name": "productnaam", "price": getal, "price_type": "total" of "m2" of "piece" of "hour", "image_url": "url van productafbeelding", "notes": "korte omschrijving" }.`}],max_tokens:500})});const data=await res.json();const text=data.choices?.[0]?.message?.content||'';const jsonMatch=text.match(/\{[\s\S]*\}/);if(jsonMatch){const parsed=JSON.parse(jsonMatch[0]);setFormData(prev=>({...prev,...parsed,url}));}}catch(err){console.error(err);}setFetchingUrl(false);};
+  return(
     <div>
-      <div className="networth-total mb-24"><div className="networth-label">Totaal vermogen</div><div className="networth-value">{fmtEur(netWorth)}</div></div>
-      <div className="grid-3 mb-24">
-        <div className="stat-card"><div className="stat-label"><span className="dot laslo"></span>{settings.laslo_name}</div><div className="stat-value green">{fmtEur(lasloTotal)}</div></div>
-        <div className="stat-card"><div className="stat-label"><span className="dot her"></span>{settings.her_name}</div><div className="stat-value green">{fmtEur(herTotal)}</div></div>
-        <div className="stat-card"><div className="stat-label"><span className="dot shared"></span>Gedeeld</div><div className="stat-value green">{fmtEur(sharedTotal)}</div></div>
+      <div className="networth-total mb-16" style={{background:'linear-gradient(135deg,#f59e0b,#d97706)'}}>
+        <div className="networth-label">Verbouwingsbudget</div>
+        {editingBudget?<div style={{display:'flex',gap:8,alignItems:'center',marginTop:8}}><input type="number" value={tempBudget} onChange={e=>setTempBudget(e.target.value)} style={{padding:'8px 12px',borderRadius:8,border:'none',fontSize:20,fontWeight:700,width:180}}/><button className="add-btn" style={{background:'white',color:'#d97706',padding:'8px 16px'}} onClick={saveBudget}>Opslaan</button><button className="add-btn secondary" style={{padding:'8px 16px'}} onClick={()=>setEditingBudget(false)}>Annuleren</button></div>:<div style={{display:'flex',alignItems:'center',gap:12}}><div className="networth-value">{fmtEur(budget)}</div><button onClick={()=>{setTempBudget(budget);setEditingBudget(true);}} style={{background:'rgba(255,255,255,0.2)',border:'none',borderRadius:8,padding:'6px 12px',color:'white',cursor:'pointer',fontSize:13}}>✏️ Wijzigen</button></div>}
       </div>
-      <div className="card">
-        <div className="section-header"><div className="section-title">🏦 Bankrekeningen</div><button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Rekening toevoegen'}</button></div>
-        {showForm && (<form onSubmit={saveAccount} style={{marginBottom:20}}><div className="form-row"><div className="form-group"><label className="form-label">Naam rekening</label><input className="form-input" placeholder="bijv. ING Spaarrekening" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required /></div><div className="form-group"><label className="form-label">Saldo (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.balance} onChange={e=>setForm({...form,balance:e.target.value})} required /></div><div className="form-group"><label className="form-label">Van wie</label><select className="form-select" value={form.owner} onChange={e=>setForm({...form,owner:e.target.value})}><option value="laslo">{settings.laslo_name}</option><option value="her">{settings.her_name}</option><option value="shared">Gedeeld</option></select></div></div><button className="add-btn" type="submit">Opslaan</button></form>)}
-        {accounts.length===0?<div className="empty"><div className="empty-icon">🏦</div>Nog geen rekeningen toegevoegd</div>:accounts.map(a=><AccountItem key={a.id} account={a} ownerLabel={ownerLabel} ownerIcon={ownerIcon} onDelete={deleteAccount} onUpdateBalance={updateBalance} />)}
+      <div className="grid-4 mb-24">
+        <div className="stat-card"><div className="stat-label">Totaal gepland</div><div className="stat-value purple">{fmtEur(totalPlanned)}</div></div>
+        <div className="stat-card"><div className="stat-label">Al betaald</div><div className="stat-value green">{fmtEur(totalPaid)}</div></div>
+        <div className="stat-card"><div className="stat-label">Nog beschikbaar</div><div className={`stat-value ${remaining<0?'red':'green'}`}>{fmtEur(remaining)}</div></div>
+        <div className="stat-card"><div className="stat-label">Alle opties samen</div><div className="stat-value orange">{fmtEur(totalOrienting)}</div></div>
       </div>
+      <div className="card mb-24"><div style={{fontSize:14,fontWeight:600,color:'#475569',marginBottom:8}}>Budgetverloop</div><div className="reno-budget-bar"><div className="reno-budget-fill" style={{width:`${pct}%`,background:barColor}}>{pct>15&&<span className="reno-budget-fill-text">{Math.round(pct)}% gebruikt</span>}</div></div><div style={{display:'flex',justifyContent:'space-between',fontSize:12,color:'#94a3b8',marginTop:4}}><span>Betaald {fmtEur(totalPaid)}</span><span>Gepland {fmtEur(totalPlanned)}</span><span>Budget {fmtEur(budget)}</span></div></div>
+      {showAddCat?<form onSubmit={addCategory} className="card mb-16" style={{borderLeft:'4px solid #667eea'}}><div style={{fontSize:15,fontWeight:700,marginBottom:12}}>Nieuwe categorie</div><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. Vloeren" value={newCat.name} onChange={e=>setNewCat({...newCat,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Icoon</label><input className="form-input" placeholder="🔨" value={newCat.icon} onChange={e=>setNewCat({...newCat,icon:e.target.value})}/></div></div><div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Toevoegen</button><button className="add-btn secondary" type="button" onClick={()=>setShowAddCat(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div></form>:<div className="reno-add-cat" onClick={()=>setShowAddCat(true)}>+ Nieuwe categorie toevoegen</div>}
+      {categories.length===0?<div className="empty"><div className="empty-icon">🔨</div>Voeg een categorie toe om te beginnen</div>:categories.map(cat=>{const catItems=items.filter(i=>i.category_id===cat.id);const chosenItem=catItems.find(i=>i.is_chosen);const catTotal=chosenItem?calcTotal(chosenItem):0;return(<div key={cat.id} className="reno-cat"><div className="reno-cat-header"><div className="reno-cat-title"><span>{cat.icon}</span><span>{cat.name}</span><span style={{fontSize:13,color:'#94a3b8',fontWeight:400}}>({catItems.length} opties)</span></div><div style={{display:'flex',alignItems:'center',gap:12}}>{chosenItem&&<span className="reno-cat-total">{fmtEur(catTotal)} gekozen</span>}<button className="add-btn secondary" style={{padding:'6px 14px',fontSize:12}} onClick={()=>setAddingItemToCat(addingItemToCat===cat.id?null:cat.id)}>+ Optie toevoegen</button><button className="delete-btn" onClick={()=>deleteCategory(cat.id)}>🗑</button></div></div>{addingItemToCat===cat.id&&<div style={{padding:'0 16px 16px'}}><AddItemForm catId={cat.id} settings={settings} fetchingUrl={fetchingUrl} onFetchUrl={fetchFromUrl} onSave={()=>{setAddingItemToCat(null);fetchReno();}} onCancel={()=>setAddingItemToCat(null)}/></div>}{catItems.length===0?<div style={{padding:'20px',textAlign:'center',color:'#94a3b8',fontSize:14}}>Nog geen opties toegevoegd</div>:<div className="reno-items-grid">{catItems.map(item=><RenovationItemCard key={item.id} item={item} calcTotal={calcTotal} onChoose={()=>chooseItem(cat.id,item.id)} onStatusChange={s=>updateItemStatus(item.id,s)} onDelete={()=>deleteItem(item.id)} onRefresh={fetchReno}/>)}</div>}</div>);})}
     </div>
   );
 }
 
-function AccountItem({ account, ownerLabel, ownerIcon, onDelete, onUpdateBalance }) {
-  const [editing, setEditing] = useState(false);
-  const [val, setVal] = useState(account.balance);
-  const save = () => { onUpdateBalance(account.id,val); setEditing(false); };
-  return (
-    <div className="account-item">
-      <div className="account-left">
-        <div style={{fontSize:20}}>{ownerIcon(account.owner)}</div>
-        <div><div className="account-name">{account.name}</div><div className="account-owner">{ownerLabel(account.owner)}</div></div>
-      </div>
-      <div style={{display:'flex',alignItems:'center',gap:10}}>
-        {editing?<><input type="number" step="0.01" value={val} onChange={e=>setVal(e.target.value)} style={{width:120,padding:'6px 10px',border:'2px solid #667eea',borderRadius:8,fontSize:14}} /><button className="add-btn" style={{padding:'6px 14px',fontSize:13}} onClick={save}>Opslaan</button><button className="add-btn secondary" style={{padding:'6px 14px',fontSize:13}} onClick={()=>setEditing(false)}>Annuleren</button></>
-        :<><div className="account-balance">{fmtEur(account.balance)}</div><button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button><button className="delete-btn" onClick={()=>onDelete(account.id)}>🗑</button></>}
-      </div>
-    </div>
-  );
+function AddItemForm({catId,settings,fetchingUrl,onFetchUrl,onSave,onCancel}){
+  const[url,setUrl]=useState('');
+  const[form,setForm]=useState({name:'',price:'',price_type:'total',quantity:'1',unit:'stuk',image_url:'',notes:'',status:'orienterend'});
+  const handleFetch=()=>{if(url)onFetchUrl(url,catId,setForm);};
+  const handleSubmit=async e=>{e.preventDefault();await supabase.from('renovation_items').insert({category_id:catId,name:form.name,url,image_url:form.image_url,price:parseFloat(form.price)||0,price_type:form.price_type,quantity:parseFloat(form.quantity)||1,unit:form.unit,notes:form.notes,status:form.status,is_chosen:false});onSave();};
+  return(<form onSubmit={handleSubmit} style={{background:'#f8faff',borderRadius:12,padding:16,border:'2px solid #667eea',marginTop:12}}><div style={{fontSize:13,fontWeight:600,color:'#667eea',marginBottom:12}}>Nieuwe optie toevoegen</div><div className="url-fetch-bar"><input className="form-input" placeholder="Plak een product URL…" value={url} onChange={e=>setUrl(e.target.value)}/><button type="button" className="add-btn" style={{whiteSpace:'nowrap',padding:'10px 16px',fontSize:13}} onClick={handleFetch} disabled={fetchingUrl}>{fetchingUrl?'⏳ Laden…':'🔍 Ophalen'}</button></div>{form.image_url&&<img src={form.image_url} alt="preview" style={{width:'100%',height:120,objectFit:'cover',borderRadius:10,marginBottom:12}} onError={e=>e.target.style.display='none'}/>}<div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="Productnaam" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Prijs (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.price} onChange={e=>setForm({...form,price:e.target.value})} required/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Prijstype</label><select className="form-select" value={form.price_type} onChange={e=>setForm({...form,price_type:e.target.value})}>{PRICE_TYPES.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}</select></div>{form.price_type!=='total'&&<div className="form-group"><label className="form-label">Aantal</label><input className="form-input" type="number" step="0.1" value={form.quantity} onChange={e=>setForm({...form,quantity:e.target.value})}/></div>}</div><div className="form-row"><div className="form-group"><label className="form-label">Status</label><select className="form-select" value={form.status} onChange={e=>setForm({...form,status:e.target.value})}>{STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select></div><div className="form-group"><label className="form-label">Afbeelding URL</label><input className="form-input" placeholder="https://..." value={form.image_url} onChange={e=>setForm({...form,image_url:e.target.value})}/></div></div><div className="form-group" style={{marginBottom:12}}><label className="form-label">Notities</label><input className="form-input" placeholder="Optionele notitie…" value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})}/></div><div style={{display:'flex',gap:8}}><button className="add-btn green" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button><button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div></form>);
 }
 
-function SettingsTab({ settings, onRefresh }) {
-  const [form, setForm] = useState({...settings, laslo_income:'', her_income:''});
-  const [saved, setSaved] = useState(false);
-  const [pwForm, setPwForm] = useState({ newPw:'', confirmPw:'' });
-  const [pwMsg, setPwMsg] = useState(null);
-  const [pwLoading, setPwLoading] = useState(false);
-  const save = async (e) => {
-    e.preventDefault();
-    await supabase.from('settings').update({ laslo_name:form.laslo_name, her_name:form.her_name, shared_pct:parseFloat(form.shared_pct), openai_key:form.openai_key }).eq('id',1);
-    setSaved(true); setTimeout(()=>setSaved(false),2000); onRefresh();
-  };
-  const changePassword = async (e) => {
-    e.preventDefault();
-    if(pwForm.newPw!==pwForm.confirmPw){setPwMsg({type:'error',text:'Wachtwoorden komen niet overeen.'});return;}
-    if(pwForm.newPw.length<6){setPwMsg({type:'error',text:'Wachtwoord moet minimaal 6 tekens zijn.'});return;}
-    setPwLoading(true);
-    const{error}=await supabase.auth.updateUser({password:pwForm.newPw});
-    if(error){setPwMsg({type:'error',text:error.message});}
-    else{setPwMsg({type:'success',text:'✅ Wachtwoord succesvol gewijzigd!'});setPwForm({newPw:'',confirmPw:''});}
-    setPwLoading(false); setTimeout(()=>setPwMsg(null),4000);
-  };
+function RenovationItemCard({item,calcTotal,onChoose,onStatusChange,onDelete,onRefresh}){
+  const[editing,setEditing]=useState(false);
+  const[form,setForm]=useState({name:item.name,price:item.price,price_type:item.price_type,quantity:item.quantity,unit:item.unit||'stuk',image_url:item.image_url||'',notes:item.notes||'',status:item.status,url:item.url||''});
+  const total=calcTotal(item);
+  const statusInfo=STATUS_OPTIONS.find(s=>s.id===item.status)||STATUS_OPTIONS[0];
+  const saveEdit=async e=>{e.preventDefault();await supabase.from('renovation_items').update({name:form.name,price:parseFloat(form.price)||0,price_type:form.price_type,quantity:parseFloat(form.quantity)||1,unit:form.unit,image_url:form.image_url,notes:form.notes,status:form.status,url:form.url}).eq('id',item.id);setEditing(false);onRefresh();};
+  if(editing)return(<div style={{gridColumn:'1/-1'}}><form onSubmit={saveEdit} style={{background:'#f8faff',borderRadius:12,padding:16,border:'2px solid #667eea'}}><div style={{fontSize:13,fontWeight:600,color:'#667eea',marginBottom:12}}>Bewerken</div>{form.image_url&&<img src={form.image_url} alt="preview" style={{width:'100%',height:100,objectFit:'cover',borderRadius:10,marginBottom:12}} onError={e=>e.target.style.display='none'}/>}<div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Prijs (€)</label><input className="form-input" type="number" step="0.01" value={form.price} onChange={e=>setForm({...form,price:e.target.value})}/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Prijstype</label><select className="form-select" value={form.price_type} onChange={e=>setForm({...form,price_type:e.target.value})}>{PRICE_TYPES.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}</select></div>{form.price_type!=='total'&&<div className="form-group"><label className="form-label">Aantal</label><input className="form-input" type="number" step="0.1" value={form.quantity} onChange={e=>setForm({...form,quantity:e.target.value})}/></div>}</div><div className="form-row"><div className="form-group"><label className="form-label">Status</label><select className="form-select" value={form.status} onChange={e=>setForm({...form,status:e.target.value})}>{STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select></div><div className="form-group"><label className="form-label">Afbeelding URL</label><input className="form-input" value={form.image_url} onChange={e=>setForm({...form,image_url:e.target.value})}/></div></div><div className="form-group" style={{marginBottom:12}}><label className="form-label">URL</label><input className="form-input" value={form.url} onChange={e=>setForm({...form,url:e.target.value})}/></div><div className="form-group" style={{marginBottom:12}}><label className="form-label">Notities</label><input className="form-input" value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})}/></div><div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button><button className="add-btn secondary" type="button" onClick={()=>setEditing(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div></form></div>);
+  return(<div className={`reno-item ${item.is_chosen?'chosen':''} ${item.status==='betaald'?'paid':''}`}>{item.is_chosen&&<div className="chosen-ribbon">✓ Gekozen</div>}<div className="reno-item-img">{item.image_url?<img src={item.image_url} alt={item.name} onError={e=>{e.target.style.display='none';e.target.parentElement.innerHTML='🔨';}}/>:'🔨'}</div><div className="reno-item-body"><div className="reno-item-name">{item.name}</div><div className="reno-item-price">{fmtEur(item.price)}{item.price_type!=='total'&&<span style={{fontSize:13,color:'#94a3b8'}}> /{item.price_type==='m2'?'m²':item.price_type==='hour'?'uur':'stuk'}</span>}</div>{item.price_type!=='total'&&<div className="reno-item-total">Totaal: {fmtEur(total)} ({item.quantity} {item.price_type==='m2'?'m²':item.price_type==='hour'?'uur':'stuks'})</div>}{item.notes&&<div style={{fontSize:12,color:'#64748b',marginBottom:8}}>{item.notes}</div>}<div style={{display:'flex',gap:6,marginBottom:8,flexWrap:'wrap'}}><span className={`status-badge ${item.status}`}>{statusInfo.label}</span>{item.url&&<a href={item.url} target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:'#667eea',fontWeight:600,textDecoration:'none'}}>🔗 Link</a>}</div><div className="reno-item-actions">{!item.is_chosen&&<button className="add-btn green" style={{padding:'5px 12px',fontSize:12}} onClick={onChoose}>✓ Kiezen</button>}<select className="form-select" style={{padding:'5px 8px',fontSize:12,flex:1}} value={item.status} onChange={e=>onStatusChange(e.target.value)}>{STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select><button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button><button className="delete-btn" onClick={onDelete}>🗑</button></div></div></div>);
+}
+
+function AccountsTab({accounts,settings,onRefresh}){
+  const[showForm,setShowForm]=useState(false);
+  const[form,setForm]=useState({name:'',balance:'',owner:'laslo'});
+  const lasloTotal=accounts.filter(a=>a.owner==='laslo').reduce((s,a)=>s+Number(a.balance),0);
+  const herTotal=accounts.filter(a=>a.owner==='her').reduce((s,a)=>s+Number(a.balance),0);
+  const sharedTotal=accounts.filter(a=>a.owner==='shared').reduce((s,a)=>s+Number(a.balance),0);
+  const netWorth=lasloTotal+herTotal+sharedTotal;
+  const saveAccount=async e=>{e.preventDefault();await supabase.from('accounts').insert({name:form.name,balance:parseFloat(form.balance),owner:form.owner});setForm({name:'',balance:'',owner:'laslo'});setShowForm(false);onRefresh();};
+  const deleteAccount=async id=>{await supabase.from('accounts').delete().eq('id',id);onRefresh();};
+  const updateBalance=async(id,val)=>{await supabase.from('accounts').update({balance:parseFloat(val)}).eq('id',id);onRefresh();};
+  const ownerLabel=o=>o==='laslo'?settings.laslo_name:o==='her'?settings.her_name:'Gedeeld';
+  const ownerIcon=o=>o==='laslo'?'💙':o==='her'?'💗':'🤝';
+  return(<div><div className="networth-total mb-24"><div className="networth-label">Totaal vermogen</div><div className="networth-value">{fmtEur(netWorth)}</div></div><div className="grid-3 mb-24"><div className="stat-card"><div className="stat-label"><span className="dot laslo"></span>{settings.laslo_name}</div><div className="stat-value green">{fmtEur(lasloTotal)}</div></div><div className="stat-card"><div className="stat-label"><span className="dot her"></span>{settings.her_name}</div><div className="stat-value green">{fmtEur(herTotal)}</div></div><div className="stat-card"><div className="stat-label"><span className="dot shared"></span>Gedeeld</div><div className="stat-value green">{fmtEur(sharedTotal)}</div></div></div><div className="card"><div className="section-header"><div className="section-title">🏦 Bankrekeningen</div><button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Rekening toevoegen'}</button></div>{showForm&&(<form onSubmit={saveAccount} style={{marginBottom:20}}><div className="form-row"><div className="form-group"><label className="form-label">Naam rekening</label><input className="form-input" placeholder="bijv. ING Spaarrekening" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Saldo (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.balance} onChange={e=>setForm({...form,balance:e.target.value})} required/></div><div className="form-group"><label className="form-label">Van wie</label><select className="form-select" value={form.owner} onChange={e=>setForm({...form,owner:e.target.value})}><option value="laslo">{settings.laslo_name}</option><option value="her">{settings.her_name}</option><option value="shared">Gedeeld</option></select></div></div><button className="add-btn" type="submit">Opslaan</button></form>)}{accounts.length===0?<div className="empty"><div className="empty-icon">🏦</div>Nog geen rekeningen toegevoegd</div>:accounts.map(a=><AccountItem key={a.id} account={a} ownerLabel={ownerLabel} ownerIcon={ownerIcon} onDelete={deleteAccount} onUpdateBalance={updateBalance}/>)}</div></div>);
+}
+function AccountItem({account,ownerLabel,ownerIcon,onDelete,onUpdateBalance}){
+  const[editing,setEditing]=useState(false);
+  const[val,setVal]=useState(account.balance);
+  const save=()=>{onUpdateBalance(account.id,val);setEditing(false);};
+  return(<div className="account-item"><div className="account-left"><div style={{fontSize:20}}>{ownerIcon(account.owner)}</div><div><div className="account-name">{account.name}</div><div className="account-owner">{ownerLabel(account.owner)}</div></div></div><div style={{display:'flex',alignItems:'center',gap:10}}>{editing?<><input type="number" step="0.01" value={val} onChange={e=>setVal(e.target.value)} style={{width:120,padding:'6px 10px',border:'2px solid #667eea',borderRadius:8,fontSize:14}}/><button className="add-btn" style={{padding:'6px 14px',fontSize:13}} onClick={save}>Opslaan</button><button className="add-btn secondary" style={{padding:'6px 14px',fontSize:13}} onClick={()=>setEditing(false)}>Annuleren</button></>:<><div className="account-balance">{fmtEur(account.balance)}</div><button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button><button className="delete-btn" onClick={()=>onDelete(account.id)}>🗑</button></>}</div></div>);
+}
+
+function SettingsTab({settings,onRefresh}){
+  const[form,setForm]=useState({...settings,laslo_income:'',her_income:''});
+  const[saved,setSaved]=useState(false);
+  const[pwForm,setPwForm]=useState({newPw:'',confirmPw:''});
+  const[pwMsg,setPwMsg]=useState(null);
+  const[pwLoading,setPwLoading]=useState(false);
+  const save=async e=>{e.preventDefault();await supabase.from('settings').update({laslo_name:form.laslo_name,her_name:form.her_name,shared_pct:parseFloat(form.shared_pct),openai_key:form.openai_key}).eq('id',1);setSaved(true);setTimeout(()=>setSaved(false),2000);onRefresh();};
+  const changePassword=async e=>{e.preventDefault();if(pwForm.newPw!==pwForm.confirmPw){setPwMsg({type:'error',text:'Wachtwoorden komen niet overeen.'});return;}if(pwForm.newPw.length<6){setPwMsg({type:'error',text:'Wachtwoord moet minimaal 6 tekens zijn.'});return;}setPwLoading(true);const{error}=await supabase.auth.updateUser({password:pwForm.newPw});if(error){setPwMsg({type:'error',text:error.message});}else{setPwMsg({type:'success',text:'✅ Wachtwoord succesvol gewijzigd!'});setPwForm({newPw:'',confirmPw:''});}setPwLoading(false);setTimeout(()=>setPwMsg(null),4000);};
   const lasloInc=parseFloat(form.laslo_income)||0;
   const herInc=parseFloat(form.her_income)||0;
   const autoCalc=lasloInc>0&&herInc>0?Math.round((lasloInc/(lasloInc+herInc))*100):null;
-  return (
-    <div>
-      <div className="card mb-24">
-        <div className="section-title" style={{marginBottom:24}}>⚙️ Instellingen</div>
-        <form onSubmit={save}>
-          <div className="form-row mb-16">
-            <div className="form-group"><label className="form-label">Jouw naam</label><input className="form-input" value={form.laslo_name} onChange={e=>setForm({...form,laslo_name:e.target.value})} required /></div>
-            <div className="form-group"><label className="form-label">Naam partner</label><input className="form-input" value={form.her_name} onChange={e=>setForm({...form,her_name:e.target.value})} required /></div>
-          </div>
-          <div style={{marginBottom:24}}>
-            <div className="form-label" style={{marginBottom:8}}>🤖 OpenAI API Key</div>
-            <input className="form-input" type="password" placeholder="sk-..." value={form.openai_key} onChange={e=>setForm({...form,openai_key:e.target.value})} style={{width:'100%',marginBottom:4}} />
-            <div style={{fontSize:12,color:'#94a3b8'}}>Wordt veilig opgeslagen in je database.</div>
-          </div>
-          <div style={{marginBottom:24}}>
-            <div className="form-label" style={{marginBottom:12}}>Automatisch berekenen op basis van inkomen</div>
-            <div className="form-row">
-              <div className="form-group"><label className="form-label">{form.laslo_name} maandinkomen (€)</label><input className="form-input" type="number" placeholder="0" value={form.laslo_income} onChange={e=>setForm({...form,laslo_income:e.target.value})} /></div>
-              <div className="form-group"><label className="form-label">{form.her_name} maandinkomen (€)</label><input className="form-input" type="number" placeholder="0" value={form.her_income} onChange={e=>setForm({...form,her_income:e.target.value})} /></div>
-            </div>
-            {autoCalc&&<div style={{marginBottom:12,padding:'10px 14px',background:'#f0f4ff',borderRadius:10,fontSize:13,color:'#667eea',fontWeight:500}}>💡 Op basis van inkomen: {form.laslo_name} {autoCalc}% / {form.her_name} {100-autoCalc}%<button type="button" className="add-btn" style={{marginLeft:12,padding:'4px 12px',fontSize:12}} onClick={()=>setForm({...form,shared_pct:autoCalc})}>Toepassen</button></div>}
-          </div>
-          <div style={{marginBottom:24}}>
-            <div className="form-label" style={{marginBottom:12}}>Verdeling gedeelde uitgaven</div>
-            <div className="slider-wrap">
-              <div className="slider-label"><span>{form.laslo_name}: {form.shared_pct}%</span><span>{form.her_name}: {100-form.shared_pct}%</span></div>
-              <input type="range" min="0" max="100" value={form.shared_pct} onChange={e=>setForm({...form,shared_pct:parseInt(e.target.value)})} />
-              <div className="slider-names"><span>0%</span><span>50/50</span><span>100%</span></div>
-            </div>
-          </div>
-          <button className="add-btn" type="submit">{saved?'✅ Opgeslagen!':'Instellingen opslaan'}</button>
-        </form>
-      </div>
-      <div className="pw-section">
-        <div className="pw-section-title">🔒 Wachtwoord wijzigen</div>
-        <form onSubmit={changePassword}>
-          <div className="form-row">
-            <div className="form-group"><label className="form-label">Nieuw wachtwoord</label><input className="form-input" type="password" placeholder="Minimaal 6 tekens" value={pwForm.newPw} onChange={e=>setPwForm({...pwForm,newPw:e.target.value})} required /></div>
-            <div className="form-group"><label className="form-label">Bevestig wachtwoord</label><input className="form-input" type="password" placeholder="Herhaal wachtwoord" value={pwForm.confirmPw} onChange={e=>setPwForm({...pwForm,confirmPw:e.target.value})} required /></div>
-          </div>
-          <button className="add-btn danger" type="submit" disabled={pwLoading}>{pwLoading?'Bezig…':'Wachtwoord wijzigen'}</button>
-          {pwMsg&&<div className={pwMsg.type==='success'?'success-msg':'error-msg'}>{pwMsg.text}</div>}
-        </form>
-      </div>
-    </div>
-  );
+  return(<div><div className="card mb-24"><div className="section-title" style={{marginBottom:24}}>⚙️ Instellingen</div><form onSubmit={save}><div className="form-row mb-16"><div className="form-group"><label className="form-label">Jouw naam</label><input className="form-input" value={form.laslo_name} onChange={e=>setForm({...form,laslo_name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Naam partner</label><input className="form-input" value={form.her_name} onChange={e=>setForm({...form,her_name:e.target.value})} required/></div></div><div style={{marginBottom:24}}><div className="form-label" style={{marginBottom:8}}>🤖 OpenAI API Key</div><input className="form-input" type="password" placeholder="sk-..." value={form.openai_key} onChange={e=>setForm({...form,openai_key:e.target.value})} style={{width:'100%',marginBottom:4}}/><div style={{fontSize:12,color:'#94a3b8'}}>Wordt veilig opgeslagen in je database.</div></div><div style={{marginBottom:24}}><div className="form-label" style={{marginBottom:12}}>Automatisch berekenen op basis van inkomen</div><div className="form-row"><div className="form-group"><label className="form-label">{form.laslo_name} maandinkomen (€)</label><input className="form-input" type="number" placeholder="0" value={form.laslo_income} onChange={e=>setForm({...form,laslo_income:e.target.value})}/></div><div className="form-group"><label className="form-label">{form.her_name} maandinkomen (€)</label><input className="form-input" type="number" placeholder="0" value={form.her_income} onChange={e=>setForm({...form,her_income:e.target.value})}/></div></div>{autoCalc&&<div style={{marginBottom:12,padding:'10px 14px',background:'#f0f4ff',borderRadius:10,fontSize:13,color:'#667eea',fontWeight:500}}>💡 Op basis van inkomen: {form.laslo_name} {autoCalc}% / {form.her_name} {100-autoCalc}%<button type="button" className="add-btn" style={{marginLeft:12,padding:'4px 12px',fontSize:12}} onClick={()=>setForm({...form,shared_pct:autoCalc})}>Toepassen</button></div>}</div><div style={{marginBottom:24}}><div className="form-label" style={{marginBottom:12}}>Verdeling gedeelde uitgaven</div><div className="slider-wrap"><div className="slider-label"><span>{form.laslo_name}: {form.shared_pct}%</span><span>{form.her_name}: {100-form.shared_pct}%</span></div><input type="range" min="0" max="100" value={form.shared_pct} onChange={e=>setForm({...form,shared_pct:parseInt(e.target.value)})}/><div className="slider-names"><span>0%</span><span>50/50</span><span>100%</span></div></div></div><button className="add-btn" type="submit">{saved?'✅ Opgeslagen!':'Instellingen opslaan'}</button></form></div><div className="pw-section"><div className="pw-section-title">🔒 Wachtwoord wijzigen</div><form onSubmit={changePassword}><div className="form-row"><div className="form-group"><label className="form-label">Nieuw wachtwoord</label><input className="form-input" type="password" placeholder="Minimaal 6 tekens" value={pwForm.newPw} onChange={e=>setPwForm({...pwForm,newPw:e.target.value})} required/></div><div className="form-group"><label className="form-label">Bevestig wachtwoord</label><input className="form-input" type="password" placeholder="Herhaal wachtwoord" value={pwForm.confirmPw} onChange={e=>setPwForm({...pwForm,confirmPw:e.target.value})} required/></div></div><button className="add-btn danger" type="submit" disabled={pwLoading}>{pwLoading?'Bezig…':'Wachtwoord wijzigen'}</button>{pwMsg&&<div className={pwMsg.type==='success'?'success-msg':'error-msg'}>{pwMsg.text}</div>}</form></div></div>);
 }
 
-function ExpenseForm({ person, isShared=false, settings, onSave }) {
-  const today = new Date().toISOString().split('T')[0];
-  const [form, setForm] = useState({ name:'', amount:'', category:'housing', description:'', date:today, is_shared:isShared });
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await supabase.from('expenses').insert({name:form.name,amount:parseFloat(form.amount),category:form.category,description:form.description,date:form.date,is_shared:form.is_shared,person:form.is_shared?'shared':person});
-    onSave();
-  };
-  return (
-    <form onSubmit={handleSubmit} style={{background:'#f8faff',borderRadius:12,padding:16,marginBottom:16}}>
-      <div className="form-row">
-        <div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. Spotify" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required /></div>
-        <div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required /></div>
-      </div>
-      <div className="form-row">
-        <div className="form-group"><label className="form-label">Categorie</label><select className="form-select" value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>{CATEGORIES.map(c=><option key={c.id} value={c.id}>{c.icon} {c.label}</option>)}</select></div>
-        <div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required /></div>
-      </div>
-      <div className="form-group" style={{marginBottom:12}}><label className="form-label">Omschrijving (optioneel)</label><input className="form-input" placeholder="Voeg een notitie toe…" value={form.description} onChange={e=>setForm({...form,description:e.target.value})} /></div>
-      {!isShared&&(<div style={{marginBottom:12,display:'flex',alignItems:'center',gap:8}}><input type="checkbox" id="shared_chk" checked={form.is_shared} onChange={e=>setForm({...form,is_shared:e.target.checked})} /><label htmlFor="shared_chk" style={{fontSize:14,color:'#475569',cursor:'pointer'}}>Dit is een gedeelde uitgave ({settings.shared_pct}%/{100-settings.shared_pct}%)</label></div>)}
-      <button className="add-btn" type="submit">Opslaan</button>
-    </form>
-  );
+function ExpenseForm({person,isShared=false,settings,onSave}){
+  const today=new Date().toISOString().split('T')[0];
+  const[form,setForm]=useState({name:'',amount:'',category:'housing',description:'',date:today,is_shared:isShared});
+  const handleSubmit=async e=>{e.preventDefault();await supabase.from('expenses').insert({name:form.name,amount:parseFloat(form.amount),category:form.category,description:form.description,date:form.date,is_shared:form.is_shared,person:form.is_shared?'shared':person});onSave();};
+  return(<form onSubmit={handleSubmit} style={{background:'#f8faff',borderRadius:12,padding:16,marginBottom:16}}><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. Spotify" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Categorie</label><select className="form-select" value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>{CATEGORIES.map(c=><option key={c.id} value={c.id}>{c.icon} {c.label}</option>)}</select></div><div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required/></div></div><div className="form-group" style={{marginBottom:12}}><label className="form-label">Omschrijving (optioneel)</label><input className="form-input" placeholder="Voeg een notitie toe…" value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/></div>{!isShared&&(<div style={{marginBottom:12,display:'flex',alignItems:'center',gap:8}}><input type="checkbox" id="shared_chk" checked={form.is_shared} onChange={e=>setForm({...form,is_shared:e.target.checked})}/><label htmlFor="shared_chk" style={{fontSize:14,color:'#475569',cursor:'pointer'}}>Dit is een gedeelde uitgave ({settings.shared_pct}%/{100-settings.shared_pct}%)</label></div>)}<button className="add-btn" type="submit">Opslaan</button></form>);
 }
 
-function IncomeForm({ person, onSave }) {
-  const today = new Date().toISOString().split('T')[0];
-  const [form, setForm] = useState({ label:'', amount:'', date:today });
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await supabase.from('incomes').insert({person,label:form.label,amount:parseFloat(form.amount),date:form.date});
-    onSave();
-  };
-  return (
-    <form onSubmit={handleSubmit} style={{background:'#f0fdf4',borderRadius:12,padding:16,marginBottom:16}}>
-      <div className="form-row">
-        <div className="form-group"><label className="form-label">Label</label><input className="form-input" placeholder="bijv. Salaris" value={form.label} onChange={e=>setForm({...form,label:e.target.value})} required /></div>
-        <div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required /></div>
-        <div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required /></div>
-      </div>
-      <button className="add-btn" type="submit">Opslaan</button>
-    </form>
-  );
+function IncomeForm({person,onSave}){
+  const today=new Date().toISOString().split('T')[0];
+  const[form,setForm]=useState({label:'',amount:'',date:today});
+  const handleSubmit=async e=>{e.preventDefault();await supabase.from('incomes').insert({person,label:form.label,amount:parseFloat(form.amount),date:form.date});onSave();};
+  return(<form onSubmit={handleSubmit} style={{background:'#f0fdf4',borderRadius:12,padding:16,marginBottom:16}}><div className="form-row"><div className="form-group"><label className="form-label">Label</label><input className="form-input" placeholder="bijv. Salaris" value={form.label} onChange={e=>setForm({...form,label:e.target.value})} required/></div><div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required/></div><div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required/></div></div><button className="add-btn" type="submit">Opslaan</button></form>);
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App/>,document.getElementById('root'));
 </script>
 </body>
 </html>
