@@ -7,6 +7,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Shared Finances" />
   <title>Shared Finances</title>
+  <script src="config.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
@@ -203,8 +204,8 @@
 <div id="root"></div>
 <script type="text/babel">
 const { useState, useEffect, useCallback, useRef } = React;
-const SUPABASE_URL = 'https://yqiwehmpddqscilmrxhr.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlxaXdlaG1wZGRxc2NpbG1yeGhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNDQzNzEsImV4cCI6MjA4ODgyMDM3MX0.r1fjqd4mtsE3kb4ESBY0STjWSfi4w3dAH4ydspkVmEU';
+const SUPABASE_URL = window.APP_CONFIG.SUPABASE_URL;
+const SUPABASE_ANON_KEY = window.APP_CONFIG.SUPABASE_ANON_KEY;
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const CATEGORIES = [
@@ -236,6 +237,7 @@ function getCategoryInfo(id,isHouse=false){
   const list=isHouse?HOUSE_CATEGORIES:CATEGORIES;
   return list.find(c=>c.id===id)||list[list.length-1];
 }
+
 function LogoOrIcon({name,category}){
   const[logoUrl,setLogoUrl]=useState(null);
   const[failed,setFailed]=useState(false);
@@ -249,11 +251,11 @@ function LogoOrIcon({name,category}){
   if(logoUrl&&!failed)return<img src={logoUrl} alt={name} onError={()=>setFailed(true)} style={{width:28,height:28,objectFit:'contain'}}/>;
   return<span style={{fontSize:22}}>{cat.icon}</span>;
 }
+
 function fmtDate(d){if(!d)return'';return new Date(d).toLocaleDateString('nl-NL',{day:'numeric',month:'short'});}
 function fmtEur(n){return'€'+Number(n).toLocaleString('nl-NL',{minimumFractionDigits:2,maximumFractionDigits:2});}
 async function compressImage(file,maxWidth=800,quality=0.6){return new Promise(resolve=>{const reader=new FileReader();reader.onload=e=>{const img=new Image();img.onload=()=>{const canvas=document.createElement('canvas');const ratio=Math.min(maxWidth/img.width,1);canvas.width=img.width*ratio;canvas.height=img.height*ratio;canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);canvas.toBlob(blob=>resolve(blob),'image/jpeg',quality);};img.src=e.target.result;};reader.readAsDataURL(file);});}
 
-// ── APP ──────────────────────────────────────────────────────────────────────
 function App(){
   const[session,setSession]=useState(null);
   const[loading,setLoading]=useState(true);
@@ -282,7 +284,7 @@ function Main(){
   const[recurringExpenses,setRecurringExpenses]=useState([]);
   const[accounts,setAccounts]=useState([]);
   const[houseExpenses,setHouseExpenses]=useState([]);
-  const[settings,setSettings]=useState({laslo_name:'Laslo',her_name:'Partner',shared_pct:60,category_order:'',openai_key:''});
+  const[settings,setSettings]=useState({laslo_name:'Laslo',her_name:'Partner',shared_pct:60,openai_key:''});
 
   const fetchAll=useCallback(async()=>{
     const[riRes,reRes,aRes,sRes,hRes]=await Promise.all([
@@ -332,7 +334,6 @@ function Main(){
   );
 }
 
-// ── OVERVIEW ─────────────────────────────────────────────────────────────────
 function Overview({recurringIncomes,recurringExpenses,accounts,settings}){
   const now=new Date();
   const monthName=now.toLocaleString('nl-NL',{month:'long',year:'numeric'});
@@ -363,7 +364,6 @@ function Overview({recurringIncomes,recurringExpenses,accounts,settings}){
   );
 }
 
-// ── PERSON TAB ────────────────────────────────────────────────────────────────
 function PersonTab({person,recurringIncomes,recurringExpenses,settings,onRefresh}){
   const[showIncForm,setShowIncForm]=useState(false);
   const[showExpForm,setShowExpForm]=useState(false);
@@ -385,9 +385,7 @@ function PersonTab({person,recurringIncomes,recurringExpenses,settings,onRefresh
   const saveIncome=async e=>{
     e.preventDefault();
     await supabase.from('recurring_incomes').insert({person,label:incLabel,amount:parseFloat(incAmount)});
-    setIncLabel('');setIncAmount('');
-    setShowIncForm(false);
-    onRefresh();
+    setIncLabel('');setIncAmount('');setShowIncForm(false);onRefresh();
   };
   const catTotals={};
   [...myExpenses,...sharedExp].forEach(e=>{
@@ -399,7 +397,7 @@ function PersonTab({person,recurringIncomes,recurringExpenses,settings,onRefresh
       <div className="grid-3 mb-24">
         <div className="stat-card"><div className="stat-label">Maandinkomen</div><div className="stat-value green">{fmtEur(totalInc)}</div></div>
         <div className="stat-card"><div className="stat-label">Maandelijkse uitgaven</div><div className="stat-value red">{fmtEur(totalExp+myShared)}</div><div className="stat-sub">Persoonlijk {fmtEur(totalExp)} · Gedeeld {fmtEur(myShared)}</div></div>
-        <div className="stat-card"><div className="stat-label">Maandelijkse cashflow</div><div className={`stat-value ${net>=0?'green':'red'}`}>{fmtEur(net)}</div></div>
+        <div className="stat-card"><div className="stat-label">Cashflow</div><div className={`stat-value ${net>=0?'green':'red'}`}>{fmtEur(net)}</div></div>
       </div>
       <div className="card mb-16">
         <div className="section-header">
@@ -415,7 +413,8 @@ function PersonTab({person,recurringIncomes,recurringExpenses,settings,onRefresh
             <button className="add-btn green" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>
           </form>
         )}
-        {myIncomes.length===0?<div className="empty"><div className="empty-icon">💸</div>Nog geen terugkerend inkomen</div>
+        {myIncomes.length===0
+          ?<div className="empty"><div className="empty-icon">💸</div>Nog geen terugkerend inkomen</div>
           :myIncomes.map(i=>(
             <div key={i.id}>
               {editingIncome===i.id
@@ -437,106 +436,12 @@ function PersonTab({person,recurringIncomes,recurringExpenses,settings,onRefresh
       </div>
       <div className="card">
         <div className="section-header">
-          <div><div className="section-title">💸 Terugkerende uitgaven</div><div style={{fontSize:12,color:'#94a3b8',marginTop:2}}>Persoonlijke + gedeelde uitgaven per categorie</div></div>
+          <div><div className="section-title">💸 Terugkerende uitgaven</div><div style={{fontSize:12,color:'#94a3b8',marginTop:2}}>Per categorie</div></div>
           <button className="add-btn secondary" onClick={()=>setShowExpForm(!showExpForm)}>{showExpForm?'Annuleren':'+ Toevoegen'}</button>
         </div>
         {showExpForm&&<RecurringExpenseForm person={person} settings={settings} onSave={()=>{onRefresh();setShowExpForm(false);}}/>}
-        {Object.keys(catTotals).length===0?<div className="empty"><div className="empty-icon">✅</div>Geen terugkerende uitgaven</div>
-          :Object.entries(catTotals).map(([catId,catTotal])=>{
-            const info=getCategoryInfo(catId);
-            const catExpenses=[...myExpenses,...sharedExp].filter(e=>e.category===catId);
-            return(
-              <div key={catId} className="cat-section">
-                <div className="cat-header"><div className="cat-header-left"><span style={{fontSize:18}}>{info.icon}</span><span className="cat-header-name">{info.label}</span><span className="cat-header-count">({catExpenses.length})</span></div><span className="cat-total">{fmtEur(catTotal)}/mnd</span></div>
-                <div className="cat-body">
-                  {catExpenses.map(e=>{
-                    const displayAmt=e.is_shared?Number(e.amount)*(pct/100):Number(e.amount);
-                    return(
-                      <div key={e.id}>
-                        {editingExpense===e.id
-                          ?<RecurringExpenseForm person={person} settings={settings} prefill={e} isEdit onSave={async form=>{await supabase.from('recurring_expenses').update(form).eq('id',e.id);onRefresh();setEditingExpense(null);}} onCancel={()=>setEditingExpense(null)}/>
-                          :<div className="expense-item">
-                            <div className="expense-left"><div className="expense-icon"><LogoOrIcon name={e.label} category={e.category}/></div><div><div className="expense-name">{e.label}{e.is_shared?' 🤝':''}</div><div className="expense-meta">Elke maand{e.description?' · '+e.description:''} <span className="recurring-badge">🔄</span></div></div></div>
-                            <div className="expense-right"><div style={{textAlign:'right'}}><div className="expense-amount">{fmtEur(displayAmt)}</div>{e.is_shared&&<div style={{fontSize:11,color:'#94a3b8'}}>van {fmtEur(e.amount)} totaal</div>}</div><button className="delete-btn" onClick={()=>setEditingExpense(e.id)}>✏️</button><button className="delete-btn" onClick={()=>deleteExpense(e.id)}>🗑</button></div>
-                          </div>
-                        }
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })
-        }
-      </div>
-    </div>
-  );
-}
-  // Group expenses by category
-  const catTotals={};
-  [...myExpenses,...sharedExp].forEach(e=>{
-    const amt=e.is_shared?Number(e.amount)*(pct/100):Number(e.amount);
-    catTotals[e.category]=(catTotals[e.category]||0)+amt;
-  });
-
-  return(
-    <div>
-      <div className="grid-3 mb-24">
-        <div className="stat-card"><div className="stat-label">Maandinkomen</div><div className="stat-value green">{fmtEur(totalInc)}</div></div>
-        <div className="stat-card"><div className="stat-label">Maandelijkse uitgaven</div><div className="stat-value red">{fmtEur(totalExp+myShared)}</div><div className="stat-sub">Persoonlijk {fmtEur(totalExp)} · Gedeeld {fmtEur(myShared)}</div></div>
-        <div className="stat-card"><div className="stat-label">Maandelijkse cashflow</div><div className={`stat-value ${net>=0?'green':'red'}`}>{fmtEur(net)}</div></div>
-      </div>
-
-      {/* INCOME */}
-      <div className="card mb-16">
-        <div className="section-header">
-          <div>
-            <div className="section-title">💚 Terugkerend inkomen</div>
-            <div style={{fontSize:12,color:'#94a3b8',marginTop:2}}>Wordt elke maand automatisch meegerekend</div>
-          </div>
-          <button className="add-btn secondary" onClick={()=>setShowIncForm(!showIncForm)}>{showIncForm?'Annuleren':'+ Toevoegen'}</button>
-        </div>
-        {showIncForm&&(
-          <form onSubmit={async e=>{e.preventDefault();const fd=new FormData(e.target);await supabase.from('recurring_incomes').insert({person,label:fd.get('label'),amount:parseFloat(fd.get('amount'))});onRefresh();setShowIncForm(false);}} style={{background:'#f0fdf4',borderRadius:12,padding:16,marginBottom:16}}>
-            <div className="form-row">
-              <div className="form-group"><label className="form-label">Label</label><input className="form-input" name="label" placeholder="bijv. Salaris" required/></div>
-              <div className="form-group"><label className="form-label">Bedrag per maand (€)</label><input className="form-input" name="amount" type="number" step="0.01" placeholder="0.00" required/></div>
-            </div>
-            <button className="add-btn green" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>
-          </form>
-        )}
-        {myIncomes.length===0?<div className="empty"><div className="empty-icon">💸</div>Nog geen terugkerend inkomen</div>
-          :myIncomes.map(i=>(
-            <div key={i.id}>
-              {editingIncome===i.id
-                ?<form onSubmit={async e=>{e.preventDefault();const fd=new FormData(e.target);await supabase.from('recurring_incomes').update({label:fd.get('label'),amount:parseFloat(fd.get('amount'))}).eq('id',i.id);onRefresh();setEditingIncome(null);}} className="edit-form">
-                  <div className="form-row">
-                    <div className="form-group"><label className="form-label">Label</label><input className="form-input" name="label" defaultValue={i.label} required/></div>
-                    <div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" name="amount" type="number" step="0.01" defaultValue={i.amount} required/></div>
-                  </div>
-                  <div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button><button className="add-btn secondary" type="button" onClick={()=>setEditingIncome(null)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div>
-                </form>
-                :<div className="expense-item">
-                  <div className="expense-left"><div className="expense-icon">💰</div><div><div className="expense-name">{i.label}</div><div className="expense-meta">Elke maand <span className="recurring-badge">🔄 Terugkerend</span></div></div></div>
-                  <div className="expense-right"><span className="expense-amount income">{fmtEur(i.amount)}</span><button className="delete-btn" onClick={()=>setEditingIncome(i.id)}>✏️</button><button className="delete-btn" onClick={()=>deleteIncome(i.id)}>🗑</button></div>
-                </div>
-              }
-            </div>
-          ))
-        }
-      </div>
-
-      {/* EXPENSES by category */}
-      <div className="card">
-        <div className="section-header">
-          <div>
-            <div className="section-title">💸 Terugkerende uitgaven</div>
-            <div style={{fontSize:12,color:'#94a3b8',marginTop:2}}>Persoonlijke + gedeelde uitgaven per categorie</div>
-          </div>
-          <button className="add-btn secondary" onClick={()=>setShowExpForm(!showExpForm)}>{showExpForm?'Annuleren':'+ Toevoegen'}</button>
-        </div>
-        {showExpForm&&<RecurringExpenseForm person={person} settings={settings} onSave={()=>{onRefresh();setShowExpForm(false);}}/>}
-        {Object.keys(catTotals).length===0?<div className="empty"><div className="empty-icon">✅</div>Geen terugkerende uitgaven</div>
+        {Object.keys(catTotals).length===0
+          ?<div className="empty"><div className="empty-icon">✅</div>Geen terugkerende uitgaven</div>
           :Object.entries(catTotals).map(([catId,catTotal])=>{
             const info=getCategoryInfo(catId);
             const catExpenses=[...myExpenses,...sharedExp].filter(e=>e.category===catId);
@@ -569,7 +474,7 @@ function PersonTab({person,recurringIncomes,recurringExpenses,settings,onRefresh
 }
 
 function RecurringExpenseForm({person,settings,prefill={},isEdit=false,onSave,onCancel}){
-  const[form,setForm]=useState({label:prefill.label||'',amount:prefill.amount||'',category:prefill.category||'housing',description:prefill.description||'',is_shared:prefill.is_shared||false,person:prefill.person||person});
+  const[form,setForm]=useState({label:prefill.label||'',amount:prefill.amount||'',category:prefill.category||'housing',description:prefill.description||'',is_shared:prefill.is_shared||false});
   const handleSubmit=async e=>{
     e.preventDefault();
     const data={label:form.label,amount:parseFloat(form.amount),category:form.category,description:form.description,is_shared:form.is_shared,person:form.is_shared?'shared':person};
@@ -598,7 +503,6 @@ function RecurringExpenseForm({person,settings,prefill={},isEdit=false,onSave,on
   );
 }
 
-// ── SHARED TAB ────────────────────────────────────────────────────────────────
 function SharedTab({recurringExpenses,settings,onRefresh}){
   const[showForm,setShowForm]=useState(false);
   const[editingId,setEditingId]=useState(null);
@@ -612,16 +516,17 @@ function SharedTab({recurringExpenses,settings,onRefresh}){
     <div>
       <div className="grid-3 mb-24">
         <div className="stat-card"><div className="stat-label">Totaal gedeeld/mnd</div><div className="stat-value red">{fmtEur(total)}</div></div>
-        <div className="stat-card"><div className="stat-label"><span className="dot laslo"></span>{settings.laslo_name} betaalt ({pct}%)</div><div className="stat-value purple">{fmtEur(total*(pct/100))}</div></div>
-        <div className="stat-card"><div className="stat-label"><span className="dot her"></span>{settings.her_name} betaalt ({100-pct}%)</div><div className="stat-value" style={{color:'#f472b6'}}>{fmtEur(total*((100-pct)/100))}</div></div>
+        <div className="stat-card"><div className="stat-label"><span className="dot laslo"></span>{settings.laslo_name} ({pct}%)</div><div className="stat-value purple">{fmtEur(total*(pct/100))}</div></div>
+        <div className="stat-card"><div className="stat-label"><span className="dot her"></span>{settings.her_name} ({100-pct}%)</div><div className="stat-value" style={{color:'#f472b6'}}>{fmtEur(total*((100-pct)/100))}</div></div>
       </div>
       <div className="card">
         <div className="section-header">
           <div><div className="section-title">🤝 Gedeelde terugkerende uitgaven</div><div style={{fontSize:12,color:'#94a3b8',marginTop:2}}>Elke maand automatisch meegerekend</div></div>
           <button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Toevoegen'}</button>
         </div>
-        {showForm&&<RecurringExpenseForm person="shared" isShared settings={settings} onSave={()=>{onRefresh();setShowForm(false);}}/>}
-        {Object.keys(catTotals).length===0?<div className="empty"><div className="empty-icon">✅</div>Geen gedeelde uitgaven</div>
+        {showForm&&<RecurringExpenseForm person="shared" settings={settings} onSave={()=>{onRefresh();setShowForm(false);}}/>}
+        {Object.keys(catTotals).length===0
+          ?<div className="empty"><div className="empty-icon">✅</div>Geen gedeelde uitgaven</div>
           :Object.entries(catTotals).map(([catId,catTotal])=>{
             const info=getCategoryInfo(catId);
             const catExp=sharedExp.filter(e=>e.category===catId);
@@ -650,7 +555,6 @@ function SharedTab({recurringExpenses,settings,onRefresh}){
   );
 }
 
-// ── HOUSE TAB ─────────────────────────────────────────────────────────────────
 function HouseTab({houseExpenses,settings,onRefresh}){
   const[showForm,setShowForm]=useState(false);
   const[scanning,setScanning]=useState(false);
@@ -739,7 +643,6 @@ function HouseExpenseForm({settings,prefill={},prefillFile=null,isEdit=false,onS
   return(<form onSubmit={handleSubmit} style={{background:'#fffbeb',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #f59e0b'}}><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. IKEA kast" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" type="number" step="0.01" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Categorie</label><select className="form-select" value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>{HOUSE_CATEGORIES.map(c=><option key={c.id} value={c.id}>{c.icon} {c.label}</option>)}</select></div><div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Betaald door</label><select className="form-select" value={form.paid_by} onChange={e=>setForm({...form,paid_by:e.target.value})}><option value="shared">Gedeeld</option><option value="laslo">{settings.laslo_name}</option><option value="her">{settings.her_name}</option></select></div><div className="form-group"><label className="form-label">Bon</label><input type="file" accept="image/*" className="form-input" style={{padding:'8px'}} onChange={e=>setFile(e.target.files[0])}/></div></div>{preview&&<div style={{marginBottom:12}}><img src={preview} alt="preview" style={{width:80,height:80,objectFit:'cover',borderRadius:10,border:'2px solid #f59e0b'}}/></div>}<div className="form-group" style={{marginBottom:12}}><label className="form-label">Omschrijving</label><input className="form-input" value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/></div><div style={{display:'flex',gap:8}}><button className="add-btn green" type="submit" disabled={saving}>{saving?'Opslaan…':'Opslaan'}</button>{onCancel&&<button className="add-btn secondary" type="button" onClick={onCancel}>Annuleren</button>}</div></form>);
 }
 
-// ── RENOVATION TAB ────────────────────────────────────────────────────────────
 function RenovationTab({settings}){
   const[categories,setCategories]=useState([]);
   const[items,setItems]=useState([]);
@@ -764,7 +667,10 @@ function RenovationTab({settings}){
     <div>
       <div className="networth-total mb-16" style={{background:'linear-gradient(135deg,#f59e0b,#d97706)'}}>
         <div className="networth-label">Verbouwingsbudget</div>
-        {editingBudget?<div style={{display:'flex',gap:8,alignItems:'center',marginTop:8}}><input type="number" value={tempBudget} onChange={e=>setTempBudget(e.target.value)} style={{padding:'8px 12px',borderRadius:8,border:'none',fontSize:20,fontWeight:700,width:180}}/><button className="add-btn" style={{background:'white',color:'#d97706',padding:'8px 16px'}} onClick={saveBudget}>Opslaan</button><button className="add-btn secondary" style={{padding:'8px 16px'}} onClick={()=>setEditingBudget(false)}>Annuleren</button></div>:<div style={{display:'flex',alignItems:'center',gap:12}}><div className="networth-value">{fmtEur(budget)}</div><button onClick={()=>{setTempBudget(budget);setEditingBudget(true);}} style={{background:'rgba(255,255,255,0.2)',border:'none',borderRadius:8,padding:'6px 12px',color:'white',cursor:'pointer',fontSize:13}}>✏️ Wijzigen</button></div>}
+        {editingBudget
+          ?<div style={{display:'flex',gap:8,alignItems:'center',marginTop:8}}><input type="number" value={tempBudget} onChange={e=>setTempBudget(e.target.value)} style={{padding:'8px 12px',borderRadius:8,border:'none',fontSize:20,fontWeight:700,width:180}}/><button className="add-btn" style={{background:'white',color:'#d97706',padding:'8px 16px'}} onClick={saveBudget}>Opslaan</button><button className="add-btn secondary" style={{padding:'8px 16px'}} onClick={()=>setEditingBudget(false)}>Annuleren</button></div>
+          :<div style={{display:'flex',alignItems:'center',gap:12}}><div className="networth-value">{fmtEur(budget)}</div><button onClick={()=>{setTempBudget(budget);setEditingBudget(true);}} style={{background:'rgba(255,255,255,0.2)',border:'none',borderRadius:8,padding:'6px 12px',color:'white',cursor:'pointer',fontSize:13}}>✏️ Wijzigen</button></div>
+        }
       </div>
       <div className="grid-4 mb-24">
         <div className="stat-card"><div className="stat-label">Gepland</div><div className="stat-value purple">{fmtEur(totalPlanned)}</div></div>
@@ -773,14 +679,23 @@ function RenovationTab({settings}){
         <div className="stat-card"><div className="stat-label">Alle opties</div><div className="stat-value orange">{fmtEur(items.reduce((s,i)=>s+calcTotal(i),0))}</div></div>
       </div>
       <div className="card mb-24"><div style={{fontSize:14,fontWeight:600,color:'#475569',marginBottom:8}}>Budgetverloop</div><div className="reno-budget-bar"><div className="reno-budget-fill" style={{width:`${pct}%`,background:barColor}}>{pct>15&&<span className="reno-budget-fill-text">{Math.round(pct)}%</span>}</div></div><div style={{display:'flex',justifyContent:'space-between',fontSize:12,color:'#94a3b8',marginTop:4}}><span>Betaald {fmtEur(totalPaid)}</span><span>Gepland {fmtEur(totalPlanned)}</span><span>Budget {fmtEur(budget)}</span></div></div>
-      {showAddCat?<form onSubmit={async e=>{e.preventDefault();const mo=categories.length>0?Math.max(...categories.map(c=>c.sort_order||0)):0;await supabase.from('renovation_categories').insert({name:newCat.name,icon:newCat.icon,sort_order:mo+1});setNewCat({name:'',icon:'🔨'});setShowAddCat(false);fetchReno();}} className="card mb-16" style={{borderLeft:'4px solid #667eea'}}><div style={{fontSize:15,fontWeight:700,marginBottom:12}}>Nieuwe categorie</div><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. Vloeren" value={newCat.name} onChange={e=>setNewCat({...newCat,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Icoon</label><input className="form-input" placeholder="🔨" value={newCat.icon} onChange={e=>setNewCat({...newCat,icon:e.target.value})}/></div></div><div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Toevoegen</button><button className="add-btn secondary" type="button" onClick={()=>setShowAddCat(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div></form>:<div className="reno-add-cat" onClick={()=>setShowAddCat(true)}>+ Nieuwe categorie toevoegen</div>}
+      {showAddCat
+        ?<form onSubmit={async e=>{e.preventDefault();const mo=categories.length>0?Math.max(...categories.map(c=>c.sort_order||0)):0;await supabase.from('renovation_categories').insert({name:newCat.name,icon:newCat.icon,sort_order:mo+1});setNewCat({name:'',icon:'🔨'});setShowAddCat(false);fetchReno();}} className="card mb-16" style={{borderLeft:'4px solid #667eea'}}><div style={{fontSize:15,fontWeight:700,marginBottom:12}}>Nieuwe categorie</div><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. Vloeren" value={newCat.name} onChange={e=>setNewCat({...newCat,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Icoon</label><input className="form-input" placeholder="🔨" value={newCat.icon} onChange={e=>setNewCat({...newCat,icon:e.target.value})}/></div></div><div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Toevoegen</button><button className="add-btn secondary" type="button" onClick={()=>setShowAddCat(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div></form>
+        :<div className="reno-add-cat" onClick={()=>setShowAddCat(true)}>+ Nieuwe categorie toevoegen</div>
+      }
       {categories.map(cat=>{
         const catItems=items.filter(i=>i.category_id===cat.id);
         const chosen=catItems.find(i=>i.is_chosen);
-        return(<div key={cat.id} className="reno-cat"><div className="reno-cat-header"><div className="reno-cat-title"><span>{cat.icon}</span><span>{cat.name}</span><span style={{fontSize:13,color:'#94a3b8',fontWeight:400}}>({catItems.length})</span></div><div style={{display:'flex',alignItems:'center',gap:12}}>{chosen&&<span className="reno-cat-total">{fmtEur(calcTotal(chosen))} gekozen</span>}<button className="add-btn secondary" style={{padding:'6px 14px',fontSize:12}} onClick={()=>setAddingItemToCat(addingItemToCat===cat.id?null:cat.id)}>+ Optie</button><button className="delete-btn" onClick={async()=>{await supabase.from('renovation_categories').delete().eq('id',cat.id);fetchReno();}}>🗑</button></div></div>
-        {addingItemToCat===cat.id&&<div style={{padding:'0 16px 16px'}}><AddItemForm catId={cat.id} settings={settings} fetchingUrl={fetchingUrl} onFetchUrl={fetchFromUrl} onSave={()=>{setAddingItemToCat(null);fetchReno();}} onCancel={()=>setAddingItemToCat(null)}/></div>}
-        {catItems.length===0?<div style={{padding:'20px',textAlign:'center',color:'#94a3b8',fontSize:14}}>Nog geen opties</div>:<div className="reno-items-grid">{catItems.map(item=><RenovationItemCard key={item.id} item={item} calcTotal={calcTotal} onChoose={async()=>{const ci=items.filter(i=>i.category_id===cat.id);await Promise.all(ci.map(i=>supabase.from('renovation_items').update({is_chosen:i.id===item.id}).eq('id',i.id)));fetchReno();}} onStatusChange={async s=>{await supabase.from('renovation_items').update({status:s}).eq('id',item.id);fetchReno();}} onDelete={async()=>{await supabase.from('renovation_items').delete().eq('id',item.id);fetchReno();}} onRefresh={fetchReno}/>)}</div>}
-        </div>);
+        return(
+          <div key={cat.id} className="reno-cat">
+            <div className="reno-cat-header"><div className="reno-cat-title"><span>{cat.icon}</span><span>{cat.name}</span><span style={{fontSize:13,color:'#94a3b8',fontWeight:400}}>({catItems.length})</span></div><div style={{display:'flex',alignItems:'center',gap:12}}>{chosen&&<span className="reno-cat-total">{fmtEur(calcTotal(chosen))} gekozen</span>}<button className="add-btn secondary" style={{padding:'6px 14px',fontSize:12}} onClick={()=>setAddingItemToCat(addingItemToCat===cat.id?null:cat.id)}>+ Optie</button><button className="delete-btn" onClick={async()=>{await supabase.from('renovation_categories').delete().eq('id',cat.id);fetchReno();}}>🗑</button></div></div>
+            {addingItemToCat===cat.id&&<div style={{padding:'0 16px 16px'}}><AddItemForm catId={cat.id} settings={settings} fetchingUrl={fetchingUrl} onFetchUrl={fetchFromUrl} onSave={()=>{setAddingItemToCat(null);fetchReno();}} onCancel={()=>setAddingItemToCat(null)}/></div>}
+            {catItems.length===0
+              ?<div style={{padding:'20px',textAlign:'center',color:'#94a3b8',fontSize:14}}>Nog geen opties</div>
+              :<div className="reno-items-grid">{catItems.map(item=><RenovationItemCard key={item.id} item={item} calcTotal={calcTotal} onChoose={async()=>{const ci=items.filter(i=>i.category_id===cat.id);await Promise.all(ci.map(i=>supabase.from('renovation_items').update({is_chosen:i.id===item.id}).eq('id',i.id)));fetchReno();}} onStatusChange={async s=>{await supabase.from('renovation_items').update({status:s}).eq('id',item.id);fetchReno();}} onDelete={async()=>{await supabase.from('renovation_items').delete().eq('id',item.id);fetchReno();}} onRefresh={fetchReno}/>)}</div>
+            }
+          </div>
+        );
       })}
     </div>
   );
@@ -789,7 +704,16 @@ function RenovationTab({settings}){
 function AddItemForm({catId,settings,fetchingUrl,onFetchUrl,onSave,onCancel}){
   const[url,setUrl]=useState('');
   const[form,setForm]=useState({name:'',price:'',price_type:'total',quantity:'1',image_url:'',notes:'',status:'orienterend'});
-  return(<form onSubmit={async e=>{e.preventDefault();await supabase.from('renovation_items').insert({category_id:catId,name:form.name,url,image_url:form.image_url,price:parseFloat(form.price)||0,price_type:form.price_type,quantity:parseFloat(form.quantity)||1,notes:form.notes,status:form.status,is_chosen:false});onSave();}} style={{background:'#f8faff',borderRadius:12,padding:16,border:'2px solid #667eea',marginTop:12}}><div style={{fontSize:13,fontWeight:600,color:'#667eea',marginBottom:12}}>Nieuwe optie</div><div className="url-fetch-bar"><input className="form-input" placeholder="Plak product URL…" value={url} onChange={e=>setUrl(e.target.value)}/><button type="button" className="add-btn" style={{whiteSpace:'nowrap',padding:'10px 16px',fontSize:13}} onClick={()=>{if(url)onFetchUrl(url,catId,setForm);}} disabled={fetchingUrl}>{fetchingUrl?'⏳':'🔍 Ophalen'}</button></div>{form.image_url&&<img src={form.image_url} alt="" style={{width:'100%',height:120,objectFit:'cover',borderRadius:10,marginBottom:12}} onError={e=>e.target.style.display='none'}/>}<div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Prijs (€)</label><input className="form-input" type="number" step="0.01" value={form.price} onChange={e=>setForm({...form,price:e.target.value})} required/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Type</label><select className="form-select" value={form.price_type} onChange={e=>setForm({...form,price_type:e.target.value})}>{PRICE_TYPES.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}</select></div>{form.price_type!=='total'&&<div className="form-group"><label className="form-label">Aantal</label><input className="form-input" type="number" step="0.1" value={form.quantity} onChange={e=>setForm({...form,quantity:e.target.value})}/></div>}</div><div style={{display:'flex',gap:8}}><button className="add-btn green" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button><button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div></form>);
+  return(
+    <form onSubmit={async e=>{e.preventDefault();await supabase.from('renovation_items').insert({category_id:catId,name:form.name,url,image_url:form.image_url,price:parseFloat(form.price)||0,price_type:form.price_type,quantity:parseFloat(form.quantity)||1,notes:form.notes,status:form.status,is_chosen:false});onSave();}} style={{background:'#f8faff',borderRadius:12,padding:16,border:'2px solid #667eea',marginTop:12}}>
+      <div style={{fontSize:13,fontWeight:600,color:'#667eea',marginBottom:12}}>Nieuwe optie</div>
+      <div className="url-fetch-bar"><input className="form-input" placeholder="Plak product URL…" value={url} onChange={e=>setUrl(e.target.value)}/><button type="button" className="add-btn" style={{whiteSpace:'nowrap',padding:'10px 16px',fontSize:13}} onClick={()=>{if(url)onFetchUrl(url,catId,setForm);}} disabled={fetchingUrl}>{fetchingUrl?'⏳':'🔍 Ophalen'}</button></div>
+      {form.image_url&&<img src={form.image_url} alt="" style={{width:'100%',height:120,objectFit:'cover',borderRadius:10,marginBottom:12}} onError={e=>e.target.style.display='none'}/>}
+      <div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Prijs (€)</label><input className="form-input" type="number" step="0.01" value={form.price} onChange={e=>setForm({...form,price:e.target.value})} required/></div></div>
+      <div className="form-row"><div className="form-group"><label className="form-label">Type</label><select className="form-select" value={form.price_type} onChange={e=>setForm({...form,price_type:e.target.value})}>{PRICE_TYPES.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}</select></div>{form.price_type!=='total'&&<div className="form-group"><label className="form-label">Aantal</label><input className="form-input" type="number" step="0.1" value={form.quantity} onChange={e=>setForm({...form,quantity:e.target.value})}/></div>}</div>
+      <div style={{display:'flex',gap:8}}><button className="add-btn green" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button><button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div>
+    </form>
+  );
 }
 
 function RenovationItemCard({item,calcTotal,onChoose,onStatusChange,onDelete,onRefresh}){
@@ -797,11 +721,38 @@ function RenovationItemCard({item,calcTotal,onChoose,onStatusChange,onDelete,onR
   const[form,setForm]=useState({name:item.name,price:item.price,price_type:item.price_type,quantity:item.quantity,image_url:item.image_url||'',notes:item.notes||'',status:item.status,url:item.url||''});
   const total=calcTotal(item);
   const statusInfo=STATUS_OPTIONS.find(s=>s.id===item.status)||STATUS_OPTIONS[0];
-  if(editing)return(<div style={{gridColumn:'1/-1'}}><form onSubmit={async e=>{e.preventDefault();await supabase.from('renovation_items').update({name:form.name,price:parseFloat(form.price)||0,price_type:form.price_type,quantity:parseFloat(form.quantity)||1,image_url:form.image_url,notes:form.notes,status:form.status,url:form.url}).eq('id',item.id);setEditing(false);onRefresh();}} style={{background:'#f8faff',borderRadius:12,padding:16,border:'2px solid #667eea'}}><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Prijs (€)</label><input className="form-input" type="number" step="0.01" value={form.price} onChange={e=>setForm({...form,price:e.target.value})}/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Type</label><select className="form-select" value={form.price_type} onChange={e=>setForm({...form,price_type:e.target.value})}>{PRICE_TYPES.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}</select></div>{form.price_type!=='total'&&<div className="form-group"><label className="form-label">Aantal</label><input className="form-input" type="number" step="0.1" value={form.quantity} onChange={e=>setForm({...form,quantity:e.target.value})}/></div>}</div><div className="form-row"><div className="form-group"><label className="form-label">Status</label><select className="form-select" value={form.status} onChange={e=>setForm({...form,status:e.target.value})}>{STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select></div><div className="form-group"><label className="form-label">Afbeelding URL</label><input className="form-input" value={form.image_url} onChange={e=>setForm({...form,image_url:e.target.value})}/></div></div><div className="form-group" style={{marginBottom:12}}><label className="form-label">URL</label><input className="form-input" value={form.url} onChange={e=>setForm({...form,url:e.target.value})}/></div><div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button><button className="add-btn secondary" type="button" onClick={()=>setEditing(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div></form></div>);
-  return(<div className={`reno-item ${item.is_chosen?'chosen':''} ${item.status==='betaald'?'paid':''}`}>{item.is_chosen&&<div className="chosen-ribbon">✓ Gekozen</div>}<div className="reno-item-img">{item.image_url?<img src={item.image_url} alt={item.name} onError={e=>{e.target.style.display='none';e.target.parentElement.innerHTML='🔨';}}/>:'🔨'}</div><div className="reno-item-body"><div className="reno-item-name">{item.name}</div><div className="reno-item-price">{fmtEur(item.price)}{item.price_type!=='total'&&<span style={{fontSize:13,color:'#94a3b8'}}> /{item.price_type==='m2'?'m²':item.price_type==='hour'?'uur':'stuk'}</span>}</div>{item.price_type!=='total'&&<div className="reno-item-total">Totaal: {fmtEur(total)}</div>}{item.notes&&<div style={{fontSize:12,color:'#64748b',marginBottom:8}}>{item.notes}</div>}<div style={{display:'flex',gap:6,marginBottom:8,flexWrap:'wrap'}}><span className={`status-badge ${item.status}`}>{statusInfo.label}</span>{item.url&&<a href={item.url} target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:'#667eea',fontWeight:600,textDecoration:'none'}}>🔗 Link</a>}</div><div className="reno-item-actions">{!item.is_chosen&&<button className="add-btn green" style={{padding:'5px 12px',fontSize:12}} onClick={onChoose}>✓ Kiezen</button>}<select className="form-select" style={{padding:'5px 8px',fontSize:12,flex:1}} value={item.status} onChange={e=>onStatusChange(e.target.value)}>{STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select><button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button><button className="delete-btn" onClick={onDelete}>🗑</button></div></div></div>);
+  if(editing)return(
+    <div style={{gridColumn:'1/-1'}}>
+      <form onSubmit={async e=>{e.preventDefault();await supabase.from('renovation_items').update({name:form.name,price:parseFloat(form.price)||0,price_type:form.price_type,quantity:parseFloat(form.quantity)||1,image_url:form.image_url,notes:form.notes,status:form.status,url:form.url}).eq('id',item.id);setEditing(false);onRefresh();}} style={{background:'#f8faff',borderRadius:12,padding:16,border:'2px solid #667eea'}}>
+        <div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Prijs (€)</label><input className="form-input" type="number" step="0.01" value={form.price} onChange={e=>setForm({...form,price:e.target.value})}/></div></div>
+        <div className="form-row"><div className="form-group"><label className="form-label">Type</label><select className="form-select" value={form.price_type} onChange={e=>setForm({...form,price_type:e.target.value})}>{PRICE_TYPES.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}</select></div>{form.price_type!=='total'&&<div className="form-group"><label className="form-label">Aantal</label><input className="form-input" type="number" step="0.1" value={form.quantity} onChange={e=>setForm({...form,quantity:e.target.value})}/></div>}</div>
+        <div className="form-row"><div className="form-group"><label className="form-label">Status</label><select className="form-select" value={form.status} onChange={e=>setForm({...form,status:e.target.value})}>{STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select></div><div className="form-group"><label className="form-label">Afbeelding URL</label><input className="form-input" value={form.image_url} onChange={e=>setForm({...form,image_url:e.target.value})}/></div></div>
+        <div className="form-group" style={{marginBottom:12}}><label className="form-label">Product URL</label><input className="form-input" value={form.url} onChange={e=>setForm({...form,url:e.target.value})}/></div>
+        <div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button><button className="add-btn secondary" type="button" onClick={()=>setEditing(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div>
+      </form>
+    </div>
+  );
+  return(
+    <div className={`reno-item ${item.is_chosen?'chosen':''} ${item.status==='betaald'?'paid':''}`}>
+      {item.is_chosen&&<div className="chosen-ribbon">✓ Gekozen</div>}
+      <div className="reno-item-img">{item.image_url?<img src={item.image_url} alt={item.name} onError={e=>{e.target.style.display='none';e.target.parentElement.innerHTML='🔨';}}/>:'🔨'}</div>
+      <div className="reno-item-body">
+        <div className="reno-item-name">{item.name}</div>
+        <div className="reno-item-price">{fmtEur(item.price)}{item.price_type!=='total'&&<span style={{fontSize:13,color:'#94a3b8'}}> /{item.price_type==='m2'?'m²':item.price_type==='hour'?'uur':'stuk'}</span>}</div>
+        {item.price_type!=='total'&&<div className="reno-item-total">Totaal: {fmtEur(total)}</div>}
+        {item.notes&&<div style={{fontSize:12,color:'#64748b',marginBottom:8}}>{item.notes}</div>}
+        <div style={{display:'flex',gap:6,marginBottom:8,flexWrap:'wrap'}}><span className={`status-badge ${item.status}`}>{statusInfo.label}</span>{item.url&&<a href={item.url} target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:'#667eea',fontWeight:600,textDecoration:'none'}}>🔗 Link</a>}</div>
+        <div className="reno-item-actions">
+          {!item.is_chosen&&<button className="add-btn green" style={{padding:'5px 12px',fontSize:12}} onClick={onChoose}>✓ Kiezen</button>}
+          <select className="form-select" style={{padding:'5px 8px',fontSize:12,flex:1}} value={item.status} onChange={e=>onStatusChange(e.target.value)}>{STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select>
+          <button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button>
+          <button className="delete-btn" onClick={onDelete}>🗑</button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-// ── TIMELINE TAB ──────────────────────────────────────────────────────────────
 function TimelineTab({settings}){
   const[tasks,setTasks]=useState([]);
   const[showAddForm,setShowAddForm]=useState(false);
@@ -820,8 +771,7 @@ function TimelineTab({settings}){
     if(tasks.length===0){alert('Voeg eerst taken toe.');return;}
     setAnalyzing(true);
     try{
-      const taskList=tasks.map(t=>({id:t.id,name:t.task_name}));
-      const res=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${settings.openai_key}`},body:JSON.stringify({model:'gpt-4o',messages:[{role:'user',content:`Je bent een verbouwingsexpert. Taken:\n${taskList.map((t,i)=>`${i+1}. ${t.name}`).join('\n')}\n\nGeef JSON: { "ordered_tasks": [{ "id": "bestaand_id of new_X", "task_name": "naam", "description": "uitleg", "estimated_hours": getal, "tips": "aandachtspunten", "depends_on_names": ["taaknaam"], "is_new": bool }] }`}],max_tokens:2000})});
+      const res=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${settings.openai_key}`},body:JSON.stringify({model:'gpt-4o',messages:[{role:'user',content:`Je bent een verbouwingsexpert. Taken:\n${tasks.map((t,i)=>`${i+1}. ${t.task_name}`).join('\n')}\n\nGeef JSON: { "ordered_tasks": [{ "id": "bestaand_id of new_X", "task_name": "naam", "description": "uitleg", "estimated_hours": getal, "tips": "aandachtspunten", "depends_on_names": ["taaknaam"], "is_new": bool }] }`}],max_tokens:2000})});
       const d=await res.json();
       const t=d.choices?.[0]?.message?.content||'';
       const m=t.match(/\{[\s\S]*\}/);
@@ -908,7 +858,14 @@ function TimelineTab({settings}){
         <button className="add-btn" style={{background:'linear-gradient(135deg,#7c3aed,#4f46e5)'}} onClick={analyzeWithAI}>🤖 AI: Plan mijn verbouwing</button>
         <button className="add-btn secondary" onClick={()=>setShowAddForm(!showAddForm)}>{showAddForm?'Annuleren':'+ Taak toevoegen'}</button>
       </div>
-      {showAddForm&&<form onSubmit={async e=>{e.preventDefault();const fd=new FormData(e.target);const pos=tasks.length>0?Math.max(...tasks.map(t=>t.order_position||0))+1:0;await supabase.from('renovation_timeline').insert({task_name:fd.get('name'),description:fd.get('description')||'',estimated_hours:parseFloat(fd.get('hours'))||0,tips:'',status:'pending',order_position:pos,depends_on:[],ai_suggested:false});fetchTasks();setShowAddForm(false);}} style={{background:'#f5f3ff',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #7c3aed'}}><div style={{fontSize:13,fontWeight:600,color:'#7c3aed',marginBottom:12}}>Nieuwe taak</div><div className="form-row"><div className="form-group"><label className="form-label">Taaknaam</label><input className="form-input" name="name" placeholder="bijv. Vloerverwarming installeren" required/></div><div className="form-group"><label className="form-label">Geschatte uren</label><input className="form-input" name="hours" type="number" placeholder="0"/></div></div><div className="form-group" style={{marginBottom:12}}><label className="form-label">Beschrijving</label><input className="form-input" name="description" placeholder="Optioneel…"/></div><div style={{display:'flex',gap:8}}><button className="add-btn" style={{background:'linear-gradient(135deg,#7c3aed,#4f46e5)',padding:'8px 20px',fontSize:13}} type="submit">Toevoegen</button><button className="add-btn secondary" type="button" onClick={()=>setShowAddForm(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div></form>}
+      {showAddForm&&(
+        <form onSubmit={async e=>{e.preventDefault();const fd=new FormData(e.target);const pos=tasks.length>0?Math.max(...tasks.map(t=>t.order_position||0))+1:0;await supabase.from('renovation_timeline').insert({task_name:fd.get('name'),description:fd.get('description')||'',estimated_hours:parseFloat(fd.get('hours'))||0,tips:'',status:'pending',order_position:pos,depends_on:[],ai_suggested:false});fetchTasks();setShowAddForm(false);}} style={{background:'#f5f3ff',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #7c3aed'}}>
+          <div style={{fontSize:13,fontWeight:600,color:'#7c3aed',marginBottom:12}}>Nieuwe taak</div>
+          <div className="form-row"><div className="form-group"><label className="form-label">Taaknaam</label><input className="form-input" name="name" placeholder="bijv. Vloerverwarming installeren" required/></div><div className="form-group"><label className="form-label">Geschatte uren</label><input className="form-input" name="hours" type="number" placeholder="0"/></div></div>
+          <div className="form-group" style={{marginBottom:12}}><label className="form-label">Beschrijving</label><input className="form-input" name="description" placeholder="Optioneel…"/></div>
+          <div style={{display:'flex',gap:8}}><button className="add-btn" style={{background:'linear-gradient(135deg,#7c3aed,#4f46e5)',padding:'8px 20px',fontSize:13}} type="submit">Toevoegen</button><button className="add-btn secondary" type="button" onClick={()=>setShowAddForm(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div>
+        </form>
+      )}
       {analyzing&&<div className="ai-analyzing"><div className="ai-analyzing-icon">🤖</div><div style={{fontSize:16,fontWeight:700,marginBottom:4}}>AI analyseert je verbouwing…</div><div style={{fontSize:13,opacity:0.85}}>Taken worden geordend en ontbrekende stappen toegevoegd</div></div>}
       {tasks.length===0&&!analyzing&&<div className="empty"><div className="empty-icon">📋</div>Voeg taken toe en laat AI de optimale volgorde bepalen</div>}
       <div className="timeline-wrapper">
@@ -953,7 +910,6 @@ function TimelineTab({settings}){
   );
 }
 
-// ── ACCOUNTS TAB ──────────────────────────────────────────────────────────────
 function AccountsTab({accounts,settings,onRefresh}){
   const[showForm,setShowForm]=useState(false);
   const[form,setForm]=useState({name:'',balance:'',owner:'laslo'});
@@ -973,18 +929,37 @@ function AccountsTab({accounts,settings,onRefresh}){
       </div>
       <div className="card">
         <div className="section-header"><div className="section-title">🏦 Bankrekeningen</div><button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Rekening toevoegen'}</button></div>
-        {showForm&&<form onSubmit={async e=>{e.preventDefault();await supabase.from('accounts').insert({name:form.name,balance:parseFloat(form.balance),owner:form.owner});setForm({name:'',balance:'',owner:'laslo'});setShowForm(false);onRefresh();}} style={{marginBottom:20}}><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="ING Spaarrekening" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Saldo (€)</label><input className="form-input" type="number" step="0.01" value={form.balance} onChange={e=>setForm({...form,balance:e.target.value})} required/></div><div className="form-group"><label className="form-label">Van wie</label><select className="form-select" value={form.owner} onChange={e=>setForm({...form,owner:e.target.value})}><option value="laslo">{settings.laslo_name}</option><option value="her">{settings.her_name}</option><option value="shared">Gedeeld</option></select></div></div><button className="add-btn" type="submit">Opslaan</button></form>}
-        {accounts.length===0?<div className="empty"><div className="empty-icon">🏦</div>Nog geen rekeningen</div>:accounts.map(a=>{
-          const[editing,setEditing]=useState(false);
-          const[val,setVal]=useState(a.balance);
-          return(<div key={a.id} className="account-item"><div style={{display:'flex',alignItems:'center',gap:12}}><div style={{fontSize:20}}>{ownerIcon(a.owner)}</div><div><div className="account-name">{a.name}</div><div className="account-owner">{ownerLabel(a.owner)}</div></div></div><div style={{display:'flex',alignItems:'center',gap:10}}>{editing?<><input type="number" step="0.01" value={val} onChange={e=>setVal(e.target.value)} style={{width:120,padding:'6px 10px',border:'2px solid #667eea',borderRadius:8,fontSize:14}}/><button className="add-btn" style={{padding:'6px 14px',fontSize:13}} onClick={async()=>{await supabase.from('accounts').update({balance:parseFloat(val)}).eq('id',a.id);setEditing(false);onRefresh();}}>Opslaan</button><button className="add-btn secondary" style={{padding:'6px 14px',fontSize:13}} onClick={()=>setEditing(false)}>Annuleren</button></>:<><div className="account-balance">{fmtEur(a.balance)}</div><button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button><button className="delete-btn" onClick={async()=>{await supabase.from('accounts').delete().eq('id',a.id);onRefresh();}}>🗑</button></>}</div></div>);
-        })}
+        {showForm&&(
+          <form onSubmit={async e=>{e.preventDefault();await supabase.from('accounts').insert({name:form.name,balance:parseFloat(form.balance),owner:form.owner});setForm({name:'',balance:'',owner:'laslo'});setShowForm(false);onRefresh();}} style={{marginBottom:20}}>
+            <div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="ING Spaarrekening" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Saldo (€)</label><input className="form-input" type="number" step="0.01" value={form.balance} onChange={e=>setForm({...form,balance:e.target.value})} required/></div><div className="form-group"><label className="form-label">Van wie</label><select className="form-select" value={form.owner} onChange={e=>setForm({...form,owner:e.target.value})}><option value="laslo">{settings.laslo_name}</option><option value="her">{settings.her_name}</option><option value="shared">Gedeeld</option></select></div></div>
+            <button className="add-btn" type="submit">Opslaan</button>
+          </form>
+        )}
+        {accounts.length===0
+          ?<div className="empty"><div className="empty-icon">🏦</div>Nog geen rekeningen</div>
+          :accounts.map(a=><AccountItem key={a.id} account={a} ownerLabel={ownerLabel} ownerIcon={ownerIcon} onDelete={async()=>{await supabase.from('accounts').delete().eq('id',a.id);onRefresh();}} onRefresh={onRefresh}/>)
+        }
       </div>
     </div>
   );
 }
 
-// ── SETTINGS TAB ──────────────────────────────────────────────────────────────
+function AccountItem({account,ownerLabel,ownerIcon,onDelete,onRefresh}){
+  const[editing,setEditing]=useState(false);
+  const[val,setVal]=useState(account.balance);
+  return(
+    <div className="account-item">
+      <div style={{display:'flex',alignItems:'center',gap:12}}><div style={{fontSize:20}}>{ownerIcon(account.owner)}</div><div><div className="account-name">{account.name}</div><div className="account-owner">{ownerLabel(account.owner)}</div></div></div>
+      <div style={{display:'flex',alignItems:'center',gap:10}}>
+        {editing
+          ?<><input type="number" step="0.01" value={val} onChange={e=>setVal(e.target.value)} style={{width:120,padding:'6px 10px',border:'2px solid #667eea',borderRadius:8,fontSize:14}}/><button className="add-btn" style={{padding:'6px 14px',fontSize:13}} onClick={async()=>{await supabase.from('accounts').update({balance:parseFloat(val)}).eq('id',account.id);setEditing(false);onRefresh();}}>Opslaan</button><button className="add-btn secondary" style={{padding:'6px 14px',fontSize:13}} onClick={()=>setEditing(false)}>Annuleren</button></>
+          :<><div className="account-balance">{fmtEur(account.balance)}</div><button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button><button className="delete-btn" onClick={onDelete}>🗑</button></>
+        }
+      </div>
+    </div>
+  );
+}
+
 function SettingsTab({settings,onRefresh}){
   const[form,setForm]=useState({...settings,laslo_income:'',her_income:''});
   const[saved,setSaved]=useState(false);
