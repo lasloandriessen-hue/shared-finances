@@ -369,6 +369,8 @@ function PersonTab({person,recurringIncomes,recurringExpenses,settings,onRefresh
   const[showExpForm,setShowExpForm]=useState(false);
   const[editingIncome,setEditingIncome]=useState(null);
   const[editingExpense,setEditingExpense]=useState(null);
+  const[incLabel,setIncLabel]=useState('');
+  const[incAmount,setIncAmount]=useState('');
   const pct=person==='laslo'?settings.shared_pct:100-settings.shared_pct;
   const myIncomes=recurringIncomes.filter(i=>i.person===person);
   const myExpenses=recurringExpenses.filter(e=>e.person===person&&!e.is_shared);
@@ -378,10 +380,98 @@ function PersonTab({person,recurringIncomes,recurringExpenses,settings,onRefresh
   const sharedTotal=sharedExp.reduce((s,e)=>s+Number(e.amount),0);
   const myShared=sharedTotal*(pct/100);
   const net=totalInc-totalExp-myShared;
-
   const deleteIncome=async id=>{await supabase.from('recurring_incomes').delete().eq('id',id);onRefresh();};
   const deleteExpense=async id=>{await supabase.from('recurring_expenses').delete().eq('id',id);onRefresh();};
-
+  const saveIncome=async e=>{
+    e.preventDefault();
+    await supabase.from('recurring_incomes').insert({person,label:incLabel,amount:parseFloat(incAmount)});
+    setIncLabel('');setIncAmount('');
+    setShowIncForm(false);
+    onRefresh();
+  };
+  const catTotals={};
+  [...myExpenses,...sharedExp].forEach(e=>{
+    const amt=e.is_shared?Number(e.amount)*(pct/100):Number(e.amount);
+    catTotals[e.category]=(catTotals[e.category]||0)+amt;
+  });
+  return(
+    <div>
+      <div className="grid-3 mb-24">
+        <div className="stat-card"><div className="stat-label">Maandinkomen</div><div className="stat-value green">{fmtEur(totalInc)}</div></div>
+        <div className="stat-card"><div className="stat-label">Maandelijkse uitgaven</div><div className="stat-value red">{fmtEur(totalExp+myShared)}</div><div className="stat-sub">Persoonlijk {fmtEur(totalExp)} · Gedeeld {fmtEur(myShared)}</div></div>
+        <div className="stat-card"><div className="stat-label">Maandelijkse cashflow</div><div className={`stat-value ${net>=0?'green':'red'}`}>{fmtEur(net)}</div></div>
+      </div>
+      <div className="card mb-16">
+        <div className="section-header">
+          <div><div className="section-title">💚 Terugkerend inkomen</div><div style={{fontSize:12,color:'#94a3b8',marginTop:2}}>Wordt elke maand automatisch meegerekend</div></div>
+          <button className="add-btn secondary" onClick={()=>setShowIncForm(!showIncForm)}>{showIncForm?'Annuleren':'+ Toevoegen'}</button>
+        </div>
+        {showIncForm&&(
+          <form onSubmit={saveIncome} style={{background:'#f0fdf4',borderRadius:12,padding:16,marginBottom:16}}>
+            <div className="form-row">
+              <div className="form-group"><label className="form-label">Label</label><input className="form-input" placeholder="bijv. Salaris" value={incLabel} onChange={e=>setIncLabel(e.target.value)} required/></div>
+              <div className="form-group"><label className="form-label">Bedrag per maand (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={incAmount} onChange={e=>setIncAmount(e.target.value)} required/></div>
+            </div>
+            <button className="add-btn green" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>
+          </form>
+        )}
+        {myIncomes.length===0?<div className="empty"><div className="empty-icon">💸</div>Nog geen terugkerend inkomen</div>
+          :myIncomes.map(i=>(
+            <div key={i.id}>
+              {editingIncome===i.id
+                ?<form onSubmit={async e=>{e.preventDefault();const fd=new FormData(e.target);await supabase.from('recurring_incomes').update({label:fd.get('label'),amount:parseFloat(fd.get('amount'))}).eq('id',i.id);onRefresh();setEditingIncome(null);}} className="edit-form">
+                  <div className="form-row">
+                    <div className="form-group"><label className="form-label">Label</label><input className="form-input" name="label" defaultValue={i.label} required/></div>
+                    <div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" name="amount" type="number" step="0.01" defaultValue={i.amount} required/></div>
+                  </div>
+                  <div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button><button className="add-btn secondary" type="button" onClick={()=>setEditingIncome(null)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div>
+                </form>
+                :<div className="expense-item">
+                  <div className="expense-left"><div className="expense-icon">💰</div><div><div className="expense-name">{i.label}</div><div className="expense-meta">Elke maand <span className="recurring-badge">🔄 Terugkerend</span></div></div></div>
+                  <div className="expense-right"><span className="expense-amount income">{fmtEur(i.amount)}</span><button className="delete-btn" onClick={()=>setEditingIncome(i.id)}>✏️</button><button className="delete-btn" onClick={()=>deleteIncome(i.id)}>🗑</button></div>
+                </div>
+              }
+            </div>
+          ))
+        }
+      </div>
+      <div className="card">
+        <div className="section-header">
+          <div><div className="section-title">💸 Terugkerende uitgaven</div><div style={{fontSize:12,color:'#94a3b8',marginTop:2}}>Persoonlijke + gedeelde uitgaven per categorie</div></div>
+          <button className="add-btn secondary" onClick={()=>setShowExpForm(!showExpForm)}>{showExpForm?'Annuleren':'+ Toevoegen'}</button>
+        </div>
+        {showExpForm&&<RecurringExpenseForm person={person} settings={settings} onSave={()=>{onRefresh();setShowExpForm(false);}}/>}
+        {Object.keys(catTotals).length===0?<div className="empty"><div className="empty-icon">✅</div>Geen terugkerende uitgaven</div>
+          :Object.entries(catTotals).map(([catId,catTotal])=>{
+            const info=getCategoryInfo(catId);
+            const catExpenses=[...myExpenses,...sharedExp].filter(e=>e.category===catId);
+            return(
+              <div key={catId} className="cat-section">
+                <div className="cat-header"><div className="cat-header-left"><span style={{fontSize:18}}>{info.icon}</span><span className="cat-header-name">{info.label}</span><span className="cat-header-count">({catExpenses.length})</span></div><span className="cat-total">{fmtEur(catTotal)}/mnd</span></div>
+                <div className="cat-body">
+                  {catExpenses.map(e=>{
+                    const displayAmt=e.is_shared?Number(e.amount)*(pct/100):Number(e.amount);
+                    return(
+                      <div key={e.id}>
+                        {editingExpense===e.id
+                          ?<RecurringExpenseForm person={person} settings={settings} prefill={e} isEdit onSave={async form=>{await supabase.from('recurring_expenses').update(form).eq('id',e.id);onRefresh();setEditingExpense(null);}} onCancel={()=>setEditingExpense(null)}/>
+                          :<div className="expense-item">
+                            <div className="expense-left"><div className="expense-icon"><LogoOrIcon name={e.label} category={e.category}/></div><div><div className="expense-name">{e.label}{e.is_shared?' 🤝':''}</div><div className="expense-meta">Elke maand{e.description?' · '+e.description:''} <span className="recurring-badge">🔄</span></div></div></div>
+                            <div className="expense-right"><div style={{textAlign:'right'}}><div className="expense-amount">{fmtEur(displayAmt)}</div>{e.is_shared&&<div style={{fontSize:11,color:'#94a3b8'}}>van {fmtEur(e.amount)} totaal</div>}</div><button className="delete-btn" onClick={()=>setEditingExpense(e.id)}>✏️</button><button className="delete-btn" onClick={()=>deleteExpense(e.id)}>🗑</button></div>
+                          </div>
+                        }
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+  );
+}
   // Group expenses by category
   const catTotals={};
   [...myExpenses,...sharedExp].forEach(e=>{
