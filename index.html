@@ -797,7 +797,7 @@ function TimelineTab({settings}){
       {showAddPhase&&<AddPhaseForm onSave={async(name,color)=>{const mo=phases.length>0?Math.max(...phases.map(p=>p.sort_order||0)):0;await supabase.from('renovation_phases').insert({name,color,sort_order:mo+1});setShowAddPhase(false);fetchData();}} onCancel={()=>setShowAddPhase(false)}/>}
 
       {/* Taak toevoegen form */}
-      {showAddTask&&<AddTaskForm phases={phases} onSave={async(data)=>{const pos=tasks.length>0?Math.max(...tasks.map(t=>t.order_position||0))+1:0;await supabase.from('renovation_timeline').insert({...data,order_position:pos,status:'pending',depends_on:[],ai_suggested:false});setShowAddTask(false);fetchData();}} onCancel={()=>setShowAddTask(false)}/>}
+      {showAddTask&&<AddTaskForm phases={phases} tasks={tasks} onSave={async(data)=>{const pos=tasks.length>0?Math.max(...tasks.map(t=>t.order_position||0))+1:0;await supabase.from('renovation_timeline').insert({...data,order_position:pos,status:'pending',ai_suggested:false});setShowAddTask(false);fetchData();}} onCancel={()=>setShowAddTask(false)}/>}
 
       {analyzing&&<div className="ai-analyzing"><div className="ai-analyzing-icon">🤖</div><div style={{fontSize:16,fontWeight:700,marginBottom:4}}>AI analyseert je verbouwing…</div><div style={{fontSize:13,opacity:0.85}}>Taken worden ingedeeld in fasen en geprioriteerd</div></div>}
 
@@ -949,8 +949,18 @@ function AddPhaseForm({onSave,onCancel}){
   );
 }
 
-function AddTaskForm({phases,onSave,onCancel}){
-  const[form,setForm]=useState({task_name:'',estimated_hours:'',description:'',phase:'',is_parallel:false});
+function AddTaskForm({phases,tasks,onSave,onCancel}){
+  const[form,setForm]=useState({task_name:'',estimated_hours:'',description:'',phase:'',is_parallel:false,depends_on:[]});
+
+  const toggleDep=(id)=>{
+    setForm(f=>({
+      ...f,
+      depends_on: f.depends_on.includes(id)
+        ? f.depends_on.filter(d=>d!==id)
+        : [...f.depends_on, id]
+    }));
+  };
+
   return(
     <div style={{background:'#f8faff',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #667eea'}}>
       <div style={{fontSize:13,fontWeight:600,color:'#667eea',marginBottom:12}}>Nieuwe taak toevoegen</div>
@@ -968,8 +978,21 @@ function AddTaskForm({phases,onSave,onCancel}){
         </div>
         <div className="form-group"><label className="form-label">Beschrijving</label><input className="form-input" placeholder="Optioneel…" value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/></div>
       </div>
+      {tasks.length>0&&(
+        <div className="form-group" style={{marginBottom:12}}>
+          <label className="form-label">Afhankelijk van (moet eerst klaar zijn)</label>
+          <div style={{display:'flex',flexWrap:'wrap',gap:8,marginTop:4}}>
+            {tasks.map(t=>(
+              <label key={t.id} style={{display:'flex',alignItems:'center',gap:6,fontSize:13,cursor:'pointer',background:form.depends_on.includes(t.id)?'#ede9fe':'#f1f5f9',padding:'4px 12px',borderRadius:20,border:form.depends_on.includes(t.id)?'1.5px solid #7c3aed':'1.5px solid transparent',transition:'all 0.15s'}}>
+                <input type="checkbox" checked={form.depends_on.includes(t.id)} onChange={()=>toggleDep(t.id)} style={{display:'none'}}/>
+                {form.depends_on.includes(t.id)?'✓ ':''}{t.task_name}
+              </label>
+            ))}
+          </div>
+        </div>
+      )}
       <div style={{display:'flex',gap:8}}>
-        <button className="add-btn" style={{padding:'8px 20px',fontSize:13}} onClick={()=>{if(form.task_name.trim())onSave({task_name:form.task_name,estimated_hours:parseFloat(form.estimated_hours)||0,description:form.description,phase:form.phase,is_parallel:!form.phase});}}>Toevoegen</button>
+        <button className="add-btn" style={{padding:'8px 20px',fontSize:13}} onClick={()=>{if(form.task_name.trim())onSave({task_name:form.task_name,estimated_hours:parseFloat(form.estimated_hours)||0,description:form.description,phase:form.phase,is_parallel:!form.phase,depends_on:form.depends_on});}}>Toevoegen</button>
         <button className="add-btn secondary" style={{padding:'8px 20px',fontSize:13}} onClick={onCancel}>Annuleren</button>
       </div>
     </div>
