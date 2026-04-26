@@ -156,38 +156,86 @@
     .url-fetch-bar input { flex: 1; }
     .reno-add-cat { background: #f8faff; border: 2px dashed #667eea; border-radius: 14px; padding: 20px; text-align: center; cursor: pointer; color: #667eea; font-weight: 600; font-size: 14px; margin-bottom: 16px; }
     .reno-add-cat:hover { background: #f0f4ff; }
-    .timeline-hero { background: linear-gradient(135deg, #7c3aed, #4f46e5); border-radius: 20px; padding: 28px; color: white; margin-bottom: 24px; }
-    .timeline-hero-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
-    .timeline-hero-sub { font-size: 14px; opacity: 0.85; margin-bottom: 20px; }
-    .timeline-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .timeline-stat { background: rgba(255,255,255,0.15); border-radius: 12px; padding: 12px; text-align: center; }
-    .timeline-stat-val { font-size: 22px; font-weight: 700; }
-    .timeline-stat-label { font-size: 12px; opacity: 0.8; margin-top: 2px; }
-    .timeline-wrapper { position: relative; padding-left: 40px; }
-    .timeline-line { position: absolute; left: 18px; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom, #667eea, #e2e8f0); border-radius: 3px; }
-    .timeline-task { position: relative; margin-bottom: 16px; }
-    .timeline-task.drag-over { border-top: 3px solid #667eea; }
-    .timeline-dot { position: absolute; left: -31px; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 2px #667eea; background: white; top: 20px; z-index: 2; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 10px; }
-    .timeline-dot.done { background: #10b981; box-shadow: 0 0 0 2px #10b981; }
-    .timeline-dot.in_progress { background: #f59e0b; box-shadow: 0 0 0 2px #f59e0b; }
-    .timeline-card { background: white; border-radius: 14px; padding: 16px 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 2px solid #e2e8f0; cursor: grab; }
-    .timeline-card:active { cursor: grabbing; }
-    .timeline-card.done { border-color: #10b981; background: #f0fdf4; opacity: 0.75; }
-    .timeline-card.in_progress { border-color: #f59e0b; background: #fffbeb; }
-    .timeline-card.ai-suggested { border-left: 4px solid #8b5cf6; }
-    .timeline-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
-    .timeline-card-title { font-size: 15px; font-weight: 700; color: #1e293b; }
-    .timeline-card-title.done { text-decoration: line-through; color: #94a3b8; }
-    .timeline-card-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
-    .timeline-time-badge { font-size: 12px; background: #f0f4ff; color: #667eea; padding: 2px 10px; border-radius: 20px; font-weight: 600; }
-    .timeline-ai-badge { font-size: 11px; background: #f3e8ff; color: #7c3aed; padding: 2px 10px; border-radius: 20px; font-weight: 600; }
-    .timeline-desc { font-size: 13px; color: #64748b; margin-bottom: 8px; line-height: 1.5; }
-    .timeline-tips { background: #fffbeb; border-left: 3px solid #f59e0b; padding: 8px 12px; border-radius: 0 8px 8px 0; font-size: 12px; color: #92400e; margin-bottom: 8px; }
-    .timeline-deps { font-size: 12px; color: #94a3b8; margin-bottom: 8px; }
-    .timeline-photo { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; cursor: pointer; }
-    .timeline-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    /* ── NIEUWE TIJDLIJN STYLES ── */
+    .tl-hero { background: linear-gradient(135deg, #7c3aed, #4f46e5); border-radius: 20px; padding: 28px; color: white; margin-bottom: 24px; }
+    .tl-hero-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .tl-hero-sub { font-size: 14px; opacity: 0.85; margin-bottom: 20px; }
+    .tl-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .tl-stat { background: rgba(255,255,255,0.15); border-radius: 12px; padding: 12px; text-align: center; }
+    .tl-stat-val { font-size: 20px; font-weight: 700; }
+    .tl-stat-label { font-size: 11px; opacity: 0.8; margin-top: 2px; }
+    .tl-phase { margin-bottom: 24px; }
+    .tl-phase-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; padding: 14px 18px; border-radius: 14px; color: white; }
+    .tl-phase-name { font-size: 15px; font-weight: 700; flex: 1; }
+    .tl-phase-meta { font-size: 12px; opacity: 0.85; }
+    .tl-phase-tasks { display: flex; flex-direction: column; gap: 0; position: relative; padding-left: 32px; }
+    .tl-phase-line { position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; border-radius: 2px; }
+    .tl-task { position: relative; margin-bottom: 8px; }
+    .tl-task-dot { position: absolute; left: -27px; top: 18px; width: 16px; height: 16px; border-radius: 50%; border: 2.5px solid white; box-shadow: 0 0 0 2px currentColor; background: white; display: flex; align-items: center; justify-content: center; font-size: 9px; cursor: pointer; z-index: 2; transition: all 0.2s; }
+    .tl-task-dot.done { background: currentColor; }
+    .tl-task-card { background: white; border-radius: 12px; padding: 14px 16px; border: 2px solid #e2e8f0; cursor: grab; transition: border-color 0.2s, box-shadow 0.2s; }
+    .tl-task-card:active { cursor: grabbing; }
+    .tl-task-card.done { opacity: 0.65; background: #f8fafc; }
+    .tl-task-card.in_progress { border-color: #f59e0b; background: #fffbeb; }
+    .tl-task-card.drag-over { border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.15); }
+    .tl-task-card.ai-tag { border-left-width: 4px; }
+    .tl-task-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .tl-task-name { font-size: 14px; font-weight: 600; color: #1e293b; }
+    .tl-task-name.done { text-decoration: line-through; color: #94a3b8; }
+    .tl-task-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; align-items: center; }
+    .tl-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+    .tl-badge.hours { background: #f0f4ff; color: #667eea; }
+    .tl-badge.ai { background: #f3e8ff; color: #7c3aed; }
+    .tl-badge.pending { background: #f1f5f9; color: #64748b; }
+    .tl-badge.progress { background: #fef3c7; color: #d97706; }
+    .tl-badge.done { background: #dcfce7; color: #16a34a; }
+    .tl-task-desc { font-size: 12px; color: #64748b; margin-top: 6px; line-height: 1.5; }
+    .tl-task-tips { background: #fffbeb; border-left: 3px solid #f59e0b; padding: 6px 10px; border-radius: 0 8px 8px 0; font-size: 12px; color: #92400e; margin-top: 6px; }
+    .tl-task-deps { font-size: 11px; color: #94a3b8; margin-top: 6px; }
+    .tl-task-photo { width: 100%; height: 100px; object-fit: cover; border-radius: 8px; margin-top: 8px; cursor: pointer; }
+    .tl-task-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; align-items: center; }
+    .tl-dep-arrow { display: flex; align-items: center; gap: 4px; font-size: 11px; }
+    /* Parallelle taken */
+    .tl-parallel-section { margin-top: 32px; }
+    .tl-parallel-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .tl-parallel-line { flex: 1; height: 1px; background: repeating-linear-gradient(90deg, #e2e8f0 0, #e2e8f0 6px, transparent 6px, transparent 12px); }
+    .tl-parallel-label { font-size: 12px; font-weight: 600; color: #94a3b8; white-space: nowrap; letter-spacing: 0.05em; }
+    .tl-parallel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+    .tl-parallel-card { background: white; border-radius: 12px; padding: 14px 16px; border: 2px solid #e2e8f0; cursor: grab; transition: border-color 0.2s; }
+    .tl-parallel-card.drag-over { border-color: #667eea; }
+    .tl-parallel-card.done { opacity: 0.6; background: #f8fafc; }
+    .tl-parallel-name { font-size: 13px; font-weight: 600; color: #1e293b; margin-bottom: 4px; }
+    .tl-parallel-name.done { text-decoration: line-through; color: #94a3b8; }
+    .tl-parallel-meta { font-size: 11px; color: #94a3b8; }
+    /* Fase kleuren */
+    .phase-color-purple { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+    .phase-color-blue { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+    .phase-color-green { background: linear-gradient(135deg, #059669, #047857); }
+    .phase-color-orange { background: linear-gradient(135deg, #d97706, #b45309); }
+    .phase-color-red { background: linear-gradient(135deg, #dc2626, #b91c1c); }
+    .phase-color-pink { background: linear-gradient(135deg, #db2777, #be185d); }
+    .phase-line-purple { background: #7c3aed; }
+    .phase-line-blue { background: #2563eb; }
+    .phase-line-green { background: #059669; }
+    .phase-line-orange { background: #d97706; }
+    .phase-line-red { background: #dc2626; }
+    .phase-line-pink { background: #db2777; }
+    .dot-purple { color: #7c3aed; }
+    .dot-blue { color: #2563eb; }
+    .dot-green { color: #059669; }
+    .dot-orange { color: #d97706; }
+    .dot-red { color: #dc2626; }
+    .dot-pink { color: #db2777; }
+    .ai-border-purple { border-left-color: #7c3aed; }
+    .ai-border-blue { border-left-color: #2563eb; }
+    .ai-border-green { border-left-color: #059669; }
+    .ai-border-orange { border-left-color: #d97706; }
+    .ai-border-red { border-left-color: #dc2626; }
+    .ai-border-pink { border-left-color: #db2777; }
     .ai-analyzing { background: linear-gradient(135deg, #7c3aed, #4f46e5); border-radius: 16px; padding: 24px; text-align: center; color: white; margin-bottom: 24px; }
     .ai-analyzing-icon { font-size: 40px; margin-bottom: 12px; animation: spin 2s linear infinite; }
+
     @media (max-width: 600px) {
       .house-item { flex-direction: column; align-items: flex-start; gap: 10px; }
       .house-right { width: 100%; justify-content: flex-start; }
@@ -195,7 +243,7 @@
       .scan-hero-icon { font-size: 40px; }
       .scan-hero-title { font-size: 18px; }
       .form-row { grid-template-columns: 1fr; }
-      .timeline-stats { grid-template-columns: 1fr; }
+      .tl-stats { grid-template-columns: 1fr 1fr; }
       .reno-items-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -232,12 +280,16 @@ const PRICE_TYPES = [
   {id:'total',label:'Totaalprijs'},{id:'m2',label:'Per m²'},
   {id:'piece',label:'Per stuk'},{id:'hour',label:'Per uur'},
 ];
+const PHASE_COLORS = [
+  {id:'purple',label:'Paars'},{id:'blue',label:'Blauw'},
+  {id:'green',label:'Groen'},{id:'orange',label:'Oranje'},
+  {id:'red',label:'Rood'},{id:'pink',label:'Roze'},
+];
 
 function getCategoryInfo(id,isHouse=false){
   const list=isHouse?HOUSE_CATEGORIES:CATEGORIES;
   return list.find(c=>c.id===id)||list[list.length-1];
 }
-
 function LogoOrIcon({name,category}){
   const[logoUrl,setLogoUrl]=useState(null);
   const[failed,setFailed]=useState(false);
@@ -251,7 +303,6 @@ function LogoOrIcon({name,category}){
   if(logoUrl&&!failed)return<img src={logoUrl} alt={name} onError={()=>setFailed(true)} style={{width:28,height:28,objectFit:'contain'}}/>;
   return<span style={{fontSize:22}}>{cat.icon}</span>;
 }
-
 function fmtDate(d){if(!d)return'';return new Date(d).toLocaleDateString('nl-NL',{day:'numeric',month:'short'});}
 function fmtEur(n){return'€'+Number(n).toLocaleString('nl-NL',{minimumFractionDigits:2,maximumFractionDigits:2});}
 async function compressImage(file,maxWidth=800,quality=0.6){return new Promise(resolve=>{const reader=new FileReader();reader.onload=e=>{const img=new Image();img.onload=()=>{const canvas=document.createElement('canvas');const ratio=Math.min(maxWidth/img.width,1);canvas.width=img.width*ratio;canvas.height=img.height*ratio;canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);canvas.toBlob(blob=>resolve(blob),'image/jpeg',quality);};img.src=e.target.result;};reader.readAsDataURL(file);});}
@@ -334,6 +385,7 @@ function Main(){
   );
 }
 
+// ── OVERVIEW ──────────────────────────────────────────────────────────────────
 function Overview({recurringIncomes,recurringExpenses,accounts,settings}){
   const now=new Date();
   const monthName=now.toLocaleString('nl-NL',{month:'long',year:'numeric'});
@@ -364,6 +416,7 @@ function Overview({recurringIncomes,recurringExpenses,accounts,settings}){
   );
 }
 
+// ── PERSON TAB ────────────────────────────────────────────────────────────────
 function PersonTab({person,recurringIncomes,recurringExpenses,settings,onRefresh}){
   const[showIncForm,setShowIncForm]=useState(false);
   const[showExpForm,setShowExpForm]=useState(false);
@@ -382,16 +435,9 @@ function PersonTab({person,recurringIncomes,recurringExpenses,settings,onRefresh
   const net=totalInc-totalExp-myShared;
   const deleteIncome=async id=>{await supabase.from('recurring_incomes').delete().eq('id',id);onRefresh();};
   const deleteExpense=async id=>{await supabase.from('recurring_expenses').delete().eq('id',id);onRefresh();};
-  const saveIncome=async e=>{
-    e.preventDefault();
-    await supabase.from('recurring_incomes').insert({person,label:incLabel,amount:parseFloat(incAmount)});
-    setIncLabel('');setIncAmount('');setShowIncForm(false);onRefresh();
-  };
+  const saveIncome=async e=>{e.preventDefault();await supabase.from('recurring_incomes').insert({person,label:incLabel,amount:parseFloat(incAmount)});setIncLabel('');setIncAmount('');setShowIncForm(false);onRefresh();};
   const catTotals={};
-  [...myExpenses,...sharedExp].forEach(e=>{
-    const amt=e.is_shared?Number(e.amount)*(pct/100):Number(e.amount);
-    catTotals[e.category]=(catTotals[e.category]||0)+amt;
-  });
+  [...myExpenses,...sharedExp].forEach(e=>{const amt=e.is_shared?Number(e.amount)*(pct/100):Number(e.amount);catTotals[e.category]=(catTotals[e.category]||0)+amt;});
   return(
     <div>
       <div className="grid-3 mb-24">
@@ -404,70 +450,19 @@ function PersonTab({person,recurringIncomes,recurringExpenses,settings,onRefresh
           <div><div className="section-title">💚 Terugkerend inkomen</div><div style={{fontSize:12,color:'#94a3b8',marginTop:2}}>Wordt elke maand automatisch meegerekend</div></div>
           <button className="add-btn secondary" onClick={()=>setShowIncForm(!showIncForm)}>{showIncForm?'Annuleren':'+ Toevoegen'}</button>
         </div>
-        {showIncForm&&(
-          <form onSubmit={saveIncome} style={{background:'#f0fdf4',borderRadius:12,padding:16,marginBottom:16}}>
-            <div className="form-row">
-              <div className="form-group"><label className="form-label">Label</label><input className="form-input" placeholder="bijv. Salaris" value={incLabel} onChange={e=>setIncLabel(e.target.value)} required/></div>
-              <div className="form-group"><label className="form-label">Bedrag per maand (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={incAmount} onChange={e=>setIncAmount(e.target.value)} required/></div>
-            </div>
-            <button className="add-btn green" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>
-          </form>
-        )}
-        {myIncomes.length===0
-          ?<div className="empty"><div className="empty-icon">💸</div>Nog geen terugkerend inkomen</div>
-          :myIncomes.map(i=>(
-            <div key={i.id}>
-              {editingIncome===i.id
-                ?<form onSubmit={async e=>{e.preventDefault();const fd=new FormData(e.target);await supabase.from('recurring_incomes').update({label:fd.get('label'),amount:parseFloat(fd.get('amount'))}).eq('id',i.id);onRefresh();setEditingIncome(null);}} className="edit-form">
-                  <div className="form-row">
-                    <div className="form-group"><label className="form-label">Label</label><input className="form-input" name="label" defaultValue={i.label} required/></div>
-                    <div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" name="amount" type="number" step="0.01" defaultValue={i.amount} required/></div>
-                  </div>
-                  <div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button><button className="add-btn secondary" type="button" onClick={()=>setEditingIncome(null)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div>
-                </form>
-                :<div className="expense-item">
-                  <div className="expense-left"><div className="expense-icon">💰</div><div><div className="expense-name">{i.label}</div><div className="expense-meta">Elke maand <span className="recurring-badge">🔄 Terugkerend</span></div></div></div>
-                  <div className="expense-right"><span className="expense-amount income">{fmtEur(i.amount)}</span><button className="delete-btn" onClick={()=>setEditingIncome(i.id)}>✏️</button><button className="delete-btn" onClick={()=>deleteIncome(i.id)}>🗑</button></div>
-                </div>
-              }
-            </div>
-          ))
-        }
+        {showIncForm&&(<form onSubmit={saveIncome} style={{background:'#f0fdf4',borderRadius:12,padding:16,marginBottom:16}}><div className="form-row"><div className="form-group"><label className="form-label">Label</label><input className="form-input" placeholder="bijv. Salaris" value={incLabel} onChange={e=>setIncLabel(e.target.value)} required/></div><div className="form-group"><label className="form-label">Bedrag per maand (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={incAmount} onChange={e=>setIncAmount(e.target.value)} required/></div></div><button className="add-btn green" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button></form>)}
+        {myIncomes.length===0?<div className="empty"><div className="empty-icon">💸</div>Nog geen terugkerend inkomen</div>
+          :myIncomes.map(i=>(<div key={i.id}>{editingIncome===i.id?<form onSubmit={async e=>{e.preventDefault();const fd=new FormData(e.target);await supabase.from('recurring_incomes').update({label:fd.get('label'),amount:parseFloat(fd.get('amount'))}).eq('id',i.id);onRefresh();setEditingIncome(null);}} className="edit-form"><div className="form-row"><div className="form-group"><label className="form-label">Label</label><input className="form-input" name="label" defaultValue={i.label} required/></div><div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" name="amount" type="number" step="0.01" defaultValue={i.amount} required/></div></div><div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button><button className="add-btn secondary" type="button" onClick={()=>setEditingIncome(null)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div></form>:<div className="expense-item"><div className="expense-left"><div className="expense-icon">💰</div><div><div className="expense-name">{i.label}</div><div className="expense-meta">Elke maand <span className="recurring-badge">🔄 Terugkerend</span></div></div></div><div className="expense-right"><span className="expense-amount income">{fmtEur(i.amount)}</span><button className="delete-btn" onClick={()=>setEditingIncome(i.id)}>✏️</button><button className="delete-btn" onClick={()=>deleteIncome(i.id)}>🗑</button></div></div>}</div>))}
       </div>
       <div className="card">
-        <div className="section-header">
-          <div><div className="section-title">💸 Terugkerende uitgaven</div><div style={{fontSize:12,color:'#94a3b8',marginTop:2}}>Per categorie</div></div>
-          <button className="add-btn secondary" onClick={()=>setShowExpForm(!showExpForm)}>{showExpForm?'Annuleren':'+ Toevoegen'}</button>
-        </div>
+        <div className="section-header"><div><div className="section-title">💸 Terugkerende uitgaven</div><div style={{fontSize:12,color:'#94a3b8',marginTop:2}}>Per categorie</div></div><button className="add-btn secondary" onClick={()=>setShowExpForm(!showExpForm)}>{showExpForm?'Annuleren':'+ Toevoegen'}</button></div>
         {showExpForm&&<RecurringExpenseForm person={person} settings={settings} onSave={()=>{onRefresh();setShowExpForm(false);}}/>}
-        {Object.keys(catTotals).length===0
-          ?<div className="empty"><div className="empty-icon">✅</div>Geen terugkerende uitgaven</div>
+        {Object.keys(catTotals).length===0?<div className="empty"><div className="empty-icon">✅</div>Geen terugkerende uitgaven</div>
           :Object.entries(catTotals).map(([catId,catTotal])=>{
             const info=getCategoryInfo(catId);
             const catExpenses=[...myExpenses,...sharedExp].filter(e=>e.category===catId);
-            return(
-              <div key={catId} className="cat-section">
-                <div className="cat-header"><div className="cat-header-left"><span style={{fontSize:18}}>{info.icon}</span><span className="cat-header-name">{info.label}</span><span className="cat-header-count">({catExpenses.length})</span></div><span className="cat-total">{fmtEur(catTotal)}/mnd</span></div>
-                <div className="cat-body">
-                  {catExpenses.map(e=>{
-                    const displayAmt=e.is_shared?Number(e.amount)*(pct/100):Number(e.amount);
-                    return(
-                      <div key={e.id}>
-                        {editingExpense===e.id
-                          ?<RecurringExpenseForm person={person} settings={settings} prefill={e} isEdit onSave={async form=>{await supabase.from('recurring_expenses').update(form).eq('id',e.id);onRefresh();setEditingExpense(null);}} onCancel={()=>setEditingExpense(null)}/>
-                          :<div className="expense-item">
-                            <div className="expense-left"><div className="expense-icon"><LogoOrIcon name={e.label} category={e.category}/></div><div><div className="expense-name">{e.label}{e.is_shared?' 🤝':''}</div><div className="expense-meta">Elke maand{e.description?' · '+e.description:''} <span className="recurring-badge">🔄</span></div></div></div>
-                            <div className="expense-right"><div style={{textAlign:'right'}}><div className="expense-amount">{fmtEur(displayAmt)}</div>{e.is_shared&&<div style={{fontSize:11,color:'#94a3b8'}}>van {fmtEur(e.amount)} totaal</div>}</div><button className="delete-btn" onClick={()=>setEditingExpense(e.id)}>✏️</button><button className="delete-btn" onClick={()=>deleteExpense(e.id)}>🗑</button></div>
-                          </div>
-                        }
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })
-        }
+            return(<div key={catId} className="cat-section"><div className="cat-header"><div className="cat-header-left"><span style={{fontSize:18}}>{info.icon}</span><span className="cat-header-name">{info.label}</span><span className="cat-header-count">({catExpenses.length})</span></div><span className="cat-total">{fmtEur(catTotal)}/mnd</span></div><div className="cat-body">{catExpenses.map(e=>{const displayAmt=e.is_shared?Number(e.amount)*(pct/100):Number(e.amount);return(<div key={e.id}>{editingExpense===e.id?<RecurringExpenseForm person={person} settings={settings} prefill={e} isEdit onSave={async form=>{await supabase.from('recurring_expenses').update(form).eq('id',e.id);onRefresh();setEditingExpense(null);}} onCancel={()=>setEditingExpense(null)}/>:<div className="expense-item"><div className="expense-left"><div className="expense-icon"><LogoOrIcon name={e.label} category={e.category}/></div><div><div className="expense-name">{e.label}{e.is_shared?' 🤝':''}</div><div className="expense-meta">Elke maand{e.description?' · '+e.description:''} <span className="recurring-badge">🔄</span></div></div></div><div className="expense-right"><div style={{textAlign:'right'}}><div className="expense-amount">{fmtEur(displayAmt)}</div>{e.is_shared&&<div style={{fontSize:11,color:'#94a3b8'}}>van {fmtEur(e.amount)} totaal</div>}</div><button className="delete-btn" onClick={()=>setEditingExpense(e.id)}>✏️</button><button className="delete-btn" onClick={()=>deleteExpense(e.id)}>🗑</button></div></div>}</div>);})}</div></div>);
+          })}
       </div>
     </div>
   );
@@ -475,34 +470,11 @@ function PersonTab({person,recurringIncomes,recurringExpenses,settings,onRefresh
 
 function RecurringExpenseForm({person,settings,prefill={},isEdit=false,onSave,onCancel}){
   const[form,setForm]=useState({label:prefill.label||'',amount:prefill.amount||'',category:prefill.category||'housing',description:prefill.description||'',is_shared:prefill.is_shared||false});
-  const handleSubmit=async e=>{
-    e.preventDefault();
-    const data={label:form.label,amount:parseFloat(form.amount),category:form.category,description:form.description,is_shared:form.is_shared,person:form.is_shared?'shared':person};
-    if(isEdit){await onSave(data);}
-    else{await supabase.from('recurring_expenses').insert(data);onSave();}
-  };
-  return(
-    <form onSubmit={handleSubmit} style={{background:'#f8faff',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #667eea'}}>
-      <div className="form-row">
-        <div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. Netflix" value={form.label} onChange={e=>setForm({...form,label:e.target.value})} required/></div>
-        <div className="form-group"><label className="form-label">Bedrag per maand (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required/></div>
-      </div>
-      <div className="form-row">
-        <div className="form-group"><label className="form-label">Categorie</label><select className="form-select" value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>{CATEGORIES.map(c=><option key={c.id} value={c.id}>{c.icon} {c.label}</option>)}</select></div>
-        <div className="form-group"><label className="form-label">Omschrijving</label><input className="form-input" placeholder="Optioneel…" value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/></div>
-      </div>
-      <div style={{marginBottom:12,display:'flex',alignItems:'center',gap:8}}>
-        <input type="checkbox" id="shared_chk" checked={form.is_shared} onChange={e=>setForm({...form,is_shared:e.target.checked})}/>
-        <label htmlFor="shared_chk" style={{fontSize:14,color:'#475569',cursor:'pointer'}}>Gedeelde uitgave ({settings.shared_pct}%/{100-settings.shared_pct}%)</label>
-      </div>
-      <div style={{display:'flex',gap:8}}>
-        <button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>
-        {onCancel&&<button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button>}
-      </div>
-    </form>
-  );
+  const handleSubmit=async e=>{e.preventDefault();const data={label:form.label,amount:parseFloat(form.amount),category:form.category,description:form.description,is_shared:form.is_shared,person:form.is_shared?'shared':person};if(isEdit){await onSave(data);}else{await supabase.from('recurring_expenses').insert(data);onSave();}};
+  return(<form onSubmit={handleSubmit} style={{background:'#f8faff',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #667eea'}}><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. Netflix" value={form.label} onChange={e=>setForm({...form,label:e.target.value})} required/></div><div className="form-group"><label className="form-label">Bedrag per maand (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Categorie</label><select className="form-select" value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>{CATEGORIES.map(c=><option key={c.id} value={c.id}>{c.icon} {c.label}</option>)}</select></div><div className="form-group"><label className="form-label">Omschrijving</label><input className="form-input" placeholder="Optioneel…" value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/></div></div><div style={{marginBottom:12,display:'flex',alignItems:'center',gap:8}}><input type="checkbox" id="shared_chk" checked={form.is_shared} onChange={e=>setForm({...form,is_shared:e.target.checked})}/><label htmlFor="shared_chk" style={{fontSize:14,color:'#475569',cursor:'pointer'}}>Gedeelde uitgave ({settings.shared_pct}%/{100-settings.shared_pct}%)</label></div><div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>{onCancel&&<button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button>}</div></form>);
 }
 
+// ── SHARED TAB ────────────────────────────────────────────────────────────────
 function SharedTab({recurringExpenses,settings,onRefresh}){
   const[showForm,setShowForm]=useState(false);
   const[editingId,setEditingId]=useState(null);
@@ -520,41 +492,20 @@ function SharedTab({recurringExpenses,settings,onRefresh}){
         <div className="stat-card"><div className="stat-label"><span className="dot her"></span>{settings.her_name} ({100-pct}%)</div><div className="stat-value" style={{color:'#f472b6'}}>{fmtEur(total*((100-pct)/100))}</div></div>
       </div>
       <div className="card">
-        <div className="section-header">
-          <div><div className="section-title">🤝 Gedeelde terugkerende uitgaven</div><div style={{fontSize:12,color:'#94a3b8',marginTop:2}}>Elke maand automatisch meegerekend</div></div>
-          <button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Toevoegen'}</button>
-        </div>
+        <div className="section-header"><div><div className="section-title">🤝 Gedeelde terugkerende uitgaven</div><div style={{fontSize:12,color:'#94a3b8',marginTop:2}}>Elke maand automatisch meegerekend</div></div><button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Toevoegen'}</button></div>
         {showForm&&<RecurringExpenseForm person="shared" settings={settings} onSave={()=>{onRefresh();setShowForm(false);}}/>}
-        {Object.keys(catTotals).length===0
-          ?<div className="empty"><div className="empty-icon">✅</div>Geen gedeelde uitgaven</div>
+        {Object.keys(catTotals).length===0?<div className="empty"><div className="empty-icon">✅</div>Geen gedeelde uitgaven</div>
           :Object.entries(catTotals).map(([catId,catTotal])=>{
             const info=getCategoryInfo(catId);
             const catExp=sharedExp.filter(e=>e.category===catId);
-            return(
-              <div key={catId} className="cat-section">
-                <div className="cat-header"><div className="cat-header-left"><span style={{fontSize:18}}>{info.icon}</span><span className="cat-header-name">{info.label}</span><span className="cat-header-count">({catExp.length})</span></div><span className="cat-total">{fmtEur(catTotal)}/mnd</span></div>
-                <div className="cat-body">
-                  {catExp.map(e=>(
-                    <div key={e.id}>
-                      {editingId===e.id
-                        ?<RecurringExpenseForm person="shared" settings={settings} prefill={e} isEdit onSave={async form=>{await supabase.from('recurring_expenses').update({...form,is_shared:true}).eq('id',e.id);onRefresh();setEditingId(null);}} onCancel={()=>setEditingId(null)}/>
-                        :<div className="expense-item">
-                          <div className="expense-left"><div className="expense-icon"><LogoOrIcon name={e.label} category={e.category}/></div><div><div className="expense-name">{e.label}</div><div className="expense-meta">{settings.laslo_name} {fmtEur(Number(e.amount)*(pct/100))} · {settings.her_name} {fmtEur(Number(e.amount)*((100-pct)/100))} <span className="recurring-badge">🔄</span></div></div></div>
-                          <div className="expense-right"><span className="expense-amount">{fmtEur(e.amount)}</span><button className="delete-btn" onClick={()=>setEditingId(e.id)}>✏️</button><button className="delete-btn" onClick={()=>deleteExpense(e.id)}>🗑</button></div>
-                        </div>
-                      }
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })
-        }
+            return(<div key={catId} className="cat-section"><div className="cat-header"><div className="cat-header-left"><span style={{fontSize:18}}>{info.icon}</span><span className="cat-header-name">{info.label}</span><span className="cat-header-count">({catExp.length})</span></div><span className="cat-total">{fmtEur(catTotal)}/mnd</span></div><div className="cat-body">{catExp.map(e=>(<div key={e.id}>{editingId===e.id?<RecurringExpenseForm person="shared" settings={settings} prefill={e} isEdit onSave={async form=>{await supabase.from('recurring_expenses').update({...form,is_shared:true}).eq('id',e.id);onRefresh();setEditingId(null);}} onCancel={()=>setEditingId(null)}/>:<div className="expense-item"><div className="expense-left"><div className="expense-icon"><LogoOrIcon name={e.label} category={e.category}/></div><div><div className="expense-name">{e.label}</div><div className="expense-meta">{settings.laslo_name} {fmtEur(Number(e.amount)*(pct/100))} · {settings.her_name} {fmtEur(Number(e.amount)*((100-pct)/100))} <span className="recurring-badge">🔄</span></div></div></div><div className="expense-right"><span className="expense-amount">{fmtEur(e.amount)}</span><button className="delete-btn" onClick={()=>setEditingId(e.id)}>✏️</button><button className="delete-btn" onClick={()=>deleteExpense(e.id)}>🗑</button></div></div>}</div>))}</div></div>);
+          })}
       </div>
     </div>
   );
 }
 
+// ── HOUSE TAB ─────────────────────────────────────────────────────────────────
 function HouseTab({houseExpenses,settings,onRefresh}){
   const[showForm,setShowForm]=useState(false);
   const[scanning,setScanning]=useState(false);
@@ -569,26 +520,10 @@ function HouseTab({houseExpenses,settings,onRefresh}){
   const handleFileChange=async e=>{
     const file=e.target.files[0];if(!file)return;
     setScanning(true);setScannedData(null);
-    try{
-      const compressed=await compressImage(file,800,0.6);
-      const reader=new FileReader();
-      reader.onload=async ev=>{
-        const base64=ev.target.result.split(',')[1];
-        const res=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${settings.openai_key}`},body:JSON.stringify({model:'gpt-4o',messages:[{role:'user',content:[{type:'text',text:'Dit is een bon. Extraheer: { "name": "winkel", "amount": getal, "date": "YYYY-MM-DD", "category": "mortgage/insurance/maintenance/renovation/furniture/appliances/garden/cleaning/utilities/other", "description": "omschrijving" }'},{type:'image_url',image_url:{url:`data:image/jpeg;base64,${base64}`}}]}],max_tokens:500})});
-        const data=await res.json();
-        const text=data.choices?.[0]?.message?.content||'';
-        const m=text.match(/\{[\s\S]*\}/);
-        if(m)setScannedData({...JSON.parse(m[0]),_file:compressed});
-        setScanning(false);
-      };
-      reader.readAsDataURL(compressed);
-    }catch(err){console.error(err);setScanning(false);}
+    try{const compressed=await compressImage(file,800,0.6);const reader=new FileReader();reader.onload=async ev=>{const base64=ev.target.result.split(',')[1];const res=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${settings.openai_key}`},body:JSON.stringify({model:'gpt-4o',messages:[{role:'user',content:[{type:'text',text:'Dit is een bon. Extraheer: { "name": "winkel", "amount": getal, "date": "YYYY-MM-DD", "category": "mortgage/insurance/maintenance/renovation/furniture/appliances/garden/cleaning/utilities/other", "description": "omschrijving" }'},{type:'image_url',image_url:{url:`data:image/jpeg;base64,${base64}`}}]}],max_tokens:500})});const data=await res.json();const text=data.choices?.[0]?.message?.content||'';const m=text.match(/\{[\s\S]*\}/);if(m)setScannedData({...JSON.parse(m[0]),_file:compressed});setScanning(false);};reader.readAsDataURL(compressed);}catch(err){console.error(err);setScanning(false);}
     e.target.value='';
   };
-  const deleteHouseExpense=async(id,receiptUrl)=>{
-    if(receiptUrl){const path=receiptUrl.split('/receipts/')[1];if(path)await supabase.storage.from('receipts').remove([path]);}
-    await supabase.from('house_expenses').delete().eq('id',id);onRefresh();
-  };
+  const deleteHouseExpense=async(id,receiptUrl)=>{if(receiptUrl){const path=receiptUrl.split('/receipts/')[1];if(path)await supabase.storage.from('receipts').remove([path]);}await supabase.from('house_expenses').delete().eq('id',id);onRefresh();};
   return(
     <div>
       {lightboxUrl&&<div className="modal-overlay" onClick={()=>setLightboxUrl(null)}><button className="modal-close">✕</button><img className="modal-img" src={lightboxUrl} alt="bon"/></div>}
@@ -607,14 +542,7 @@ function HouseTab({houseExpenses,settings,onRefresh}){
         <div className="section-header"><div className="section-title">🏠 Huiskosten</div><button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Handmatig toevoegen'}</button></div>
         {showForm&&<HouseExpenseForm settings={settings} onSave={()=>{onRefresh();setShowForm(false);}} onCancel={()=>setShowForm(false)}/>}
         {houseExpenses.length===0?<div className="empty"><div className="empty-icon">🏠</div>Nog geen huiskosten</div>
-          :houseExpenses.map(e=>{
-            const cat=getCategoryInfo(e.category,true);
-            return(<div key={e.id}>{editingId===e.id
-              ?<HouseExpenseForm settings={settings} prefill={e} isEdit onSave={async(fd,file)=>{let receipt_url=e.receipt_url;if(file){const c=await compressImage(file,800,0.6);const fn=`${Date.now()}.jpg`;await supabase.storage.from('receipts').upload(fn,c,{contentType:'image/jpeg',upsert:true});const{data:ud}=supabase.storage.from('receipts').getPublicUrl(fn);receipt_url=ud.publicUrl;}await supabase.from('house_expenses').update({...fd,receipt_url}).eq('id',e.id);setEditingId(null);onRefresh();}} onCancel={()=>setEditingId(null)}/>
-              :<div className="house-item"><div className="house-left"><div className="house-icon">{e.receipt_url?<img src={e.receipt_url} alt="bon" onClick={()=>setLightboxUrl(e.receipt_url)}/>:cat.icon}</div><div><div className="house-name">{e.name}</div><div className="house-meta">{cat.label} · {fmtDate(e.date)}{e.description?' · '+e.description:''}</div></div></div><div className="house-right"><span className={`paid-badge ${e.paid_by}`}>{e.paid_by==='laslo'?settings.laslo_name:e.paid_by==='her'?settings.her_name:'Gedeeld'}</span><div className="house-amount">{fmtEur(e.amount)}</div><button className="delete-btn" onClick={()=>setEditingId(e.id)}>✏️</button><button className="delete-btn" onClick={()=>deleteHouseExpense(e.id,e.receipt_url)}>🗑</button></div></div>
-            }</div>);
-          })
-        }
+          :houseExpenses.map(e=>{const cat=getCategoryInfo(e.category,true);return(<div key={e.id}>{editingId===e.id?<HouseExpenseForm settings={settings} prefill={e} isEdit onSave={async(fd,file)=>{let receipt_url=e.receipt_url;if(file){const c=await compressImage(file,800,0.6);const fn=`${Date.now()}.jpg`;await supabase.storage.from('receipts').upload(fn,c,{contentType:'image/jpeg',upsert:true});const{data:ud}=supabase.storage.from('receipts').getPublicUrl(fn);receipt_url=ud.publicUrl;}await supabase.from('house_expenses').update({...fd,receipt_url}).eq('id',e.id);setEditingId(null);onRefresh();}} onCancel={()=>setEditingId(null)}/>:<div className="house-item"><div className="house-left"><div className="house-icon">{e.receipt_url?<img src={e.receipt_url} alt="bon" onClick={()=>setLightboxUrl(e.receipt_url)}/>:cat.icon}</div><div><div className="house-name">{e.name}</div><div className="house-meta">{cat.label} · {fmtDate(e.date)}{e.description?' · '+e.description:''}</div></div></div><div className="house-right"><span className={`paid-badge ${e.paid_by}`}>{e.paid_by==='laslo'?settings.laslo_name:e.paid_by==='her'?settings.her_name:'Gedeeld'}</span><div className="house-amount">{fmtEur(e.amount)}</div><button className="delete-btn" onClick={()=>setEditingId(e.id)}>✏️</button><button className="delete-btn" onClick={()=>deleteHouseExpense(e.id,e.receipt_url)}>🗑</button></div></div>}</div>);})}
       </div>
     </div>
   );
@@ -627,22 +555,11 @@ function HouseExpenseForm({settings,prefill={},prefillFile=null,isEdit=false,onS
   const[preview,setPreview]=useState(null);
   const[saving,setSaving]=useState(false);
   useEffect(()=>{if(file){const url=URL.createObjectURL(file);setPreview(url);return()=>URL.revokeObjectURL(url);}},[file]);
-  const handleSubmit=async e=>{
-    e.preventDefault();setSaving(true);
-    try{
-      if(isEdit){await onSave(form,file);}
-      else{
-        let receipt_url=null;
-        if(file){const c=file.type==='image/jpeg'?file:await compressImage(file,800,0.6);const fn=`${Date.now()}.jpg`;await supabase.storage.from('receipts').upload(fn,c,{contentType:'image/jpeg',upsert:true});const{data:ud}=supabase.storage.from('receipts').getPublicUrl(fn);receipt_url=ud.publicUrl;}
-        await supabase.from('house_expenses').insert({name:form.name,amount:parseFloat(form.amount),category:form.category,description:form.description,date:form.date,paid_by:form.paid_by,receipt_url});
-        onSave();
-      }
-    }catch(err){console.error(err);}
-    setSaving(false);
-  };
+  const handleSubmit=async e=>{e.preventDefault();setSaving(true);try{if(isEdit){await onSave(form,file);}else{let receipt_url=null;if(file){const c=file.type==='image/jpeg'?file:await compressImage(file,800,0.6);const fn=`${Date.now()}.jpg`;await supabase.storage.from('receipts').upload(fn,c,{contentType:'image/jpeg',upsert:true});const{data:ud}=supabase.storage.from('receipts').getPublicUrl(fn);receipt_url=ud.publicUrl;}await supabase.from('house_expenses').insert({name:form.name,amount:parseFloat(form.amount),category:form.category,description:form.description,date:form.date,paid_by:form.paid_by,receipt_url});onSave();}}catch(err){console.error(err);}setSaving(false);};
   return(<form onSubmit={handleSubmit} style={{background:'#fffbeb',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #f59e0b'}}><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. IKEA kast" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" type="number" step="0.01" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Categorie</label><select className="form-select" value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>{HOUSE_CATEGORIES.map(c=><option key={c.id} value={c.id}>{c.icon} {c.label}</option>)}</select></div><div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Betaald door</label><select className="form-select" value={form.paid_by} onChange={e=>setForm({...form,paid_by:e.target.value})}><option value="shared">Gedeeld</option><option value="laslo">{settings.laslo_name}</option><option value="her">{settings.her_name}</option></select></div><div className="form-group"><label className="form-label">Bon</label><input type="file" accept="image/*" className="form-input" style={{padding:'8px'}} onChange={e=>setFile(e.target.files[0])}/></div></div>{preview&&<div style={{marginBottom:12}}><img src={preview} alt="preview" style={{width:80,height:80,objectFit:'cover',borderRadius:10,border:'2px solid #f59e0b'}}/></div>}<div className="form-group" style={{marginBottom:12}}><label className="form-label">Omschrijving</label><input className="form-input" value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/></div><div style={{display:'flex',gap:8}}><button className="add-btn green" type="submit" disabled={saving}>{saving?'Opslaan…':'Opslaan'}</button>{onCancel&&<button className="add-btn secondary" type="button" onClick={onCancel}>Annuleren</button>}</div></form>);
 }
 
+// ── RENOVATION TAB ────────────────────────────────────────────────────────────
 function RenovationTab({settings}){
   const[categories,setCategories]=useState([]);
   const[items,setItems]=useState([]);
@@ -667,10 +584,7 @@ function RenovationTab({settings}){
     <div>
       <div className="networth-total mb-16" style={{background:'linear-gradient(135deg,#f59e0b,#d97706)'}}>
         <div className="networth-label">Verbouwingsbudget</div>
-        {editingBudget
-          ?<div style={{display:'flex',gap:8,alignItems:'center',marginTop:8}}><input type="number" value={tempBudget} onChange={e=>setTempBudget(e.target.value)} style={{padding:'8px 12px',borderRadius:8,border:'none',fontSize:20,fontWeight:700,width:180}}/><button className="add-btn" style={{background:'white',color:'#d97706',padding:'8px 16px'}} onClick={saveBudget}>Opslaan</button><button className="add-btn secondary" style={{padding:'8px 16px'}} onClick={()=>setEditingBudget(false)}>Annuleren</button></div>
-          :<div style={{display:'flex',alignItems:'center',gap:12}}><div className="networth-value">{fmtEur(budget)}</div><button onClick={()=>{setTempBudget(budget);setEditingBudget(true);}} style={{background:'rgba(255,255,255,0.2)',border:'none',borderRadius:8,padding:'6px 12px',color:'white',cursor:'pointer',fontSize:13}}>✏️ Wijzigen</button></div>
-        }
+        {editingBudget?<div style={{display:'flex',gap:8,alignItems:'center',marginTop:8}}><input type="number" value={tempBudget} onChange={e=>setTempBudget(e.target.value)} style={{padding:'8px 12px',borderRadius:8,border:'none',fontSize:20,fontWeight:700,width:180}}/><button className="add-btn" style={{background:'white',color:'#d97706',padding:'8px 16px'}} onClick={saveBudget}>Opslaan</button><button className="add-btn secondary" style={{padding:'8px 16px'}} onClick={()=>setEditingBudget(false)}>Annuleren</button></div>:<div style={{display:'flex',alignItems:'center',gap:12}}><div className="networth-value">{fmtEur(budget)}</div><button onClick={()=>{setTempBudget(budget);setEditingBudget(true);}} style={{background:'rgba(255,255,255,0.2)',border:'none',borderRadius:8,padding:'6px 12px',color:'white',cursor:'pointer',fontSize:13}}>✏️ Wijzigen</button></div>}
       </div>
       <div className="grid-4 mb-24">
         <div className="stat-card"><div className="stat-label">Gepland</div><div className="stat-value purple">{fmtEur(totalPlanned)}</div></div>
@@ -679,23 +593,14 @@ function RenovationTab({settings}){
         <div className="stat-card"><div className="stat-label">Alle opties</div><div className="stat-value orange">{fmtEur(items.reduce((s,i)=>s+calcTotal(i),0))}</div></div>
       </div>
       <div className="card mb-24"><div style={{fontSize:14,fontWeight:600,color:'#475569',marginBottom:8}}>Budgetverloop</div><div className="reno-budget-bar"><div className="reno-budget-fill" style={{width:`${pct}%`,background:barColor}}>{pct>15&&<span className="reno-budget-fill-text">{Math.round(pct)}%</span>}</div></div><div style={{display:'flex',justifyContent:'space-between',fontSize:12,color:'#94a3b8',marginTop:4}}><span>Betaald {fmtEur(totalPaid)}</span><span>Gepland {fmtEur(totalPlanned)}</span><span>Budget {fmtEur(budget)}</span></div></div>
-      {showAddCat
-        ?<form onSubmit={async e=>{e.preventDefault();const mo=categories.length>0?Math.max(...categories.map(c=>c.sort_order||0)):0;await supabase.from('renovation_categories').insert({name:newCat.name,icon:newCat.icon,sort_order:mo+1});setNewCat({name:'',icon:'🔨'});setShowAddCat(false);fetchReno();}} className="card mb-16" style={{borderLeft:'4px solid #667eea'}}><div style={{fontSize:15,fontWeight:700,marginBottom:12}}>Nieuwe categorie</div><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. Vloeren" value={newCat.name} onChange={e=>setNewCat({...newCat,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Icoon</label><input className="form-input" placeholder="🔨" value={newCat.icon} onChange={e=>setNewCat({...newCat,icon:e.target.value})}/></div></div><div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Toevoegen</button><button className="add-btn secondary" type="button" onClick={()=>setShowAddCat(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div></form>
-        :<div className="reno-add-cat" onClick={()=>setShowAddCat(true)}>+ Nieuwe categorie toevoegen</div>
-      }
+      {showAddCat?<form onSubmit={async e=>{e.preventDefault();const mo=categories.length>0?Math.max(...categories.map(c=>c.sort_order||0)):0;await supabase.from('renovation_categories').insert({name:newCat.name,icon:newCat.icon,sort_order:mo+1});setNewCat({name:'',icon:'🔨'});setShowAddCat(false);fetchReno();}} className="card mb-16" style={{borderLeft:'4px solid #667eea'}}><div style={{fontSize:15,fontWeight:700,marginBottom:12}}>Nieuwe categorie</div><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. Vloeren" value={newCat.name} onChange={e=>setNewCat({...newCat,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Icoon</label><input className="form-input" placeholder="🔨" value={newCat.icon} onChange={e=>setNewCat({...newCat,icon:e.target.value})}/></div></div><div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Toevoegen</button><button className="add-btn secondary" type="button" onClick={()=>setShowAddCat(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div></form>:<div className="reno-add-cat" onClick={()=>setShowAddCat(true)}>+ Nieuwe categorie toevoegen</div>}
       {categories.map(cat=>{
         const catItems=items.filter(i=>i.category_id===cat.id);
         const chosen=catItems.find(i=>i.is_chosen);
-        return(
-          <div key={cat.id} className="reno-cat">
-            <div className="reno-cat-header"><div className="reno-cat-title"><span>{cat.icon}</span><span>{cat.name}</span><span style={{fontSize:13,color:'#94a3b8',fontWeight:400}}>({catItems.length})</span></div><div style={{display:'flex',alignItems:'center',gap:12}}>{chosen&&<span className="reno-cat-total">{fmtEur(calcTotal(chosen))} gekozen</span>}<button className="add-btn secondary" style={{padding:'6px 14px',fontSize:12}} onClick={()=>setAddingItemToCat(addingItemToCat===cat.id?null:cat.id)}>+ Optie</button><button className="delete-btn" onClick={async()=>{await supabase.from('renovation_categories').delete().eq('id',cat.id);fetchReno();}}>🗑</button></div></div>
-            {addingItemToCat===cat.id&&<div style={{padding:'0 16px 16px'}}><AddItemForm catId={cat.id} settings={settings} fetchingUrl={fetchingUrl} onFetchUrl={fetchFromUrl} onSave={()=>{setAddingItemToCat(null);fetchReno();}} onCancel={()=>setAddingItemToCat(null)}/></div>}
-            {catItems.length===0
-              ?<div style={{padding:'20px',textAlign:'center',color:'#94a3b8',fontSize:14}}>Nog geen opties</div>
-              :<div className="reno-items-grid">{catItems.map(item=><RenovationItemCard key={item.id} item={item} calcTotal={calcTotal} onChoose={async()=>{const ci=items.filter(i=>i.category_id===cat.id);await Promise.all(ci.map(i=>supabase.from('renovation_items').update({is_chosen:i.id===item.id}).eq('id',i.id)));fetchReno();}} onStatusChange={async s=>{await supabase.from('renovation_items').update({status:s}).eq('id',item.id);fetchReno();}} onDelete={async()=>{await supabase.from('renovation_items').delete().eq('id',item.id);fetchReno();}} onRefresh={fetchReno}/>)}</div>
-            }
-          </div>
-        );
+        return(<div key={cat.id} className="reno-cat"><div className="reno-cat-header"><div className="reno-cat-title"><span>{cat.icon}</span><span>{cat.name}</span><span style={{fontSize:13,color:'#94a3b8',fontWeight:400}}>({catItems.length})</span></div><div style={{display:'flex',alignItems:'center',gap:12}}>{chosen&&<span className="reno-cat-total">{fmtEur(calcTotal(chosen))} gekozen</span>}<button className="add-btn secondary" style={{padding:'6px 14px',fontSize:12}} onClick={()=>setAddingItemToCat(addingItemToCat===cat.id?null:cat.id)}>+ Optie</button><button className="delete-btn" onClick={async()=>{await supabase.from('renovation_categories').delete().eq('id',cat.id);fetchReno();}}>🗑</button></div></div>
+        {addingItemToCat===cat.id&&<div style={{padding:'0 16px 16px'}}><AddItemForm catId={cat.id} settings={settings} fetchingUrl={fetchingUrl} onFetchUrl={fetchFromUrl} onSave={()=>{setAddingItemToCat(null);fetchReno();}} onCancel={()=>setAddingItemToCat(null)}/></div>}
+        {catItems.length===0?<div style={{padding:'20px',textAlign:'center',color:'#94a3b8',fontSize:14}}>Nog geen opties</div>:<div className="reno-items-grid">{catItems.map(item=><RenovationItemCard key={item.id} item={item} calcTotal={calcTotal} onChoose={async()=>{const ci=items.filter(i=>i.category_id===cat.id);await Promise.all(ci.map(i=>supabase.from('renovation_items').update({is_chosen:i.id===item.id}).eq('id',i.id)));fetchReno();}} onStatusChange={async s=>{await supabase.from('renovation_items').update({status:s}).eq('id',item.id);fetchReno();}} onDelete={async()=>{await supabase.from('renovation_items').delete().eq('id',item.id);fetchReno();}} onRefresh={fetchReno}/>)}</div>}
+        </div>);
       })}
     </div>
   );
@@ -704,16 +609,7 @@ function RenovationTab({settings}){
 function AddItemForm({catId,settings,fetchingUrl,onFetchUrl,onSave,onCancel}){
   const[url,setUrl]=useState('');
   const[form,setForm]=useState({name:'',price:'',price_type:'total',quantity:'1',image_url:'',notes:'',status:'orienterend'});
-  return(
-    <form onSubmit={async e=>{e.preventDefault();await supabase.from('renovation_items').insert({category_id:catId,name:form.name,url,image_url:form.image_url,price:parseFloat(form.price)||0,price_type:form.price_type,quantity:parseFloat(form.quantity)||1,notes:form.notes,status:form.status,is_chosen:false});onSave();}} style={{background:'#f8faff',borderRadius:12,padding:16,border:'2px solid #667eea',marginTop:12}}>
-      <div style={{fontSize:13,fontWeight:600,color:'#667eea',marginBottom:12}}>Nieuwe optie</div>
-      <div className="url-fetch-bar"><input className="form-input" placeholder="Plak product URL…" value={url} onChange={e=>setUrl(e.target.value)}/><button type="button" className="add-btn" style={{whiteSpace:'nowrap',padding:'10px 16px',fontSize:13}} onClick={()=>{if(url)onFetchUrl(url,catId,setForm);}} disabled={fetchingUrl}>{fetchingUrl?'⏳':'🔍 Ophalen'}</button></div>
-      {form.image_url&&<img src={form.image_url} alt="" style={{width:'100%',height:120,objectFit:'cover',borderRadius:10,marginBottom:12}} onError={e=>e.target.style.display='none'}/>}
-      <div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Prijs (€)</label><input className="form-input" type="number" step="0.01" value={form.price} onChange={e=>setForm({...form,price:e.target.value})} required/></div></div>
-      <div className="form-row"><div className="form-group"><label className="form-label">Type</label><select className="form-select" value={form.price_type} onChange={e=>setForm({...form,price_type:e.target.value})}>{PRICE_TYPES.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}</select></div>{form.price_type!=='total'&&<div className="form-group"><label className="form-label">Aantal</label><input className="form-input" type="number" step="0.1" value={form.quantity} onChange={e=>setForm({...form,quantity:e.target.value})}/></div>}</div>
-      <div style={{display:'flex',gap:8}}><button className="add-btn green" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button><button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div>
-    </form>
-  );
+  return(<form onSubmit={async e=>{e.preventDefault();await supabase.from('renovation_items').insert({category_id:catId,name:form.name,url,image_url:form.image_url,price:parseFloat(form.price)||0,price_type:form.price_type,quantity:parseFloat(form.quantity)||1,notes:form.notes,status:form.status,is_chosen:false});onSave();}} style={{background:'#f8faff',borderRadius:12,padding:16,border:'2px solid #667eea',marginTop:12}}><div style={{fontSize:13,fontWeight:600,color:'#667eea',marginBottom:12}}>Nieuwe optie</div><div className="url-fetch-bar"><input className="form-input" placeholder="Plak product URL…" value={url} onChange={e=>setUrl(e.target.value)}/><button type="button" className="add-btn" style={{whiteSpace:'nowrap',padding:'10px 16px',fontSize:13}} onClick={()=>{if(url)onFetchUrl(url,catId,setForm);}} disabled={fetchingUrl}>{fetchingUrl?'⏳':'🔍 Ophalen'}</button></div>{form.image_url&&<img src={form.image_url} alt="" style={{width:'100%',height:120,objectFit:'cover',borderRadius:10,marginBottom:12}} onError={e=>e.target.style.display='none'}/>}<div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Prijs (€)</label><input className="form-input" type="number" step="0.01" value={form.price} onChange={e=>setForm({...form,price:e.target.value})} required/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Type</label><select className="form-select" value={form.price_type} onChange={e=>setForm({...form,price_type:e.target.value})}>{PRICE_TYPES.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}</select></div>{form.price_type!=='total'&&<div className="form-group"><label className="form-label">Aantal</label><input className="form-input" type="number" step="0.1" value={form.quantity} onChange={e=>setForm({...form,quantity:e.target.value})}/></div>}</div><div style={{display:'flex',gap:8}}><button className="add-btn green" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button><button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div></form>);
 }
 
 function RenovationItemCard({item,calcTotal,onChoose,onStatusChange,onDelete,onRefresh}){
@@ -721,80 +617,130 @@ function RenovationItemCard({item,calcTotal,onChoose,onStatusChange,onDelete,onR
   const[form,setForm]=useState({name:item.name,price:item.price,price_type:item.price_type,quantity:item.quantity,image_url:item.image_url||'',notes:item.notes||'',status:item.status,url:item.url||''});
   const total=calcTotal(item);
   const statusInfo=STATUS_OPTIONS.find(s=>s.id===item.status)||STATUS_OPTIONS[0];
-  if(editing)return(
-    <div style={{gridColumn:'1/-1'}}>
-      <form onSubmit={async e=>{e.preventDefault();await supabase.from('renovation_items').update({name:form.name,price:parseFloat(form.price)||0,price_type:form.price_type,quantity:parseFloat(form.quantity)||1,image_url:form.image_url,notes:form.notes,status:form.status,url:form.url}).eq('id',item.id);setEditing(false);onRefresh();}} style={{background:'#f8faff',borderRadius:12,padding:16,border:'2px solid #667eea'}}>
-        <div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Prijs (€)</label><input className="form-input" type="number" step="0.01" value={form.price} onChange={e=>setForm({...form,price:e.target.value})}/></div></div>
-        <div className="form-row"><div className="form-group"><label className="form-label">Type</label><select className="form-select" value={form.price_type} onChange={e=>setForm({...form,price_type:e.target.value})}>{PRICE_TYPES.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}</select></div>{form.price_type!=='total'&&<div className="form-group"><label className="form-label">Aantal</label><input className="form-input" type="number" step="0.1" value={form.quantity} onChange={e=>setForm({...form,quantity:e.target.value})}/></div>}</div>
-        <div className="form-row"><div className="form-group"><label className="form-label">Status</label><select className="form-select" value={form.status} onChange={e=>setForm({...form,status:e.target.value})}>{STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select></div><div className="form-group"><label className="form-label">Afbeelding URL</label><input className="form-input" value={form.image_url} onChange={e=>setForm({...form,image_url:e.target.value})}/></div></div>
-        <div className="form-group" style={{marginBottom:12}}><label className="form-label">Product URL</label><input className="form-input" value={form.url} onChange={e=>setForm({...form,url:e.target.value})}/></div>
-        <div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button><button className="add-btn secondary" type="button" onClick={()=>setEditing(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div>
-      </form>
-    </div>
-  );
-  return(
-    <div className={`reno-item ${item.is_chosen?'chosen':''} ${item.status==='betaald'?'paid':''}`}>
-      {item.is_chosen&&<div className="chosen-ribbon">✓ Gekozen</div>}
-      <div className="reno-item-img">{item.image_url?<img src={item.image_url} alt={item.name} onError={e=>{e.target.style.display='none';e.target.parentElement.innerHTML='🔨';}}/>:'🔨'}</div>
-      <div className="reno-item-body">
-        <div className="reno-item-name">{item.name}</div>
-        <div className="reno-item-price">{fmtEur(item.price)}{item.price_type!=='total'&&<span style={{fontSize:13,color:'#94a3b8'}}> /{item.price_type==='m2'?'m²':item.price_type==='hour'?'uur':'stuk'}</span>}</div>
-        {item.price_type!=='total'&&<div className="reno-item-total">Totaal: {fmtEur(total)}</div>}
-        {item.notes&&<div style={{fontSize:12,color:'#64748b',marginBottom:8}}>{item.notes}</div>}
-        <div style={{display:'flex',gap:6,marginBottom:8,flexWrap:'wrap'}}><span className={`status-badge ${item.status}`}>{statusInfo.label}</span>{item.url&&<a href={item.url} target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:'#667eea',fontWeight:600,textDecoration:'none'}}>🔗 Link</a>}</div>
-        <div className="reno-item-actions">
-          {!item.is_chosen&&<button className="add-btn green" style={{padding:'5px 12px',fontSize:12}} onClick={onChoose}>✓ Kiezen</button>}
-          <select className="form-select" style={{padding:'5px 8px',fontSize:12,flex:1}} value={item.status} onChange={e=>onStatusChange(e.target.value)}>{STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select>
-          <button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button>
-          <button className="delete-btn" onClick={onDelete}>🗑</button>
-        </div>
-      </div>
-    </div>
-  );
+  if(editing)return(<div style={{gridColumn:'1/-1'}}><form onSubmit={async e=>{e.preventDefault();await supabase.from('renovation_items').update({name:form.name,price:parseFloat(form.price)||0,price_type:form.price_type,quantity:parseFloat(form.quantity)||1,image_url:form.image_url,notes:form.notes,status:form.status,url:form.url}).eq('id',item.id);setEditing(false);onRefresh();}} style={{background:'#f8faff',borderRadius:12,padding:16,border:'2px solid #667eea'}}><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Prijs (€)</label><input className="form-input" type="number" step="0.01" value={form.price} onChange={e=>setForm({...form,price:e.target.value})}/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Type</label><select className="form-select" value={form.price_type} onChange={e=>setForm({...form,price_type:e.target.value})}>{PRICE_TYPES.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}</select></div>{form.price_type!=='total'&&<div className="form-group"><label className="form-label">Aantal</label><input className="form-input" type="number" step="0.1" value={form.quantity} onChange={e=>setForm({...form,quantity:e.target.value})}/></div>}</div><div className="form-row"><div className="form-group"><label className="form-label">Status</label><select className="form-select" value={form.status} onChange={e=>setForm({...form,status:e.target.value})}>{STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select></div><div className="form-group"><label className="form-label">Afbeelding URL</label><input className="form-input" value={form.image_url} onChange={e=>setForm({...form,image_url:e.target.value})}/></div></div><div className="form-group" style={{marginBottom:12}}><label className="form-label">Product URL</label><input className="form-input" value={form.url} onChange={e=>setForm({...form,url:e.target.value})}/></div><div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button><button className="add-btn secondary" type="button" onClick={()=>setEditing(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div></form></div>);
+  return(<div className={`reno-item ${item.is_chosen?'chosen':''} ${item.status==='betaald'?'paid':''}`}>{item.is_chosen&&<div className="chosen-ribbon">✓ Gekozen</div>}<div className="reno-item-img">{item.image_url?<img src={item.image_url} alt={item.name} onError={e=>{e.target.style.display='none';e.target.parentElement.innerHTML='🔨';}}/>:'🔨'}</div><div className="reno-item-body"><div className="reno-item-name">{item.name}</div><div className="reno-item-price">{fmtEur(item.price)}{item.price_type!=='total'&&<span style={{fontSize:13,color:'#94a3b8'}}> /{item.price_type==='m2'?'m²':item.price_type==='hour'?'uur':'stuk'}</span>}</div>{item.price_type!=='total'&&<div className="reno-item-total">Totaal: {fmtEur(total)}</div>}{item.notes&&<div style={{fontSize:12,color:'#64748b',marginBottom:8}}>{item.notes}</div>}<div style={{display:'flex',gap:6,marginBottom:8,flexWrap:'wrap'}}><span className={`status-badge ${item.status}`}>{statusInfo.label}</span>{item.url&&<a href={item.url} target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:'#667eea',fontWeight:600,textDecoration:'none'}}>🔗 Link</a>}</div><div className="reno-item-actions">{!item.is_chosen&&<button className="add-btn green" style={{padding:'5px 12px',fontSize:12}} onClick={onChoose}>✓ Kiezen</button>}<select className="form-select" style={{padding:'5px 8px',fontSize:12,flex:1}} value={item.status} onChange={e=>onStatusChange(e.target.value)}>{STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select><button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button><button className="delete-btn" onClick={onDelete}>🗑</button></div></div></div>);
 }
 
+// ── TIMELINE TAB (NIEUW) ──────────────────────────────────────────────────────
 function TimelineTab({settings}){
   const[tasks,setTasks]=useState([]);
-  const[showAddForm,setShowAddForm]=useState(false);
+  const[phases,setPhases]=useState([]);
   const[analyzing,setAnalyzing]=useState(false);
   const[lightboxUrl,setLightboxUrl]=useState(null);
-  const[dragOverId,setDragOverId]=useState(null);
+  const[showAddTask,setShowAddTask]=useState(false);
+  const[showAddPhase,setShowAddPhase]=useState(false);
+  const[dragOver,setDragOver]=useState(null);
   const dragItem=useRef(null);
+  const dragSource=useRef(null);
   const fileInputRef=useRef(null);
   const photoTaskRef=useRef(null);
-  const fetchTasks=useCallback(async()=>{const{data}=await supabase.from('renovation_timeline').select('*').order('order_position');setTasks(data||[]);},[]);
-  useEffect(()=>{fetchTasks();},[fetchTasks]);
-  const totalHours=tasks.reduce((s,t)=>s+Number(t.estimated_hours||0),0);
+
+  const fetchData=useCallback(async()=>{
+    const[tRes,pRes]=await Promise.all([
+      supabase.from('renovation_timeline').select('*').order('order_position'),
+      supabase.from('renovation_phases').select('*').order('sort_order'),
+    ]);
+    setTasks(tRes.data||[]);
+    setPhases(pRes.data||[]);
+  },[]);
+  useEffect(()=>{fetchData();},[fetchData]);
+
+  const phaseTasks=tasks.filter(t=>!t.is_parallel&&t.phase);
+  const parallelTasks=tasks.filter(t=>t.is_parallel||!t.phase);
   const doneTasks=tasks.filter(t=>t.status==='done').length;
+  const totalHours=tasks.reduce((s,t)=>s+Number(t.estimated_hours||0),0);
+  const inProgressTasks=tasks.filter(t=>t.status==='in_progress').length;
+
+  const cycleStatus=async(task)=>{
+    const ns=task.status==='pending'?'in_progress':task.status==='in_progress'?'done':'pending';
+    await supabase.from('renovation_timeline').update({status:ns}).eq('id',task.id);
+    fetchData();
+  };
+
+  const deleteTask=async(id)=>{
+    await supabase.from('renovation_timeline').delete().eq('id',id);
+    fetchData();
+  };
+
+  const deletePhase=async(id)=>{
+    // Move tasks in this phase to parallel
+    await supabase.from('renovation_timeline').update({phase:'',is_parallel:true}).eq('phase',id);
+    await supabase.from('renovation_phases').delete().eq('id',id);
+    fetchData();
+  };
+
+  const handleDragStart=(e,taskId,source)=>{
+    dragItem.current=taskId;
+    dragSource.current=source;
+    e.dataTransfer.effectAllowed='move';
+  };
+
+  const handleDrop=async(e,targetId,targetType,phaseId)=>{
+    e.preventDefault();
+    if(!dragItem.current)return;
+    const taskId=dragItem.current;
+    if(taskId===targetId){setDragOver(null);return;}
+
+    if(targetType==='phase'){
+      // Drop onto phase header → move task to that phase
+      await supabase.from('renovation_timeline').update({phase:phaseId,is_parallel:false}).eq('id',taskId);
+    } else if(targetType==='parallel'){
+      // Drop onto parallel zone → make parallel
+      await supabase.from('renovation_timeline').update({phase:'',is_parallel:true}).eq('id',taskId);
+    } else if(targetType==='task'){
+      // Reorder within same context
+      const newTasks=[...tasks];
+      const fromIdx=newTasks.findIndex(t=>t.id===taskId);
+      const toIdx=newTasks.findIndex(t=>t.id===targetId);
+      if(fromIdx!==-1&&toIdx!==-1){
+        const[moved]=newTasks.splice(fromIdx,1);
+        newTasks.splice(toIdx,0,moved);
+        for(let i=0;i<newTasks.length;i++){
+          await supabase.from('renovation_timeline').update({order_position:i}).eq('id',newTasks[i].id);
+        }
+      }
+    }
+    dragItem.current=null;dragSource.current=null;setDragOver(null);
+    fetchData();
+  };
+
   const analyzeWithAI=async()=>{
     if(!settings.openai_key){alert('Voeg eerst je OpenAI API key toe.');return;}
     if(tasks.length===0){alert('Voeg eerst taken toe.');return;}
     setAnalyzing(true);
     try{
-      const res=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${settings.openai_key}`},body:JSON.stringify({model:'gpt-4o',messages:[{role:'user',content:`Je bent een verbouwingsexpert. Taken:\n${tasks.map((t,i)=>`${i+1}. ${t.task_name}`).join('\n')}\n\nGeef JSON: { "ordered_tasks": [{ "id": "bestaand_id of new_X", "task_name": "naam", "description": "uitleg", "estimated_hours": getal, "tips": "aandachtspunten", "depends_on_names": ["taaknaam"], "is_new": bool }] }`}],max_tokens:2000})});
+      const phaseNames=phases.map(p=>p.name).join(', ');
+      const taskList=tasks.map(t=>t.task_name).join('\n');
+      const res=await fetch('https://api.openai.com/v1/chat/completions',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':`Bearer ${settings.openai_key}`},
+        body:JSON.stringify({model:'gpt-4o',messages:[{role:'user',content:`Je bent een verbouwingsexpert. Beschikbare fasen: ${phaseNames||'geen'}.\nTaken:\n${taskList}\n\nGeef JSON terug: { "ordered_tasks": [{ "task_name": "naam", "description": "uitleg", "estimated_hours": getal, "tips": "aandachtspunten", "depends_on_names": ["naam"], "phase_name": "naam van fase of leeg als parallel", "is_parallel": bool, "is_new": bool }] }`}],max_tokens:2000})
+      });
       const d=await res.json();
-      const t=d.choices?.[0]?.message?.content||'';
-      const m=t.match(/\{[\s\S]*\}/);
+      const text=d.choices?.[0]?.message?.content||'';
+      const m=text.match(/\{[\s\S]*\}/);
       if(m){
         const{ordered_tasks}=JSON.parse(m[0]);
         const nameToId={};tasks.forEach(t=>{nameToId[t.task_name.toLowerCase()]=t.id;});
-        const insertedIds={};
-        for(const nt of ordered_tasks.filter(t=>t.is_new)){
-          const{data:ins}=await supabase.from('renovation_timeline').insert({task_name:nt.task_name,description:nt.description||'',estimated_hours:nt.estimated_hours||0,tips:nt.tips||'',status:'pending',order_position:999,depends_on:[],ai_suggested:true}).select().single();
-          if(ins){insertedIds[nt.task_name.toLowerCase()]=ins.id;nameToId[nt.task_name.toLowerCase()]=ins.id;}
-        }
+        const phaseNameToId={};phases.forEach(p=>{phaseNameToId[p.name.toLowerCase()]=p.id;});
         for(let i=0;i<ordered_tasks.length;i++){
           const ot=ordered_tasks[i];
-          const tid=ot.is_new?insertedIds[ot.task_name.toLowerCase()]:nameToId[ot.task_name.toLowerCase()]||ot.id;
+          let tid=nameToId[ot.task_name.toLowerCase()];
+          if(!tid&&ot.is_new){
+            const{data:ins}=await supabase.from('renovation_timeline').insert({task_name:ot.task_name,description:ot.description||'',estimated_hours:ot.estimated_hours||0,tips:ot.tips||'',status:'pending',order_position:i,depends_on:[],ai_suggested:true,is_parallel:ot.is_parallel||false,phase:phaseNameToId[ot.phase_name?.toLowerCase()]||''}).select().single();
+            if(ins){tid=ins.id;nameToId[ot.task_name.toLowerCase()]=ins.id;}
+          }
           if(!tid)continue;
           const depIds=(ot.depends_on_names||[]).map(n=>nameToId[n.toLowerCase()]).filter(Boolean);
-          await supabase.from('renovation_timeline').update({order_position:i,description:ot.description||'',estimated_hours:ot.estimated_hours||0,tips:ot.tips||'',depends_on:depIds}).eq('id',tid);
+          const phaseId=phaseNameToId[ot.phase_name?.toLowerCase()]||'';
+          await supabase.from('renovation_timeline').update({order_position:i,description:ot.description||'',estimated_hours:ot.estimated_hours||0,tips:ot.tips||'',depends_on:depIds,phase:phaseId,is_parallel:ot.is_parallel||false}).eq('id',tid);
         }
-        await fetchTasks();
+        await fetchData();
       }
     }catch(e){console.error(e);}
     setAnalyzing(false);
   };
+
   const analyzePhoto=async(file,taskId)=>{
     if(!settings.openai_key)return;
     try{
@@ -808,108 +754,229 @@ function TimelineTab({settings}){
         const base64=ev.target.result.split(',')[1];
         const taskName=tasks.find(t=>t.id===taskId)?.task_name||'';
         const res=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${settings.openai_key}`},body:JSON.stringify({model:'gpt-4o',messages:[{role:'user',content:[{type:'text',text:`Foto bij taak: "${taskName}". Analyseer en geef JSON: { "extra_tasks": [{ "task_name": "naam", "description": "uitleg", "estimated_hours": getal, "tips": "tips" }], "observations": "wat je ziet" }. Lege array als niets nodig.`},{type:'image_url',image_url:{url:`data:image/jpeg;base64,${base64}`}}]}],max_tokens:1000})});
-        const d=await res.json();
-        const t=d.choices?.[0]?.message?.content||'';
-        const m=t.match(/\{[\s\S]*\}/);
-        if(m){
-          const{extra_tasks,observations}=JSON.parse(m[0]);
-          const ct=tasks.find(t=>t.id===taskId);
-          const cp=ct?ct.order_position:0;
-          const newIds=[];
-          for(let i=0;i<(extra_tasks||[]).length;i++){
-            const{data:ins}=await supabase.from('renovation_timeline').insert({task_name:extra_tasks[i].task_name,description:extra_tasks[i].description||'',estimated_hours:extra_tasks[i].estimated_hours||0,tips:extra_tasks[i].tips||'',status:'pending',order_position:cp-(extra_tasks.length-i)*0.1,depends_on:[],ai_suggested:true}).select().single();
-            if(ins)newIds.push(ins.id);
-          }
-          if(newIds.length>0){const ex=ct?.depends_on||[];await supabase.from('renovation_timeline').update({depends_on:[...ex,...newIds]}).eq('id',taskId);}
-          await fetchTasks();
-          if(observations)alert(`📸 AI: ${observations}`);
-        }
+        const d=await res.json();const t=d.choices?.[0]?.message?.content||'';const m=t.match(/\{[\s\S]*\}/);
+        if(m){const{extra_tasks,observations}=JSON.parse(m[0]);const ct=tasks.find(t=>t.id===taskId);const newIds=[];for(let i=0;i<(extra_tasks||[]).length;i++){const{data:ins}=await supabase.from('renovation_timeline').insert({task_name:extra_tasks[i].task_name,description:extra_tasks[i].description||'',estimated_hours:extra_tasks[i].estimated_hours||0,tips:extra_tasks[i].tips||'',status:'pending',order_position:(ct?.order_position||0)-0.1,depends_on:[],ai_suggested:true,is_parallel:false,phase:ct?.phase||''}).select().single();if(ins)newIds.push(ins.id);}
+        if(newIds.length>0){await supabase.from('renovation_timeline').update({depends_on:[...(ct?.depends_on||[]),...newIds]}).eq('id',taskId);}
+        await fetchData();if(observations)alert(`📸 AI: ${observations}`);}
       };
       reader.readAsDataURL(compressed);
     }catch(e){console.error(e);}
   };
-  const handleDrop=async(e,targetId)=>{
-    e.preventDefault();
-    if(!dragItem.current||dragItem.current===targetId){setDragOverId(null);return;}
-    const newOrder=[...tasks];
-    const fi=newOrder.findIndex(t=>t.id===dragItem.current);
-    const ti=newOrder.findIndex(t=>t.id===targetId);
-    const[moved]=newOrder.splice(fi,1);
-    newOrder.splice(ti,0,moved);
-    setTasks(newOrder);
-    for(let i=0;i<newOrder.length;i++)await supabase.from('renovation_timeline').update({order_position:i}).eq('id',newOrder[i].id);
-    dragItem.current=null;setDragOverId(null);
-  };
+
+  const getPhaseColor=(color)=>`phase-color-${color||'purple'}`;
+  const getPhaseLineColor=(color)=>`phase-line-${color||'purple'}`;
+  const getDotColor=(color)=>`dot-${color||'purple'}`;
+
   return(
     <div>
       {lightboxUrl&&<div className="modal-overlay" onClick={()=>setLightboxUrl(null)}><button className="modal-close">✕</button><img className="modal-img" src={lightboxUrl} alt="foto"/></div>}
       <input ref={fileInputRef} type="file" accept="image/*" capture="environment" style={{display:'none'}} onChange={async e=>{const file=e.target.files[0];if(!file||!photoTaskRef.current)return;await analyzePhoto(file,photoTaskRef.current);e.target.value='';}}/>
-      <div className="timeline-hero">
-        <div className="timeline-hero-title">📅 Verbouwingstijdlijn</div>
-        <div className="timeline-hero-sub">AI bepaalt de optimale volgorde. Jij past aan waar nodig.</div>
-        <div className="timeline-stats">
-          <div className="timeline-stat"><div className="timeline-stat-val">{tasks.length}</div><div className="timeline-stat-label">Taken totaal</div></div>
-          <div className="timeline-stat"><div className="timeline-stat-val">{doneTasks}</div><div className="timeline-stat-label">Afgerond</div></div>
-          <div className="timeline-stat"><div className="timeline-stat-val">{totalHours}u</div><div className="timeline-stat-label">Geschatte tijd</div></div>
+
+      {/* Hero */}
+      <div className="tl-hero">
+        <div className="tl-hero-title">📅 Verbouwingstijdlijn</div>
+        <div className="tl-hero-sub">Fasen met afhankelijkheden · Parallelle taken apart</div>
+        <div className="tl-stats">
+          <div className="tl-stat"><div className="tl-stat-val">{tasks.length}</div><div className="tl-stat-label">Totaal taken</div></div>
+          <div className="tl-stat"><div className="tl-stat-val">{doneTasks}</div><div className="tl-stat-label">Afgerond</div></div>
+          <div className="tl-stat"><div className="tl-stat-val">{inProgressTasks}</div><div className="tl-stat-label">Bezig</div></div>
+          <div className="tl-stat"><div className="tl-stat-val">{totalHours}u</div><div className="tl-stat-label">Geschatte tijd</div></div>
         </div>
       </div>
+
       {!settings.openai_key&&<div style={{background:'#fef3c7',border:'2px solid #f59e0b',borderRadius:12,padding:16,marginBottom:24,fontSize:14,color:'#92400e'}}>⚠️ Voeg eerst je OpenAI API key toe via ⚙️ Settings.</div>}
-      <div style={{display:'flex',gap:12,marginBottom:24,flexWrap:'wrap'}}>
-        <button className="add-btn" style={{background:'linear-gradient(135deg,#7c3aed,#4f46e5)'}} onClick={analyzeWithAI}>🤖 AI: Plan mijn verbouwing</button>
-        <button className="add-btn secondary" onClick={()=>setShowAddForm(!showAddForm)}>{showAddForm?'Annuleren':'+ Taak toevoegen'}</button>
+
+      {/* Actieknoppen */}
+      <div style={{display:'flex',gap:10,marginBottom:24,flexWrap:'wrap'}}>
+        <button className="add-btn" style={{background:'linear-gradient(135deg,#7c3aed,#4f46e5)'}} onClick={analyzeWithAI}>🤖 AI: Plan verbouwing</button>
+        <button className="add-btn secondary" onClick={()=>setShowAddPhase(!showAddPhase)}>{showAddPhase?'Annuleren':'+ Fase toevoegen'}</button>
+        <button className="add-btn secondary" onClick={()=>setShowAddTask(!showAddTask)}>{showAddTask?'Annuleren':'+ Taak toevoegen'}</button>
       </div>
-      {showAddForm&&(
-        <form onSubmit={async e=>{e.preventDefault();const fd=new FormData(e.target);const pos=tasks.length>0?Math.max(...tasks.map(t=>t.order_position||0))+1:0;await supabase.from('renovation_timeline').insert({task_name:fd.get('name'),description:fd.get('description')||'',estimated_hours:parseFloat(fd.get('hours'))||0,tips:'',status:'pending',order_position:pos,depends_on:[],ai_suggested:false});fetchTasks();setShowAddForm(false);}} style={{background:'#f5f3ff',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #7c3aed'}}>
-          <div style={{fontSize:13,fontWeight:600,color:'#7c3aed',marginBottom:12}}>Nieuwe taak</div>
-          <div className="form-row"><div className="form-group"><label className="form-label">Taaknaam</label><input className="form-input" name="name" placeholder="bijv. Vloerverwarming installeren" required/></div><div className="form-group"><label className="form-label">Geschatte uren</label><input className="form-input" name="hours" type="number" placeholder="0"/></div></div>
-          <div className="form-group" style={{marginBottom:12}}><label className="form-label">Beschrijving</label><input className="form-input" name="description" placeholder="Optioneel…"/></div>
-          <div style={{display:'flex',gap:8}}><button className="add-btn" style={{background:'linear-gradient(135deg,#7c3aed,#4f46e5)',padding:'8px 20px',fontSize:13}} type="submit">Toevoegen</button><button className="add-btn secondary" type="button" onClick={()=>setShowAddForm(false)} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button></div>
-        </form>
-      )}
-      {analyzing&&<div className="ai-analyzing"><div className="ai-analyzing-icon">🤖</div><div style={{fontSize:16,fontWeight:700,marginBottom:4}}>AI analyseert je verbouwing…</div><div style={{fontSize:13,opacity:0.85}}>Taken worden geordend en ontbrekende stappen toegevoegd</div></div>}
-      {tasks.length===0&&!analyzing&&<div className="empty"><div className="empty-icon">📋</div>Voeg taken toe en laat AI de optimale volgorde bepalen</div>}
-      <div className="timeline-wrapper">
-        {tasks.length>0&&<div className="timeline-line"/>}
-        {tasks.map((task,idx)=>{
-          const deps=tasks.filter(t=>(task.depends_on||[]).includes(t.id));
-          return(
-            <div key={task.id} className={`timeline-task ${dragOverId===task.id?'drag-over':''}`} draggable onDragStart={e=>{dragItem.current=task.id;e.dataTransfer.effectAllowed='move';}} onDragOver={e=>{e.preventDefault();setDragOverId(task.id);}} onDrop={e=>handleDrop(e,task.id)} onDragEnd={()=>{dragItem.current=null;setDragOverId(null);}}>
-              <div className={`timeline-dot ${task.status}`} onClick={async()=>{const ns=task.status==='pending'?'in_progress':task.status==='in_progress'?'done':'pending';await supabase.from('renovation_timeline').update({status:ns}).eq('id',task.id);fetchTasks();}}>
-                {task.status==='done'?'✓':task.status==='in_progress'?'▶':''}
+
+      {/* Fase toevoegen form */}
+      {showAddPhase&&<AddPhaseForm onSave={async(name,color)=>{const mo=phases.length>0?Math.max(...phases.map(p=>p.sort_order||0)):0;await supabase.from('renovation_phases').insert({name,color,sort_order:mo+1});setShowAddPhase(false);fetchData();}} onCancel={()=>setShowAddPhase(false)}/>}
+
+      {/* Taak toevoegen form */}
+      {showAddTask&&<AddTaskForm phases={phases} onSave={async(data)=>{const pos=tasks.length>0?Math.max(...tasks.map(t=>t.order_position||0))+1:0;await supabase.from('renovation_timeline').insert({...data,order_position:pos,status:'pending',depends_on:[],ai_suggested:false});setShowAddTask(false);fetchData();}} onCancel={()=>setShowAddTask(false)}/>}
+
+      {analyzing&&<div className="ai-analyzing"><div className="ai-analyzing-icon">🤖</div><div style={{fontSize:16,fontWeight:700,marginBottom:4}}>AI analyseert je verbouwing…</div><div style={{fontSize:13,opacity:0.85}}>Taken worden ingedeeld in fasen en geprioriteerd</div></div>}
+
+      {tasks.length===0&&!analyzing&&<div className="empty"><div className="empty-icon">📋</div>Voeg fasen en taken toe om te beginnen</div>}
+
+      {/* Fasen tijdlijn */}
+      {phases.map(phase=>{
+        const phaseTasks=tasks.filter(t=>t.phase===phase.id&&!t.is_parallel);
+        const doneCount=phaseTasks.filter(t=>t.status==='done').length;
+        const phaseHours=phaseTasks.reduce((s,t)=>s+Number(t.estimated_hours||0),0);
+        return(
+          <div key={phase.id} className="tl-phase"
+            onDragOver={e=>{e.preventDefault();setDragOver('phase-'+phase.id);}}
+            onDrop={e=>handleDrop(e,null,'phase',phase.id)}
+            onDragLeave={()=>setDragOver(null)}
+          >
+            <div className={`tl-phase-header ${getPhaseColor(phase.color)}`} style={{opacity:dragOver==='phase-'+phase.id?0.8:1}}>
+              <div className="tl-phase-name">{phase.name}</div>
+              <div className="tl-phase-meta">{doneCount}/{phaseTasks.length} klaar · {phaseHours}u</div>
+              <button onClick={()=>deletePhase(phase.id)} style={{background:'rgba(255,255,255,0.2)',border:'none',borderRadius:8,padding:'4px 10px',color:'white',cursor:'pointer',fontSize:12,marginLeft:8}}>🗑</button>
+            </div>
+            {phaseTasks.length===0
+              ?<div style={{padding:'16px 32px',fontSize:13,color:'#94a3b8',fontStyle:'italic'}}>Sleep taken hierheen of voeg toe via "+ Taak toevoegen"</div>
+              :<div className="tl-phase-tasks">
+                <div className={`tl-phase-line ${getPhaseLineColor(phase.color)}`}/>
+                {phaseTasks.map((task,idx)=>{
+                  const deps=tasks.filter(t=>(task.depends_on||[]).includes(t.id));
+                  return(
+                    <div key={task.id} className="tl-task"
+                      draggable
+                      onDragStart={e=>handleDragStart(e,task.id,'phase')}
+                      onDragOver={e=>{e.preventDefault();setDragOver('task-'+task.id);}}
+                      onDrop={e=>handleDrop(e,task.id,'task',phase.id)}
+                      onDragLeave={()=>setDragOver(null)}
+                    >
+                      <div className={`tl-task-dot ${getDotColor(phase.color)} ${task.status==='done'?'done':''}`}
+                        style={{color:task.status==='done'?'white':'inherit'}}
+                        onClick={()=>cycleStatus(task)}
+                      >
+                        {task.status==='done'?'✓':task.status==='in_progress'?'▶':''}
+                      </div>
+                      <div className={`tl-task-card ${task.status} ${task.ai_suggested?'ai-tag ai-border-'+phase.color:''} ${dragOver==='task-'+task.id?'drag-over':''}`}>
+                        <div className="tl-task-top">
+                          <div>
+                            <div className={`tl-task-name ${task.status==='done'?'done':''}`}>{task.task_name}</div>
+                            <div className="tl-task-badges">
+                              {task.estimated_hours>0&&<span className="tl-badge hours">⏱ {task.estimated_hours}u</span>}
+                              {task.ai_suggested&&<span className="tl-badge ai">🤖 AI</span>}
+                              <span className={`tl-badge ${task.status}`}>{task.status==='done'?'✓ Klaar':task.status==='in_progress'?'▶ Bezig':'⏳ Wacht'}</span>
+                            </div>
+                          </div>
+                          <div style={{display:'flex',gap:4,flexShrink:0}}>
+                            <button className="delete-btn" onClick={()=>{photoTaskRef.current=task.id;fileInputRef.current.click();}}>📸</button>
+                            <button className="delete-btn" onClick={()=>deleteTask(task.id)}>🗑</button>
+                          </div>
+                        </div>
+                        {task.photo_url&&<img className="tl-task-photo" src={task.photo_url} alt="foto" onClick={()=>setLightboxUrl(task.photo_url)}/>}
+                        {task.description&&<div className="tl-task-desc">{task.description}</div>}
+                        {task.tips&&<div className="tl-task-tips">💡 {task.tips}</div>}
+                        {deps.length>0&&(
+                          <div className="tl-task-deps">
+                            <span style={{marginRight:6}}>Eerst klaar:</span>
+                            {deps.map(d=><span key={d.id} style={{marginRight:8,color:d.status==='done'?'#10b981':'#64748b',textDecoration:d.status==='done'?'line-through':'none'}}>→ {d.task_name}{d.status==='done'?' ✓':''}</span>)}
+                          </div>
+                        )}
+                        <div className="tl-task-actions">
+                          <button className="add-btn secondary" style={{padding:'4px 12px',fontSize:11}} onClick={()=>cycleStatus(task)}>
+                            {task.status==='pending'?'▶ Start':task.status==='in_progress'?'✓ Klaar':'↩ Heropen'}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-              <div className={`timeline-card ${task.status} ${task.ai_suggested?'ai-suggested':''}`}>
-                <div className="timeline-card-header">
+            }
+          </div>
+        );
+      })}
+
+      {/* Parallelle taken */}
+      <div className="tl-parallel-section"
+        onDragOver={e=>{e.preventDefault();setDragOver('parallel');}}
+        onDrop={e=>handleDrop(e,null,'parallel',null)}
+        onDragLeave={()=>setDragOver(null)}
+      >
+        <div className="tl-parallel-divider">
+          <div className="tl-parallel-line"/>
+          <div className="tl-parallel-label">PARALLEL — GEEN VASTE VOLGORDE</div>
+          <div className="tl-parallel-line"/>
+        </div>
+        {parallelTasks.length===0
+          ?<div style={{textAlign:'center',padding:'20px',fontSize:13,color:'#94a3b8',fontStyle:'italic',border:'2px dashed #e2e8f0',borderRadius:12,background:dragOver==='parallel'?'#f0f4ff':'transparent'}}>Sleep taken hierheen die geen vaste volgorde hebben</div>
+          :<div className="tl-parallel-grid">
+            {parallelTasks.map(task=>(
+              <div key={task.id} className={`tl-parallel-card ${task.status==='done'?'done':''} ${dragOver==='parallel-'+task.id?'drag-over':''}`}
+                draggable
+                onDragStart={e=>handleDragStart(e,task.id,'parallel')}
+                onDragOver={e=>{e.preventDefault();setDragOver('parallel-'+task.id);}}
+                onDrop={e=>handleDrop(e,task.id,'task',null)}
+                onDragLeave={()=>setDragOver(null)}
+              >
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
                   <div>
-                    <div className={`timeline-card-title ${task.status==='done'?'done':''}`}>{idx+1}. {task.task_name}</div>
-                    <div className="timeline-card-meta">
-                      {task.estimated_hours>0&&<span className="timeline-time-badge">⏱ ~{task.estimated_hours}u</span>}
-                      {task.ai_suggested&&<span className="timeline-ai-badge">🤖 AI</span>}
-                      <span className={`status-badge ${task.status==='done'?'gekozen':task.status==='in_progress'?'offerte':'orienterend'}`}>{task.status==='done'?'✓ Klaar':task.status==='in_progress'?'▶ Bezig':'⏳ Nog doen'}</span>
+                    <div className={`tl-parallel-name ${task.status==='done'?'done':''}`}>{task.task_name}</div>
+                    <div className="tl-parallel-meta">
+                      {task.estimated_hours>0&&<span style={{marginRight:8}}>⏱ {task.estimated_hours}u</span>}
+                      {task.status==='done'?'✓ Klaar':task.status==='in_progress'?'▶ Bezig':'Nog doen'}
                     </div>
                   </div>
-                  <div style={{display:'flex',gap:4}}>
-                    <button className="delete-btn" onClick={()=>{photoTaskRef.current=task.id;fileInputRef.current.click();}}>📸</button>
-                    <button className="delete-btn" onClick={async()=>{await supabase.from('renovation_timeline').delete().eq('id',task.id);fetchTasks();}}>🗑</button>
-                  </div>
+                  <button className="delete-btn" onClick={()=>deleteTask(task.id)}>🗑</button>
                 </div>
-                {task.photo_url&&<img className="timeline-photo" src={task.photo_url} alt="foto" onClick={()=>setLightboxUrl(task.photo_url)}/>}
-                {task.description&&<div className="timeline-desc">{task.description}</div>}
-                {task.tips&&<div className="timeline-tips">💡 {task.tips}</div>}
-                {deps.length>0&&<div className="timeline-deps"><div style={{fontSize:11,fontWeight:600,color:'#94a3b8',marginBottom:4}}>EERST DOEN:</div>{deps.map(d=><div key={d.id} style={{display:'flex',alignItems:'center',gap:6,fontSize:12,padding:'2px 0'}}><span>→</span><span style={{color:d.status==='done'?'#10b981':'#64748b',textDecoration:d.status==='done'?'line-through':'none'}}>{d.task_name}</span>{d.status==='done'&&<span style={{fontSize:10,color:'#10b981'}}>✓</span>}</div>)}</div>}
-                <div className="timeline-actions">
-                  <button className="add-btn secondary" style={{padding:'4px 12px',fontSize:12}} onClick={async()=>{const ns=task.status==='pending'?'in_progress':task.status==='in_progress'?'done':'pending';await supabase.from('renovation_timeline').update({status:ns}).eq('id',task.id);fetchTasks();}}>
-                    {task.status==='pending'?'▶ Start':task.status==='in_progress'?'✓ Klaar':'↩ Heropen'}
+                {task.description&&<div style={{fontSize:11,color:'#64748b',marginTop:6}}>{task.description}</div>}
+                <div style={{display:'flex',gap:6,marginTop:8}}>
+                  <button className="add-btn secondary" style={{padding:'3px 10px',fontSize:11}} onClick={()=>cycleStatus(task)}>
+                    {task.status==='pending'?'▶ Start':task.status==='in_progress'?'✓ Klaar':'↩'}
                   </button>
+                  <button className="delete-btn" onClick={()=>{photoTaskRef.current=task.id;fileInputRef.current.click();}}>📸</button>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            ))}
+          </div>
+        }
       </div>
     </div>
   );
 }
 
+function AddPhaseForm({onSave,onCancel}){
+  const[name,setName]=useState('');
+  const[color,setColor]=useState('purple');
+  return(
+    <div style={{background:'#f5f3ff',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #7c3aed'}}>
+      <div style={{fontSize:13,fontWeight:600,color:'#7c3aed',marginBottom:12}}>Nieuwe fase toevoegen</div>
+      <div className="form-row">
+        <div className="form-group"><label className="form-label">Naam fase</label><input className="form-input" placeholder="bijv. Sloop" value={name} onChange={e=>setName(e.target.value)}/></div>
+        <div className="form-group">
+          <label className="form-label">Kleur</label>
+          <select className="form-select" value={color} onChange={e=>setColor(e.target.value)}>
+            {PHASE_COLORS.map(c=><option key={c.id} value={c.id}>{c.label}</option>)}
+          </select>
+        </div>
+      </div>
+      <div style={{display:'flex',gap:8}}>
+        <button className="add-btn" style={{background:'linear-gradient(135deg,#7c3aed,#4f46e5)',padding:'8px 20px',fontSize:13}} onClick={()=>{if(name.trim())onSave(name.trim(),color);}}>Toevoegen</button>
+        <button className="add-btn secondary" style={{padding:'8px 20px',fontSize:13}} onClick={onCancel}>Annuleren</button>
+      </div>
+    </div>
+  );
+}
+
+function AddTaskForm({phases,onSave,onCancel}){
+  const[form,setForm]=useState({task_name:'',estimated_hours:'',description:'',phase:'',is_parallel:false});
+  return(
+    <div style={{background:'#f8faff',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #667eea'}}>
+      <div style={{fontSize:13,fontWeight:600,color:'#667eea',marginBottom:12}}>Nieuwe taak toevoegen</div>
+      <div className="form-row">
+        <div className="form-group"><label className="form-label">Taaknaam</label><input className="form-input" placeholder="bijv. Vloer eruit halen" value={form.task_name} onChange={e=>setForm({...form,task_name:e.target.value})}/></div>
+        <div className="form-group"><label className="form-label">Geschatte uren</label><input className="form-input" type="number" placeholder="0" value={form.estimated_hours} onChange={e=>setForm({...form,estimated_hours:e.target.value})}/></div>
+      </div>
+      <div className="form-row">
+        <div className="form-group">
+          <label className="form-label">Fase</label>
+          <select className="form-select" value={form.phase} onChange={e=>setForm({...form,phase:e.target.value,is_parallel:e.target.value===''})}>
+            <option value="">Parallel (geen fase)</option>
+            {phases.map(p=><option key={p.id} value={p.id}>{p.name}</option>)}
+          </select>
+        </div>
+        <div className="form-group"><label className="form-label">Beschrijving</label><input className="form-input" placeholder="Optioneel…" value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/></div>
+      </div>
+      <div style={{display:'flex',gap:8}}>
+        <button className="add-btn" style={{padding:'8px 20px',fontSize:13}} onClick={()=>{if(form.task_name.trim())onSave({task_name:form.task_name,estimated_hours:parseFloat(form.estimated_hours)||0,description:form.description,phase:form.phase,is_parallel:!form.phase});}}>Toevoegen</button>
+        <button className="add-btn secondary" style={{padding:'8px 20px',fontSize:13}} onClick={onCancel}>Annuleren</button>
+      </div>
+    </div>
+  );
+}
+
+// ── ACCOUNTS TAB ──────────────────────────────────────────────────────────────
 function AccountsTab({accounts,settings,onRefresh}){
   const[showForm,setShowForm]=useState(false);
   const[form,setForm]=useState({name:'',balance:'',owner:'laslo'});
@@ -929,16 +996,8 @@ function AccountsTab({accounts,settings,onRefresh}){
       </div>
       <div className="card">
         <div className="section-header"><div className="section-title">🏦 Bankrekeningen</div><button className="add-btn secondary" onClick={()=>setShowForm(!showForm)}>{showForm?'Annuleren':'+ Rekening toevoegen'}</button></div>
-        {showForm&&(
-          <form onSubmit={async e=>{e.preventDefault();await supabase.from('accounts').insert({name:form.name,balance:parseFloat(form.balance),owner:form.owner});setForm({name:'',balance:'',owner:'laslo'});setShowForm(false);onRefresh();}} style={{marginBottom:20}}>
-            <div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="ING Spaarrekening" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Saldo (€)</label><input className="form-input" type="number" step="0.01" value={form.balance} onChange={e=>setForm({...form,balance:e.target.value})} required/></div><div className="form-group"><label className="form-label">Van wie</label><select className="form-select" value={form.owner} onChange={e=>setForm({...form,owner:e.target.value})}><option value="laslo">{settings.laslo_name}</option><option value="her">{settings.her_name}</option><option value="shared">Gedeeld</option></select></div></div>
-            <button className="add-btn" type="submit">Opslaan</button>
-          </form>
-        )}
-        {accounts.length===0
-          ?<div className="empty"><div className="empty-icon">🏦</div>Nog geen rekeningen</div>
-          :accounts.map(a=><AccountItem key={a.id} account={a} ownerLabel={ownerLabel} ownerIcon={ownerIcon} onDelete={async()=>{await supabase.from('accounts').delete().eq('id',a.id);onRefresh();}} onRefresh={onRefresh}/>)
-        }
+        {showForm&&(<form onSubmit={async e=>{e.preventDefault();await supabase.from('accounts').insert({name:form.name,balance:parseFloat(form.balance),owner:form.owner});setForm({name:'',balance:'',owner:'laslo'});setShowForm(false);onRefresh();}} style={{marginBottom:20}}><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="ING Spaarrekening" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Saldo (€)</label><input className="form-input" type="number" step="0.01" value={form.balance} onChange={e=>setForm({...form,balance:e.target.value})} required/></div><div className="form-group"><label className="form-label">Van wie</label><select className="form-select" value={form.owner} onChange={e=>setForm({...form,owner:e.target.value})}><option value="laslo">{settings.laslo_name}</option><option value="her">{settings.her_name}</option><option value="shared">Gedeeld</option></select></div></div><button className="add-btn" type="submit">Opslaan</button></form>)}
+        {accounts.length===0?<div className="empty"><div className="empty-icon">🏦</div>Nog geen rekeningen</div>:accounts.map(a=><AccountItem key={a.id} account={a} ownerLabel={ownerLabel} ownerIcon={ownerIcon} onDelete={async()=>{await supabase.from('accounts').delete().eq('id',a.id);onRefresh();}} onRefresh={onRefresh}/>)}
       </div>
     </div>
   );
@@ -947,19 +1006,10 @@ function AccountsTab({accounts,settings,onRefresh}){
 function AccountItem({account,ownerLabel,ownerIcon,onDelete,onRefresh}){
   const[editing,setEditing]=useState(false);
   const[val,setVal]=useState(account.balance);
-  return(
-    <div className="account-item">
-      <div style={{display:'flex',alignItems:'center',gap:12}}><div style={{fontSize:20}}>{ownerIcon(account.owner)}</div><div><div className="account-name">{account.name}</div><div className="account-owner">{ownerLabel(account.owner)}</div></div></div>
-      <div style={{display:'flex',alignItems:'center',gap:10}}>
-        {editing
-          ?<><input type="number" step="0.01" value={val} onChange={e=>setVal(e.target.value)} style={{width:120,padding:'6px 10px',border:'2px solid #667eea',borderRadius:8,fontSize:14}}/><button className="add-btn" style={{padding:'6px 14px',fontSize:13}} onClick={async()=>{await supabase.from('accounts').update({balance:parseFloat(val)}).eq('id',account.id);setEditing(false);onRefresh();}}>Opslaan</button><button className="add-btn secondary" style={{padding:'6px 14px',fontSize:13}} onClick={()=>setEditing(false)}>Annuleren</button></>
-          :<><div className="account-balance">{fmtEur(account.balance)}</div><button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button><button className="delete-btn" onClick={onDelete}>🗑</button></>
-        }
-      </div>
-    </div>
-  );
+  return(<div className="account-item"><div style={{display:'flex',alignItems:'center',gap:12}}><div style={{fontSize:20}}>{ownerIcon(account.owner)}</div><div><div className="account-name">{account.name}</div><div className="account-owner">{ownerLabel(account.owner)}</div></div></div><div style={{display:'flex',alignItems:'center',gap:10}}>{editing?<><input type="number" step="0.01" value={val} onChange={e=>setVal(e.target.value)} style={{width:120,padding:'6px 10px',border:'2px solid #667eea',borderRadius:8,fontSize:14}}/><button className="add-btn" style={{padding:'6px 14px',fontSize:13}} onClick={async()=>{await supabase.from('accounts').update({balance:parseFloat(val)}).eq('id',account.id);setEditing(false);onRefresh();}}>Opslaan</button><button className="add-btn secondary" style={{padding:'6px 14px',fontSize:13}} onClick={()=>setEditing(false)}>Annuleren</button></>:<><div className="account-balance">{fmtEur(account.balance)}</div><button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button><button className="delete-btn" onClick={onDelete}>🗑</button></>}</div></div>);
 }
 
+// ── SETTINGS TAB ──────────────────────────────────────────────────────────────
 function SettingsTab({settings,onRefresh}){
   const[form,setForm]=useState({...settings,laslo_income:'',her_income:''});
   const[saved,setSaved]=useState(false);
