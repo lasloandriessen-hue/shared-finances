@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Shared Finances" />
@@ -121,6 +122,18 @@
     .paid-badge.laslo { background: #e0e7ff; color: #4338ca; }
     .paid-badge.her { background: #fce7f3; color: #be185d; }
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .tl-modal { background: white; border-radius: 20px; padding: 28px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
+    .tl-modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0; }
+    .tl-modal-title { font-size: 18px; font-weight: 700; color: #1e293b; }
+    .tl-modal-close-x { background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 16px; color: #64748b; display: flex; align-items: center; justify-content: center; }
+    .tl-modal-close-x:hover { background: #e2e8f0; }
+    .tl-modal-section { margin-bottom: 20px; }
+    .tl-modal-section-label { font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+    .tl-modal-actions { display: flex; gap: 10px; padding-top: 16px; border-top: 1px solid #e2e8f0; flex-wrap: wrap; }
+    .tl-dep-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tl-dep-pill { display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer; padding: 6px 14px; border-radius: 20px; border: 1.5px solid transparent; transition: all 0.15s; font-weight: 500; }
+    .tl-dep-pill.selected { background: #ede9fe; color: #7c3aed; border-color: #7c3aed; }
+    .tl-dep-pill.unselected { background: #f1f5f9; color: #475569; }
     .modal-img { max-width: 100%; max-height: 90vh; border-radius: 12px; }
     .modal-close { position: absolute; top: 20px; right: 20px; background: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .scan-result-preview { background: #f0fdf4; border: 2px solid #10b981; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
@@ -156,8 +169,6 @@
     .url-fetch-bar input { flex: 1; }
     .reno-add-cat { background: #f8faff; border: 2px dashed #667eea; border-radius: 14px; padding: 20px; text-align: center; cursor: pointer; color: #667eea; font-weight: 600; font-size: 14px; margin-bottom: 16px; }
     .reno-add-cat:hover { background: #f0f4ff; }
-
-    /* ── NIEUWE TIJDLIJN STYLES ── */
     .tl-hero { background: linear-gradient(135deg, #7c3aed, #4f46e5); border-radius: 20px; padding: 28px; color: white; margin-bottom: 24px; }
     .tl-hero-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
     .tl-hero-sub { font-size: 14px; opacity: 0.85; margin-bottom: 20px; }
@@ -174,8 +185,8 @@
     .tl-task { position: relative; margin-bottom: 8px; }
     .tl-task-dot { position: absolute; left: -27px; top: 18px; width: 16px; height: 16px; border-radius: 50%; border: 2.5px solid white; box-shadow: 0 0 0 2px currentColor; background: white; display: flex; align-items: center; justify-content: center; font-size: 9px; cursor: pointer; z-index: 2; transition: all 0.2s; }
     .tl-task-dot.done { background: currentColor; }
-    .tl-task-card { background: white; border-radius: 12px; padding: 14px 16px; border: 2px solid #e2e8f0; cursor: grab; transition: border-color 0.2s, box-shadow 0.2s; }
-    .tl-task-card:active { cursor: grabbing; }
+    .tl-task-card { background: white; border-radius: 12px; padding: 14px 16px; border: 2px solid #e2e8f0; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s, transform 0.1s; }
+    .tl-task-card:hover { border-color: #cbd5e1; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
     .tl-task-card.done { opacity: 0.65; background: #f8fafc; }
     .tl-task-card.in_progress { border-color: #f59e0b; background: #fffbeb; }
     .tl-task-card.drag-over { border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.15); }
@@ -195,20 +206,18 @@
     .tl-task-deps { font-size: 11px; color: #94a3b8; margin-top: 6px; }
     .tl-task-photo { width: 100%; height: 100px; object-fit: cover; border-radius: 8px; margin-top: 8px; cursor: pointer; }
     .tl-task-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; align-items: center; }
-    .tl-dep-arrow { display: flex; align-items: center; gap: 4px; font-size: 11px; }
-    /* Parallelle taken */
     .tl-parallel-section { margin-top: 32px; }
     .tl-parallel-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
     .tl-parallel-line { flex: 1; height: 1px; background: repeating-linear-gradient(90deg, #e2e8f0 0, #e2e8f0 6px, transparent 6px, transparent 12px); }
     .tl-parallel-label { font-size: 12px; font-weight: 600; color: #94a3b8; white-space: nowrap; letter-spacing: 0.05em; }
     .tl-parallel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
-    .tl-parallel-card { background: white; border-radius: 12px; padding: 14px 16px; border: 2px solid #e2e8f0; cursor: grab; transition: border-color 0.2s; }
+    .tl-parallel-card { background: white; border-radius: 12px; padding: 14px 16px; border: 2px solid #e2e8f0; cursor: pointer; transition: border-color 0.2s, transform 0.1s; }
+    .tl-parallel-card:hover { border-color: #cbd5e1; transform: translateY(-1px); }
     .tl-parallel-card.drag-over { border-color: #667eea; }
     .tl-parallel-card.done { opacity: 0.6; background: #f8fafc; }
     .tl-parallel-name { font-size: 13px; font-weight: 600; color: #1e293b; margin-bottom: 4px; }
     .tl-parallel-name.done { text-decoration: line-through; color: #94a3b8; }
     .tl-parallel-meta { font-size: 11px; color: #94a3b8; }
-    /* Fase kleuren */
     .phase-color-purple { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
     .phase-color-blue { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
     .phase-color-green { background: linear-gradient(135deg, #059669, #047857); }
@@ -235,7 +244,6 @@
     .ai-border-pink { border-left-color: #db2777; }
     .ai-analyzing { background: linear-gradient(135deg, #7c3aed, #4f46e5); border-radius: 16px; padding: 24px; text-align: center; color: white; margin-bottom: 24px; }
     .ai-analyzing-icon { font-size: 40px; margin-bottom: 12px; animation: spin 2s linear infinite; }
-
     @media (max-width: 600px) {
       .house-item { flex-direction: column; align-items: flex-start; gap: 10px; }
       .house-right { width: 100%; justify-content: flex-start; }
@@ -245,6 +253,7 @@
       .form-row { grid-template-columns: 1fr; }
       .tl-stats { grid-template-columns: 1fr 1fr; }
       .reno-items-grid { grid-template-columns: 1fr; }
+      .tl-modal { padding: 20px; }
     }
   </style>
 </head>
@@ -385,7 +394,6 @@ function Main(){
   );
 }
 
-// ── OVERVIEW ──────────────────────────────────────────────────────────────────
 function Overview({recurringIncomes,recurringExpenses,accounts,settings}){
   const now=new Date();
   const monthName=now.toLocaleString('nl-NL',{month:'long',year:'numeric'});
@@ -416,7 +424,6 @@ function Overview({recurringIncomes,recurringExpenses,accounts,settings}){
   );
 }
 
-// ── PERSON TAB ────────────────────────────────────────────────────────────────
 function PersonTab({person,recurringIncomes,recurringExpenses,settings,onRefresh}){
   const[showIncForm,setShowIncForm]=useState(false);
   const[showExpForm,setShowExpForm]=useState(false);
@@ -474,7 +481,6 @@ function RecurringExpenseForm({person,settings,prefill={},isEdit=false,onSave,on
   return(<form onSubmit={handleSubmit} style={{background:'#f8faff',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #667eea'}}><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. Netflix" value={form.label} onChange={e=>setForm({...form,label:e.target.value})} required/></div><div className="form-group"><label className="form-label">Bedrag per maand (€)</label><input className="form-input" type="number" step="0.01" placeholder="0.00" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Categorie</label><select className="form-select" value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>{CATEGORIES.map(c=><option key={c.id} value={c.id}>{c.icon} {c.label}</option>)}</select></div><div className="form-group"><label className="form-label">Omschrijving</label><input className="form-input" placeholder="Optioneel…" value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/></div></div><div style={{marginBottom:12,display:'flex',alignItems:'center',gap:8}}><input type="checkbox" id="shared_chk" checked={form.is_shared} onChange={e=>setForm({...form,is_shared:e.target.checked})}/><label htmlFor="shared_chk" style={{fontSize:14,color:'#475569',cursor:'pointer'}}>Gedeelde uitgave ({settings.shared_pct}%/{100-settings.shared_pct}%)</label></div><div style={{display:'flex',gap:8}}><button className="add-btn" type="submit" style={{padding:'8px 20px',fontSize:13}}>Opslaan</button>{onCancel&&<button className="add-btn secondary" type="button" onClick={onCancel} style={{padding:'8px 20px',fontSize:13}}>Annuleren</button>}</div></form>);
 }
 
-// ── SHARED TAB ────────────────────────────────────────────────────────────────
 function SharedTab({recurringExpenses,settings,onRefresh}){
   const[showForm,setShowForm]=useState(false);
   const[editingId,setEditingId]=useState(null);
@@ -505,7 +511,6 @@ function SharedTab({recurringExpenses,settings,onRefresh}){
   );
 }
 
-// ── HOUSE TAB ─────────────────────────────────────────────────────────────────
 function HouseTab({houseExpenses,settings,onRefresh}){
   const[showForm,setShowForm]=useState(false);
   const[scanning,setScanning]=useState(false);
@@ -559,7 +564,6 @@ function HouseExpenseForm({settings,prefill={},prefillFile=null,isEdit=false,onS
   return(<form onSubmit={handleSubmit} style={{background:'#fffbeb',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #f59e0b'}}><div className="form-row"><div className="form-group"><label className="form-label">Naam</label><input className="form-input" placeholder="bijv. IKEA kast" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">Bedrag (€)</label><input className="form-input" type="number" step="0.01" value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})} required/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Categorie</label><select className="form-select" value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>{HOUSE_CATEGORIES.map(c=><option key={c.id} value={c.id}>{c.icon} {c.label}</option>)}</select></div><div className="form-group"><label className="form-label">Datum</label><input className="form-input" type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} required/></div></div><div className="form-row"><div className="form-group"><label className="form-label">Betaald door</label><select className="form-select" value={form.paid_by} onChange={e=>setForm({...form,paid_by:e.target.value})}><option value="shared">Gedeeld</option><option value="laslo">{settings.laslo_name}</option><option value="her">{settings.her_name}</option></select></div><div className="form-group"><label className="form-label">Bon</label><input type="file" accept="image/*" className="form-input" style={{padding:'8px'}} onChange={e=>setFile(e.target.files[0])}/></div></div>{preview&&<div style={{marginBottom:12}}><img src={preview} alt="preview" style={{width:80,height:80,objectFit:'cover',borderRadius:10,border:'2px solid #f59e0b'}}/></div>}<div className="form-group" style={{marginBottom:12}}><label className="form-label">Omschrijving</label><input className="form-input" value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/></div><div style={{display:'flex',gap:8}}><button className="add-btn green" type="submit" disabled={saving}>{saving?'Opslaan…':'Opslaan'}</button>{onCancel&&<button className="add-btn secondary" type="button" onClick={onCancel}>Annuleren</button>}</div></form>);
 }
 
-// ── RENOVATION TAB ────────────────────────────────────────────────────────────
 function RenovationTab({settings}){
   const[categories,setCategories]=useState([]);
   const[items,setItems]=useState([]);
@@ -621,7 +625,6 @@ function RenovationItemCard({item,calcTotal,onChoose,onStatusChange,onDelete,onR
   return(<div className={`reno-item ${item.is_chosen?'chosen':''} ${item.status==='betaald'?'paid':''}`}>{item.is_chosen&&<div className="chosen-ribbon">✓ Gekozen</div>}<div className="reno-item-img">{item.image_url?<img src={item.image_url} alt={item.name} onError={e=>{e.target.style.display='none';e.target.parentElement.innerHTML='🔨';}}/>:'🔨'}</div><div className="reno-item-body"><div className="reno-item-name">{item.name}</div><div className="reno-item-price">{fmtEur(item.price)}{item.price_type!=='total'&&<span style={{fontSize:13,color:'#94a3b8'}}> /{item.price_type==='m2'?'m²':item.price_type==='hour'?'uur':'stuk'}</span>}</div>{item.price_type!=='total'&&<div className="reno-item-total">Totaal: {fmtEur(total)}</div>}{item.notes&&<div style={{fontSize:12,color:'#64748b',marginBottom:8}}>{item.notes}</div>}<div style={{display:'flex',gap:6,marginBottom:8,flexWrap:'wrap'}}><span className={`status-badge ${item.status}`}>{statusInfo.label}</span>{item.url&&<a href={item.url} target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:'#667eea',fontWeight:600,textDecoration:'none'}}>🔗 Link</a>}</div><div className="reno-item-actions">{!item.is_chosen&&<button className="add-btn green" style={{padding:'5px 12px',fontSize:12}} onClick={onChoose}>✓ Kiezen</button>}<select className="form-select" style={{padding:'5px 8px',fontSize:12,flex:1}} value={item.status} onChange={e=>onStatusChange(e.target.value)}>{STATUS_OPTIONS.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select><button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button><button className="delete-btn" onClick={onDelete}>🗑</button></div></div></div>);
 }
 
-// ── TIMELINE TAB (NIEUW) ──────────────────────────────────────────────────────
 function TimelineTab({settings}){
   const[tasks,setTasks]=useState([]);
   const[phases,setPhases]=useState([]);
@@ -629,9 +632,9 @@ function TimelineTab({settings}){
   const[lightboxUrl,setLightboxUrl]=useState(null);
   const[showAddTask,setShowAddTask]=useState(false);
   const[showAddPhase,setShowAddPhase]=useState(false);
+  const[editingTask,setEditingTask]=useState(null);
   const[dragOver,setDragOver]=useState(null);
   const dragItem=useRef(null);
-  const dragSource=useRef(null);
   const fileInputRef=useRef(null);
   const photoTaskRef=useRef(null);
 
@@ -645,7 +648,6 @@ function TimelineTab({settings}){
   },[]);
   useEffect(()=>{fetchData();},[fetchData]);
 
-  const phaseTasks=tasks.filter(t=>!t.is_parallel&&t.phase);
   const parallelTasks=tasks.filter(t=>t.is_parallel||!t.phase);
   const doneTasks=tasks.filter(t=>t.status==='done').length;
   const totalHours=tasks.reduce((s,t)=>s+Number(t.estimated_hours||0),0);
@@ -663,15 +665,13 @@ function TimelineTab({settings}){
   };
 
   const deletePhase=async(id)=>{
-    // Move tasks in this phase to parallel
     await supabase.from('renovation_timeline').update({phase:'',is_parallel:true}).eq('phase',id);
     await supabase.from('renovation_phases').delete().eq('id',id);
     fetchData();
   };
 
-  const handleDragStart=(e,taskId,source)=>{
+  const handleDragStart=(e,taskId)=>{
     dragItem.current=taskId;
-    dragSource.current=source;
     e.dataTransfer.effectAllowed='move';
   };
 
@@ -682,13 +682,10 @@ function TimelineTab({settings}){
     if(taskId===targetId){setDragOver(null);return;}
 
     if(targetType==='phase'){
-      // Drop onto phase header → move task to that phase
       await supabase.from('renovation_timeline').update({phase:phaseId,is_parallel:false}).eq('id',taskId);
     } else if(targetType==='parallel'){
-      // Drop onto parallel zone → make parallel
       await supabase.from('renovation_timeline').update({phase:'',is_parallel:true}).eq('id',taskId);
     } else if(targetType==='task'){
-      // Reorder within same context
       const newTasks=[...tasks];
       const fromIdx=newTasks.findIndex(t=>t.id===taskId);
       const toIdx=newTasks.findIndex(t=>t.id===targetId);
@@ -700,7 +697,7 @@ function TimelineTab({settings}){
         }
       }
     }
-    dragItem.current=null;dragSource.current=null;setDragOver(null);
+    dragItem.current=null;setDragOver(null);
     fetchData();
   };
 
@@ -769,13 +766,13 @@ function TimelineTab({settings}){
 
   return(
     <div>
+      {editingTask&&<TaskEditModal task={editingTask} phases={phases} tasks={tasks} onSave={async(data)=>{await supabase.from('renovation_timeline').update(data).eq('id',editingTask.id);setEditingTask(null);fetchData();}} onDelete={async()=>{await supabase.from('renovation_timeline').delete().eq('id',editingTask.id);setEditingTask(null);fetchData();}} onClose={()=>setEditingTask(null)}/>}
       {lightboxUrl&&<div className="modal-overlay" onClick={()=>setLightboxUrl(null)}><button className="modal-close">✕</button><img className="modal-img" src={lightboxUrl} alt="foto"/></div>}
       <input ref={fileInputRef} type="file" accept="image/*" capture="environment" style={{display:'none'}} onChange={async e=>{const file=e.target.files[0];if(!file||!photoTaskRef.current)return;await analyzePhoto(file,photoTaskRef.current);e.target.value='';}}/>
 
-      {/* Hero */}
       <div className="tl-hero">
         <div className="tl-hero-title">📅 Verbouwingstijdlijn</div>
-        <div className="tl-hero-sub">Fasen met afhankelijkheden · Parallelle taken apart</div>
+        <div className="tl-hero-sub">Klik op een taak om te bewerken · Sleep om te verplaatsen</div>
         <div className="tl-stats">
           <div className="tl-stat"><div className="tl-stat-val">{tasks.length}</div><div className="tl-stat-label">Totaal taken</div></div>
           <div className="tl-stat"><div className="tl-stat-val">{doneTasks}</div><div className="tl-stat-label">Afgerond</div></div>
@@ -786,24 +783,20 @@ function TimelineTab({settings}){
 
       {!settings.openai_key&&<div style={{background:'#fef3c7',border:'2px solid #f59e0b',borderRadius:12,padding:16,marginBottom:24,fontSize:14,color:'#92400e'}}>⚠️ Voeg eerst je OpenAI API key toe via ⚙️ Settings.</div>}
 
-      {/* Actieknoppen */}
       <div style={{display:'flex',gap:10,marginBottom:24,flexWrap:'wrap'}}>
         <button className="add-btn" style={{background:'linear-gradient(135deg,#7c3aed,#4f46e5)'}} onClick={analyzeWithAI}>🤖 AI: Plan verbouwing</button>
         <button className="add-btn secondary" onClick={()=>setShowAddPhase(!showAddPhase)}>{showAddPhase?'Annuleren':'+ Fase toevoegen'}</button>
         <button className="add-btn secondary" onClick={()=>setShowAddTask(!showAddTask)}>{showAddTask?'Annuleren':'+ Taak toevoegen'}</button>
       </div>
 
-      {/* Fase toevoegen form */}
       {showAddPhase&&<AddPhaseForm onSave={async(name,color)=>{const mo=phases.length>0?Math.max(...phases.map(p=>p.sort_order||0)):0;await supabase.from('renovation_phases').insert({name,color,sort_order:mo+1});setShowAddPhase(false);fetchData();}} onCancel={()=>setShowAddPhase(false)}/>}
 
-      {/* Taak toevoegen form */}
       {showAddTask&&<AddTaskForm phases={phases} tasks={tasks} onSave={async(data)=>{const pos=tasks.length>0?Math.max(...tasks.map(t=>t.order_position||0))+1:0;await supabase.from('renovation_timeline').insert({...data,order_position:pos,status:'pending',ai_suggested:false});setShowAddTask(false);fetchData();}} onCancel={()=>setShowAddTask(false)}/>}
 
       {analyzing&&<div className="ai-analyzing"><div className="ai-analyzing-icon">🤖</div><div style={{fontSize:16,fontWeight:700,marginBottom:4}}>AI analyseert je verbouwing…</div><div style={{fontSize:13,opacity:0.85}}>Taken worden ingedeeld in fasen en geprioriteerd</div></div>}
 
       {tasks.length===0&&!analyzing&&<div className="empty"><div className="empty-icon">📋</div>Voeg fasen en taken toe om te beginnen</div>}
 
-      {/* Fasen tijdlijn */}
       {phases.map(phase=>{
         const phaseTasks=tasks.filter(t=>t.phase===phase.id&&!t.is_parallel);
         const doneCount=phaseTasks.filter(t=>t.status==='done').length;
@@ -817,29 +810,31 @@ function TimelineTab({settings}){
             <div className={`tl-phase-header ${getPhaseColor(phase.color)}`} style={{opacity:dragOver==='phase-'+phase.id?0.8:1}}>
               <div className="tl-phase-name">{phase.name}</div>
               <div className="tl-phase-meta">{doneCount}/{phaseTasks.length} klaar · {phaseHours}u</div>
-              <button onClick={()=>deletePhase(phase.id)} style={{background:'rgba(255,255,255,0.2)',border:'none',borderRadius:8,padding:'4px 10px',color:'white',cursor:'pointer',fontSize:12,marginLeft:8}}>🗑</button>
+              <button onClick={()=>{if(confirm('Fase verwijderen? Taken worden parallel.'))deletePhase(phase.id);}} style={{background:'rgba(255,255,255,0.2)',border:'none',borderRadius:8,padding:'4px 10px',color:'white',cursor:'pointer',fontSize:12,marginLeft:8}}>🗑</button>
             </div>
             {phaseTasks.length===0
               ?<div style={{padding:'16px 32px',fontSize:13,color:'#94a3b8',fontStyle:'italic'}}>Sleep taken hierheen of voeg toe via "+ Taak toevoegen"</div>
               :<div className="tl-phase-tasks">
                 <div className={`tl-phase-line ${getPhaseLineColor(phase.color)}`}/>
-                {phaseTasks.map((task,idx)=>{
+                {phaseTasks.map(task=>{
                   const deps=tasks.filter(t=>(task.depends_on||[]).includes(t.id));
                   return(
                     <div key={task.id} className="tl-task"
                       draggable
-                      onDragStart={e=>handleDragStart(e,task.id,'phase')}
+                      onDragStart={e=>handleDragStart(e,task.id)}
                       onDragOver={e=>{e.preventDefault();setDragOver('task-'+task.id);}}
                       onDrop={e=>handleDrop(e,task.id,'task',phase.id)}
                       onDragLeave={()=>setDragOver(null)}
                     >
                       <div className={`tl-task-dot ${getDotColor(phase.color)} ${task.status==='done'?'done':''}`}
                         style={{color:task.status==='done'?'white':'inherit'}}
-                        onClick={()=>cycleStatus(task)}
+                        onClick={e=>{e.stopPropagation();cycleStatus(task);}}
                       >
                         {task.status==='done'?'✓':task.status==='in_progress'?'▶':''}
                       </div>
-                      <div className={`tl-task-card ${task.status} ${task.ai_suggested?'ai-tag ai-border-'+phase.color:''} ${dragOver==='task-'+task.id?'drag-over':''}`}>
+                      <div className={`tl-task-card ${task.status} ${task.ai_suggested?'ai-tag ai-border-'+phase.color:''} ${dragOver==='task-'+task.id?'drag-over':''}`}
+                        onClick={e=>{if(!e.target.closest('button')&&!e.target.closest('img'))setEditingTask(task);}}
+                      >
                         <div className="tl-task-top">
                           <div>
                             <div className={`tl-task-name ${task.status==='done'?'done':''}`}>{task.task_name}</div>
@@ -850,11 +845,11 @@ function TimelineTab({settings}){
                             </div>
                           </div>
                           <div style={{display:'flex',gap:4,flexShrink:0}}>
-                            <button className="delete-btn" onClick={()=>{photoTaskRef.current=task.id;fileInputRef.current.click();}}>📸</button>
-                            <button className="delete-btn" onClick={()=>deleteTask(task.id)}>🗑</button>
+                            <button className="delete-btn" onClick={e=>{e.stopPropagation();photoTaskRef.current=task.id;fileInputRef.current.click();}}>📸</button>
+                            <button className="delete-btn" onClick={e=>{e.stopPropagation();if(confirm('Taak verwijderen?'))deleteTask(task.id);}}>🗑</button>
                           </div>
                         </div>
-                        {task.photo_url&&<img className="tl-task-photo" src={task.photo_url} alt="foto" onClick={()=>setLightboxUrl(task.photo_url)}/>}
+                        {task.photo_url&&<img className="tl-task-photo" src={task.photo_url} alt="foto" onClick={e=>{e.stopPropagation();setLightboxUrl(task.photo_url);}}/>}
                         {task.description&&<div className="tl-task-desc">{task.description}</div>}
                         {task.tips&&<div className="tl-task-tips">💡 {task.tips}</div>}
                         {deps.length>0&&(
@@ -863,11 +858,6 @@ function TimelineTab({settings}){
                             {deps.map(d=><span key={d.id} style={{marginRight:8,color:d.status==='done'?'#10b981':'#64748b',textDecoration:d.status==='done'?'line-through':'none'}}>→ {d.task_name}{d.status==='done'?' ✓':''}</span>)}
                           </div>
                         )}
-                        <div className="tl-task-actions">
-                          <button className="add-btn secondary" style={{padding:'4px 12px',fontSize:11}} onClick={()=>cycleStatus(task)}>
-                            {task.status==='pending'?'▶ Start':task.status==='in_progress'?'✓ Klaar':'↩ Heropen'}
-                          </button>
-                        </div>
                       </div>
                     </div>
                   );
@@ -878,7 +868,6 @@ function TimelineTab({settings}){
         );
       })}
 
-      {/* Parallelle taken */}
       <div className="tl-parallel-section"
         onDragOver={e=>{e.preventDefault();setDragOver('parallel');}}
         onDrop={e=>handleDrop(e,null,'parallel',null)}
@@ -895,10 +884,11 @@ function TimelineTab({settings}){
             {parallelTasks.map(task=>(
               <div key={task.id} className={`tl-parallel-card ${task.status==='done'?'done':''} ${dragOver==='parallel-'+task.id?'drag-over':''}`}
                 draggable
-                onDragStart={e=>handleDragStart(e,task.id,'parallel')}
+                onDragStart={e=>handleDragStart(e,task.id)}
                 onDragOver={e=>{e.preventDefault();setDragOver('parallel-'+task.id);}}
                 onDrop={e=>handleDrop(e,task.id,'task',null)}
                 onDragLeave={()=>setDragOver(null)}
+                onClick={e=>{if(!e.target.closest('button'))setEditingTask(task);}}
               >
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
                   <div>
@@ -908,19 +898,101 @@ function TimelineTab({settings}){
                       {task.status==='done'?'✓ Klaar':task.status==='in_progress'?'▶ Bezig':'Nog doen'}
                     </div>
                   </div>
-                  <button className="delete-btn" onClick={()=>deleteTask(task.id)}>🗑</button>
+                  <button className="delete-btn" onClick={e=>{e.stopPropagation();if(confirm('Taak verwijderen?'))deleteTask(task.id);}}>🗑</button>
                 </div>
                 {task.description&&<div style={{fontSize:11,color:'#64748b',marginTop:6}}>{task.description}</div>}
-                <div style={{display:'flex',gap:6,marginTop:8}}>
-                  <button className="add-btn secondary" style={{padding:'3px 10px',fontSize:11}} onClick={()=>cycleStatus(task)}>
-                    {task.status==='pending'?'▶ Start':task.status==='in_progress'?'✓ Klaar':'↩'}
-                  </button>
-                  <button className="delete-btn" onClick={()=>{photoTaskRef.current=task.id;fileInputRef.current.click();}}>📸</button>
-                </div>
               </div>
             ))}
           </div>
         }
+      </div>
+    </div>
+  );
+}
+
+function TaskEditModal({task,phases,tasks,onSave,onDelete,onClose}){
+  const[form,setForm]=useState({
+    task_name:task.task_name||'',
+    estimated_hours:task.estimated_hours||'',
+    description:task.description||'',
+    tips:task.tips||'',
+    phase:task.phase||'',
+    is_parallel:task.is_parallel||false,
+    depends_on:task.depends_on||[],
+    status:task.status||'pending',
+  });
+  const otherTasks=tasks.filter(t=>t.id!==task.id);
+  const toggleDep=(id)=>{
+    setForm(f=>({...f,depends_on:f.depends_on.includes(id)?f.depends_on.filter(d=>d!==id):[...f.depends_on,id]}));
+  };
+  const save=()=>{
+    if(!form.task_name.trim())return;
+    onSave({
+      task_name:form.task_name,
+      estimated_hours:parseFloat(form.estimated_hours)||0,
+      description:form.description,
+      tips:form.tips,
+      phase:form.phase,
+      is_parallel:!form.phase,
+      depends_on:form.depends_on,
+      status:form.status,
+    });
+  };
+  return(
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="tl-modal" onClick={e=>e.stopPropagation()}>
+        <div className="tl-modal-header">
+          <div className="tl-modal-title">✏️ Taak bewerken</div>
+          <button className="tl-modal-close-x" onClick={onClose}>✕</button>
+        </div>
+        <div className="tl-modal-section">
+          <div className="form-row">
+            <div className="form-group"><label className="form-label">Taaknaam</label><input className="form-input" value={form.task_name} onChange={e=>setForm({...form,task_name:e.target.value})}/></div>
+            <div className="form-group"><label className="form-label">Geschatte uren</label><input className="form-input" type="number" value={form.estimated_hours} onChange={e=>setForm({...form,estimated_hours:e.target.value})}/></div>
+          </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label className="form-label">Fase</label>
+              <select className="form-select" value={form.phase} onChange={e=>setForm({...form,phase:e.target.value,is_parallel:e.target.value===''})}>
+                <option value="">Parallel (geen fase)</option>
+                {phases.map(p=><option key={p.id} value={p.id}>{p.name}</option>)}
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label">Status</label>
+              <select className="form-select" value={form.status} onChange={e=>setForm({...form,status:e.target.value})}>
+                <option value="pending">⏳ Nog doen</option>
+                <option value="in_progress">▶ Bezig</option>
+                <option value="done">✓ Klaar</option>
+              </select>
+            </div>
+          </div>
+          <div className="form-group" style={{marginBottom:12}}>
+            <label className="form-label">Beschrijving</label>
+            <input className="form-input" value={form.description} onChange={e=>setForm({...form,description:e.target.value})} placeholder="Optioneel…"/>
+          </div>
+          <div className="form-group">
+            <label className="form-label">Tips / aandachtspunten</label>
+            <input className="form-input" value={form.tips} onChange={e=>setForm({...form,tips:e.target.value})} placeholder="Optioneel…"/>
+          </div>
+        </div>
+        {otherTasks.length>0&&(
+          <div className="tl-modal-section">
+            <div className="tl-modal-section-label">Afhankelijk van (eerst klaar)</div>
+            <div className="tl-dep-pills">
+              {otherTasks.map(t=>(
+                <div key={t.id} onClick={()=>toggleDep(t.id)} className={`tl-dep-pill ${form.depends_on.includes(t.id)?'selected':'unselected'}`}>
+                  {form.depends_on.includes(t.id)?'✓ ':''}{t.task_name}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        <div className="tl-modal-actions">
+          <button className="add-btn" style={{flex:1}} onClick={save}>💾 Opslaan</button>
+          <button className="add-btn danger" onClick={()=>{if(confirm('Taak verwijderen?'))onDelete();}}>🗑 Verwijderen</button>
+          <button className="add-btn secondary" onClick={onClose}>Annuleren</button>
+        </div>
       </div>
     </div>
   );
@@ -951,16 +1023,9 @@ function AddPhaseForm({onSave,onCancel}){
 
 function AddTaskForm({phases,tasks,onSave,onCancel}){
   const[form,setForm]=useState({task_name:'',estimated_hours:'',description:'',phase:'',is_parallel:false,depends_on:[]});
-
   const toggleDep=(id)=>{
-    setForm(f=>({
-      ...f,
-      depends_on: f.depends_on.includes(id)
-        ? f.depends_on.filter(d=>d!==id)
-        : [...f.depends_on, id]
-    }));
+    setForm(f=>({...f,depends_on:f.depends_on.includes(id)?f.depends_on.filter(d=>d!==id):[...f.depends_on,id]}));
   };
-
   return(
     <div style={{background:'#f8faff',borderRadius:12,padding:16,marginBottom:16,border:'2px solid #667eea'}}>
       <div style={{fontSize:13,fontWeight:600,color:'#667eea',marginBottom:12}}>Nieuwe taak toevoegen</div>
@@ -981,9 +1046,9 @@ function AddTaskForm({phases,tasks,onSave,onCancel}){
       {tasks&&tasks.length>0&&(
         <div className="form-group" style={{marginBottom:12}}>
           <label className="form-label">Afhankelijk van (moet eerst klaar zijn)</label>
-          <div style={{display:'flex',flexWrap:'wrap',gap:8,marginTop:4}}>
+          <div className="tl-dep-pills" style={{marginTop:4}}>
             {tasks.map(t=>(
-              <div key={t.id} onClick={()=>toggleDep(t.id)} style={{display:'flex',alignItems:'center',gap:6,fontSize:13,cursor:'pointer',background:form.depends_on.includes(t.id)?'#ede9fe':'#f1f5f9',color:form.depends_on.includes(t.id)?'#7c3aed':'#475569',padding:'6px 14px',borderRadius:20,border:form.depends_on.includes(t.id)?'1.5px solid #7c3aed':'1.5px solid transparent',transition:'all 0.15s',fontWeight:500}}>
+              <div key={t.id} onClick={()=>toggleDep(t.id)} className={`tl-dep-pill ${form.depends_on.includes(t.id)?'selected':'unselected'}`}>
                 {form.depends_on.includes(t.id)?'✓ ':''}{t.task_name}
               </div>
             ))}
@@ -998,7 +1063,6 @@ function AddTaskForm({phases,tasks,onSave,onCancel}){
   );
 }
 
-// ── ACCOUNTS TAB ──────────────────────────────────────────────────────────────
 function AccountsTab({accounts,settings,onRefresh}){
   const[showForm,setShowForm]=useState(false);
   const[form,setForm]=useState({name:'',balance:'',owner:'laslo'});
@@ -1031,7 +1095,6 @@ function AccountItem({account,ownerLabel,ownerIcon,onDelete,onRefresh}){
   return(<div className="account-item"><div style={{display:'flex',alignItems:'center',gap:12}}><div style={{fontSize:20}}>{ownerIcon(account.owner)}</div><div><div className="account-name">{account.name}</div><div className="account-owner">{ownerLabel(account.owner)}</div></div></div><div style={{display:'flex',alignItems:'center',gap:10}}>{editing?<><input type="number" step="0.01" value={val} onChange={e=>setVal(e.target.value)} style={{width:120,padding:'6px 10px',border:'2px solid #667eea',borderRadius:8,fontSize:14}}/><button className="add-btn" style={{padding:'6px 14px',fontSize:13}} onClick={async()=>{await supabase.from('accounts').update({balance:parseFloat(val)}).eq('id',account.id);setEditing(false);onRefresh();}}>Opslaan</button><button className="add-btn secondary" style={{padding:'6px 14px',fontSize:13}} onClick={()=>setEditing(false)}>Annuleren</button></>:<><div className="account-balance">{fmtEur(account.balance)}</div><button className="delete-btn" onClick={()=>setEditing(true)}>✏️</button><button className="delete-btn" onClick={onDelete}>🗑</button></>}</div></div>);
 }
 
-// ── SETTINGS TAB ──────────────────────────────────────────────────────────────
 function SettingsTab({settings,onRefresh}){
   const[form,setForm]=useState({...settings,laslo_income:'',her_income:''});
   const[saved,setSaved]=useState(false);
