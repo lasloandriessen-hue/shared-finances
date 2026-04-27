@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Klusbord — Verbouwing</title>
+  <script src="config.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { font-family: 'Inter', sans-serif; background: #0f172a; color: white; min-height: 100vh; overflow-x: hidden; }
+    body { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%); }
+
+    .tv-header { display: flex; align-items: center; justify-content: space-between; padding: 28px 48px; background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .tv-title { font-size: 36px; font-weight: 800; letter-spacing: -0.5px; display: flex; align-items: center; gap: 16px; }
+    .tv-title-icon { font-size: 44px; }
+    .tv-stats { display: flex; gap: 32px; }
+    .tv-stat { text-align: center; }
+    .tv-stat-val { font-size: 32px; font-weight: 800; line-height: 1; }
+    .tv-stat-val.green { color: #34d399; }
+    .tv-stat-val.amber { color: #fbbf24; }
+    .tv-stat-val.purple { color: #a78bfa; }
+    .tv-stat-label { font-size: 13px; font-weight: 500; opacity: 0.6; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.1em; }
+
+    .tv-content { padding: 32px 48px 48px; }
+    .tv-loading, .tv-empty { text-align: center; padding: 100px; font-size: 24px; opacity: 0.7; }
+    .tv-empty-icon { font-size: 80px; margin-bottom: 24px; }
+
+    /* Legenda */
+    .tv-legend { display: flex; gap: 24px; padding: 16px 24px; background: rgba(255,255,255,0.04); border-radius: 16px; margin-bottom: 32px; flex-wrap: wrap; align-items: center; }
+    .tv-legend-item { display: flex; align-items: center; gap: 10px; font-size: 14px; opacity: 0.85; }
+    .tv-legend-swatch { width: 20px; height: 20px; border-radius: 6px; }
+    .tv-legend-swatch.start { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 0 12px rgba(16,185,129,0.5); }
+    .tv-legend-swatch.blocked { background: linear-gradient(135deg, #475569, #334155); }
+    .tv-legend-swatch.progress { background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 0 12px rgba(245,158,11,0.5); }
+    .tv-legend-swatch.done { background: linear-gradient(135deg, #10b981, #047857); opacity: 0.4; }
+
+    /* Fasen */
+    .tv-phase { margin-bottom: 40px; }
+    .tv-phase-header { display: flex; align-items: center; gap: 18px; padding: 18px 28px; border-radius: 18px; margin-bottom: 20px; }
+    .tv-phase-name { font-size: 26px; font-weight: 800; flex: 1; letter-spacing: -0.3px; }
+    .tv-phase-meta { font-size: 16px; font-weight: 600; opacity: 0.85; }
+    .tv-phase-progress-bar { height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; overflow: hidden; min-width: 120px; }
+    .tv-phase-progress-fill { height: 100%; background: white; border-radius: 3px; transition: width 0.5s; }
+
+    .tv-tasks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 20px; }
+
+    .tv-task { background: rgba(255,255,255,0.06); border: 2px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 22px 24px; transition: all 0.3s; position: relative; backdrop-filter: blur(10px); }
+
+    /* Begintaak (start, niets blokkeert het): groene glow */
+    .tv-task.start { background: linear-gradient(135deg, rgba(16,185,129,0.18), rgba(5,150,105,0.1)); border-color: #10b981; box-shadow: 0 0 24px rgba(16,185,129,0.3), inset 0 0 0 1px rgba(16,185,129,0.4); }
+    .tv-task.start::before { content: '✨ KAN NU BEGINNEN'; position: absolute; top: -10px; left: 20px; background: linear-gradient(135deg, #10b981, #059669); color: white; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 20px; letter-spacing: 0.05em; box-shadow: 0 4px 12px rgba(16,185,129,0.4); }
+
+    /* Bezig: amber glow + pulse */
+    .tv-task.in_progress { background: linear-gradient(135deg, rgba(245,158,11,0.22), rgba(217,119,6,0.12)); border-color: #f59e0b; box-shadow: 0 0 28px rgba(245,158,11,0.4), inset 0 0 0 1px rgba(245,158,11,0.5); animation: pulse-amber 2.5s ease-in-out infinite; }
+    .tv-task.in_progress::before { content: '▶ BEZIG'; position: absolute; top: -10px; left: 20px; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 20px; letter-spacing: 0.05em; box-shadow: 0 4px 12px rgba(245,158,11,0.4); }
+    @keyframes pulse-amber { 0%,100% { box-shadow: 0 0 28px rgba(245,158,11,0.4), inset 0 0 0 1px rgba(245,158,11,0.5); } 50% { box-shadow: 0 0 40px rgba(245,158,11,0.6), inset 0 0 0 1px rgba(245,158,11,0.7); } }
+
+    /* Geblokkeerd: gedimd */
+    .tv-task.blocked { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.08); opacity: 0.6; }
+
+    /* Klaar: groen maar gedimd */
+    .tv-task.done { background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.2); opacity: 0.55; }
+    .tv-task.done .tv-task-name { text-decoration: line-through; }
+
+    .tv-task-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 12px; }
+    .tv-task-name { font-size: 20px; font-weight: 700; line-height: 1.3; flex: 1; }
+    .tv-task-hours { font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: rgba(255,255,255,0.1); white-space: nowrap; }
+    .tv-task-desc { font-size: 14px; line-height: 1.5; opacity: 0.7; margin-bottom: 12px; }
+    .tv-task-tips { font-size: 13px; line-height: 1.5; padding: 10px 14px; background: rgba(251,191,36,0.12); border-left: 3px solid #fbbf24; border-radius: 0 10px 10px 0; margin-bottom: 12px; color: #fde68a; }
+
+    /* Afhankelijkheden */
+    .tv-deps { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .tv-deps-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.5; width: 100%; margin-bottom: 4px; }
+    .tv-dep-pill { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 12px; display: inline-flex; align-items: center; gap: 4px; }
+    .tv-dep-pill.waiting { background: rgba(239,68,68,0.18); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
+    .tv-dep-pill.done { background: rgba(16,185,129,0.18); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.3); }
+
+    .tv-status-badge { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 12px; letter-spacing: 0.05em; text-transform: uppercase; margin-left: 8px; }
+    .tv-status-badge.pending { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+    .tv-status-badge.done { background: rgba(16,185,129,0.2); color: #6ee7b7; }
+
+    /* Parallel sectie */
+    .tv-parallel { margin-top: 48px; padding-top: 32px; border-top: 2px dashed rgba(255,255,255,0.15); }
+    .tv-parallel-title { font-size: 18px; font-weight: 700; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 20px; text-align: center; }
+
+    /* Live indicator */
+    .live-dot { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #34d399; }
+    .live-dot::before { content: ''; width: 10px; height: 10px; background: #34d399; border-radius: 50%; box-shadow: 0 0 8px #34d399; animation: blink 1.5s ease-in-out infinite; }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    /* Klok */
+    .tv-clock { font-size: 18px; font-weight: 700; opacity: 0.8; font-variant-numeric: tabular-nums; }
+
+    /* Fase kleuren */
+    .ph-purple { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
+    .ph-blue { background: linear-gradient(135deg, #2563eb, #1e40af); }
+    .ph-green { background: linear-gradient(135deg, #059669, #065f46); }
+    .ph-orange { background: linear-gradient(135deg, #d97706, #92400e); }
+    .ph-red { background: linear-gradient(135deg, #dc2626, #991b1b); }
+    .ph-pink { background: linear-gradient(135deg, #db2777, #9d174d); }
+
+    @media (max-width: 768px) {
+      .tv-header { flex-direction: column; gap: 16px; padding: 20px 24px; }
+      .tv-title { font-size: 26px; }
+      .tv-title-icon { font-size: 32px; }
+      .tv-stats { gap: 20px; }
+      .tv-stat-val { font-size: 24px; }
+      .tv-content { padding: 20px; }
+      .tv-tasks-grid { grid-template-columns: 1fr; gap: 14px; }
+      .tv-phase-header { padding: 14px 20px; }
+      .tv-phase-name { font-size: 20px; }
+      .tv-task-name { font-size: 18px; }
+      .tv-legend { gap: 14px; padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useCallback } = React;
+const supabase = window.supabase.createClient(window.APP_CONFIG.SUPABASE_URL, window.APP_CONFIG.SUPABASE_ANON_KEY);
+
+function Clock(){
+  const[time,setTime]=useState(new Date());
+  useEffect(()=>{const t=setInterval(()=>setTime(new Date()),1000);return()=>clearInterval(t);},[]);
+  return<div className="tv-clock">{time.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'})}</div>;
+}
+
+function App(){
+  const[tasks,setTasks]=useState([]);
+  const[phases,setPhases]=useState([]);
+  const[loading,setLoading]=useState(true);
+
+  const fetchData=useCallback(async()=>{
+    const[tRes,pRes]=await Promise.all([
+      supabase.from('renovation_timeline').select('*').order('order_position'),
+      supabase.from('renovation_phases').select('*').order('sort_order'),
+    ]);
+    setTasks(tRes.data||[]);
+    setPhases(pRes.data||[]);
+    setLoading(false);
+  },[]);
+
+  useEffect(()=>{
+    fetchData();
+    // Real-time subscriptions
+    const ch=supabase
+      .channel('tv-board')
+      .on('postgres_changes',{event:'*',schema:'public',table:'renovation_timeline'},()=>fetchData())
+      .on('postgres_changes',{event:'*',schema:'public',table:'renovation_phases'},()=>fetchData())
+      .subscribe();
+    return()=>supabase.removeChannel(ch);
+  },[fetchData]);
+
+  // Bepaal status van afhankelijkheden
+  const taskMap={};tasks.forEach(t=>{taskMap[t.id]=t;});
+  const isStartTask=(task)=>{
+    if(task.status!=='pending')return false;
+    const deps=task.depends_on||[];
+    if(deps.length===0)return true;
+    return deps.every(id=>taskMap[id]?.status==='done');
+  };
+  const isBlocked=(task)=>{
+    if(task.status==='done'||task.status==='in_progress')return false;
+    const deps=task.depends_on||[];
+    if(deps.length===0)return false;
+    return deps.some(id=>taskMap[id]&&taskMap[id].status!=='done');
+  };
+
+  const totalTasks=tasks.length;
+  const doneTasks=tasks.filter(t=>t.status==='done').length;
+  const inProgressTasks=tasks.filter(t=>t.status==='in_progress').length;
+  const startableTasks=tasks.filter(t=>isStartTask(t)).length;
+  const totalHours=tasks.reduce((s,t)=>s+Number(t.estimated_hours||0),0);
+  const doneHours=tasks.filter(t=>t.status==='done').reduce((s,t)=>s+Number(t.estimated_hours||0),0);
+  const progressPct=totalTasks>0?Math.round((doneTasks/totalTasks)*100):0;
+
+  if(loading)return<div className="tv-loading"><div style={{fontSize:60,marginBottom:20}}>⏳</div>Laden…</div>;
+
+  const parallelTasks=tasks.filter(t=>t.is_parallel||!t.phase);
+
+  const renderTask=(task)=>{
+    const start=isStartTask(task);
+    const blocked=isBlocked(task);
+    const cls=task.status==='done'?'done':task.status==='in_progress'?'in_progress':blocked?'blocked':start?'start':'';
+    const deps=(task.depends_on||[]).map(id=>taskMap[id]).filter(Boolean);
+    return(
+      <div key={task.id} className={`tv-task ${cls}`}>
+        <div className="tv-task-header">
+          <div className="tv-task-name">{task.task_name}</div>
+          {task.estimated_hours>0&&<div className="tv-task-hours">⏱ {task.estimated_hours}u</div>}
+        </div>
+        {task.description&&<div className="tv-task-desc">{task.description}</div>}
+        {task.tips&&<div className="tv-task-tips">💡 {task.tips}</div>}
+        {deps.length>0&&(
+          <div className="tv-deps">
+            <div className="tv-deps-label">Afhankelijk van</div>
+            {deps.map(d=><span key={d.id} className={`tv-dep-pill ${d.status==='done'?'done':'waiting'}`}>{d.status==='done'?'✓':'⏳'} {d.task_name}</span>)}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  return(
+    <div>
+      <header className="tv-header">
+        <div className="tv-title"><span className="tv-title-icon">🔨</span><span>Klusbord</span></div>
+        <div style={{display:'flex',gap:24,alignItems:'center',flexWrap:'wrap'}}>
+          <Clock/>
+          <span className="live-dot">LIVE</span>
+        </div>
+        <div className="tv-stats">
+          <div className="tv-stat"><div className="tv-stat-val green">{startableTasks}</div><div className="tv-stat-label">Kan nu</div></div>
+          <div className="tv-stat"><div className="tv-stat-val amber">{inProgressTasks}</div><div className="tv-stat-label">Bezig</div></div>
+          <div className="tv-stat"><div className="tv-stat-val purple">{doneTasks}/{totalTasks}</div><div className="tv-stat-label">Klaar · {progressPct}%</div></div>
+          <div className="tv-stat"><div className="tv-stat-val">{doneHours}/{totalHours}u</div><div className="tv-stat-label">Tijd</div></div>
+        </div>
+      </header>
+
+      <div className="tv-content">
+        {tasks.length===0
+          ?<div className="tv-empty"><div className="tv-empty-icon">📋</div>Voeg taken toe in de app om hier te zien wat er moet gebeuren!</div>
+          :<>
+            <div className="tv-legend">
+              <div className="tv-legend-item"><div className="tv-legend-swatch start"/><span>Kan nu beginnen</span></div>
+              <div className="tv-legend-item"><div className="tv-legend-swatch progress"/><span>Bezig</span></div>
+              <div className="tv-legend-item"><div className="tv-legend-swatch blocked"/><span>Wacht op andere taak</span></div>
+              <div className="tv-legend-item"><div className="tv-legend-swatch done"/><span>Klaar</span></div>
+            </div>
+
+            {phases.map(phase=>{
+              const pTasks=tasks.filter(t=>t.phase===phase.id&&!t.is_parallel);
+              if(pTasks.length===0)return null;
+              const pDone=pTasks.filter(t=>t.status==='done').length;
+              const pPct=pTasks.length>0?Math.round((pDone/pTasks.length)*100):0;
+              const pHours=pTasks.reduce((s,t)=>s+Number(t.estimated_hours||0),0);
+              return(
+                <div key={phase.id} className="tv-phase">
+                  <div className={`tv-phase-header ph-${phase.color||'purple'}`}>
+                    <div className="tv-phase-name">{phase.name}</div>
+                    <div className="tv-phase-progress-bar"><div className="tv-phase-progress-fill" style={{width:pPct+'%'}}/></div>
+                    <div className="tv-phase-meta">{pDone}/{pTasks.length} · {pHours}u</div>
+                  </div>
+                  <div className="tv-tasks-grid">{pTasks.map(renderTask)}</div>
+                </div>
+              );
+            })}
+
+            {parallelTasks.length>0&&(
+              <div className="tv-parallel">
+                <div className="tv-parallel-title">⚡ Parallel · Geen vaste volgorde</div>
+                <div className="tv-tasks-grid">{parallelTasks.map(renderTask)}</div>
+              </div>
+            )}
+          </>
+        }
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.render(<App/>,document.getElementById('root'));
+</script>
+</body>
+</html>
